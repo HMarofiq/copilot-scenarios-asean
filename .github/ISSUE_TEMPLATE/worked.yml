@@ -1,0 +1,21 @@
+name: "It worked for me"
+description: Tell us you ran a scenario successfully. This is how evidence badges get upgraded.
+title: "Worked: "
+labels: [evidence]
+body:
+  - type: input
+    id: scenario
+    attributes: { label: Scenario ID, placeholder: bfsi-reg-gap-001 }
+    validations: { required: true }
+  - type: dropdown
+    id: market
+    attributes: { label: Market, options: [Indonesia, Malaysia] }
+  - type: input
+    id: before
+    attributes: { label: Time it took before (your estimate), placeholder: "about 4 hours per week" }
+  - type: input
+    id: after
+    attributes: { label: Time it took with the scenario, placeholder: "about 1 hour" }
+  - type: textarea
+    id: notes
+    attributes: { label: Anything you changed? Do not include company names or data. }

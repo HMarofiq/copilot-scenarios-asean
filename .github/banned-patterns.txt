@@ -1,0 +1,16 @@
+# Public regex patterns (case-insensitive). One per line. Lines starting with # are comments.
+# Customer and project names do NOT go here. See scripts/check-banned-terms.mjs.
+
+# Microsoft employee email addresses
+[a-z0-9._%+-]+@microsoft\.com
+# Tenant / object GUIDs
+\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b
+# Real SharePoint / OneDrive tenant hosts (fictional contoso and fabrikam are allowed)
+\b(?!(contoso|fabrikam)(-my)?\.sharepoint)[a-z0-9-]+(-my)?\.sharepoint\.com
+# Microsoft internal hosts
+\b(microsoft\.visualstudio\.com|dev\.azure\.com/microsoft|eng\.ms|corp\.microsoft\.com|msit\.)
+# Confidentiality markers copied from internal documents
+\b(microsoft confidential|internal only|under nda|nda only|do not share externally)\b
+# Superlatives that can identify one organisation ("the largest bank in Indonesia")
+\bthe (largest|biggest|only|first|sole) (state|sovereign|bank|insurer|holding|miner|telco|plantation|operator|conglomerate|fund)\b
+\b(largest|biggest) [a-z ]{0,30}in (indonesia|malaysia|asean|southeast asia)\b

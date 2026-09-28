@@ -1,0 +1,71 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { label } from '../../lib/taxonomy';
+
+export async function getStaticPaths() {
+  const items = await getCollection('scenarios');
+  return items.map((s) => ({ params: { id: s.data.id }, props: { s } }));
+}
+const { s } = Astro.props;
+const d = s.data;
+const { Content } = await render(s);
+const base = import.meta.env.BASE_URL;
+const ageDays = Math.floor((Date.now() - d.validated_on.getTime()) / 864e5);
+---
+<Base title={d.title.en}>
+  <p class="crumb"><a href={base}>All scenarios</a> / {label('industry', d.industry[0])}</p>
+  <div class="page">
+    <article data-pagefind-body>
+      <h1 data-pagefind-meta="title"><span data-l="en">{d.title.en}</span><span data-l="id">{d.title.id}</span><span data-l="ms">{d.title.ms}</span></h1>
+      <div class="tags">
+        <span class="chip lvl">{label('difficulty', d.difficulty)}</span>
+        {d.industry.map((x) => <a class="chip" href={`${base}?industry=${x}`}>{label('industry', x)}</a>)}
+        {d.department.map((x) => <a class="chip" href={`${base}?department=${x}`}>{label('department', x)}</a>)}
+        {d.persona.map((x) => <a class="chip" href={`${base}?persona=${x}`}>{label('persona', x)}</a>)}
+        {d.surface.map((x) => <a class="chip" href={`${base}?surface=${x}`}>{label('surface', x)}</a>)}
+        {d.market.map((x) => <span class="chip">{label('market', x)}</span>)}
+      </div>
+
+      <section class="card60">
+        <div class="k">In 60 seconds</div>
+        <div class="grid60">
+          <div><b>Problem</b><p>{d.card.problem}</p></div>
+          <div><b>You get</b><p>{d.card.output}</p></div>
+          <div><b>Time</b><p>{d.impact.baseline} → {d.impact.target}<br /><span class={`chip ev-${d.impact.evidence}`}>{label('evidence', d.impact.evidence)}</span></p></div>
+        </div>
+      </section>
+
+      <div class="prose"><Content /></div>
+    </article>
+
+    <aside class="side">
+      <div class="box">
+        <div class="k">Licence</div>
+        {d.licence.map((x) => <span class="chip">{label('licence', x)}</span>)}
+        <div class="k">Sensitivity</div><p>{d.data.sensitivity}</p>
+        <div class="k">Sign-off</div><p>{d.data.signoff}</p>
+        <div class="k">Validated</div>
+        <p>{d.validated_on.toISOString().slice(0, 10)} {ageDays > 90 ? <span class="chip stale">Needs revalidation</span> : <span class="chip fresh">Fresh</span>}</p>
+        <div class="k">Sources</div>
+        {d.source_refs.map((u) => <p class="src"><a href={u}>{new URL(u).hostname}</a></p>)}
+      </div>
+    </aside>
+  </div>
+</Base>
+
+<style>
+  .crumb { font-size:13px; color:var(--ink2); margin:0 0 8px }
+  .page { display:grid; grid-template-columns:1fr 260px; gap:28px; align-items:start }
+  article { background:#fff; border:1px solid var(--line); border-radius:12px; padding:24px 32px }
+  h1 { margin:0 0 8px; font-size:28px; line-height:1.25 }
+  .tags a.chip { text-decoration:none } .tags a.chip:hover { background:#dfe3e8 }
+  .card60 { margin:18px 0 8px; background:var(--brand-soft); border:1px solid #c7ddf3; border-radius:10px; padding:14px 18px }
+  .grid60 { display:grid; grid-template-columns:1fr 1.3fr .9fr; gap:18px } .grid60 p { margin:2px 0 0; font-size:14px }
+  .k { font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--ink2); margin:10px 0 3px }
+  .card60 > .k { margin-top:0; color:var(--brand) }
+  .prose :global(h2) { font-size:19px; margin:26px 0 8px; padding-top:6px; border-top:1px solid var(--line) }
+  .side { position:sticky; top:70px } .box { background:#fff; border:1px solid var(--line); border-radius:12px; padding:6px 16px 12px }
+  .box p { margin:0; font-size:14px } .src { font-size:13px !important; overflow-wrap:anywhere }
+  .chip.fresh { background:#dff6dd; color:#0e700e } .chip.stale { background:#fde7e9; color:#b10e1c }
+</style>

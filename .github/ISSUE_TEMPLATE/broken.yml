@@ -1,0 +1,16 @@
+name: "Something is broken or out of date"
+description: A step, prompt or screenshot no longer matches the product.
+title: "Broken: "
+labels: [freshness]
+body:
+  - type: input
+    id: scenario
+    attributes: { label: Scenario ID }
+    validations: { required: true }
+  - type: input
+    id: step
+    attributes: { label: Which step? }
+  - type: textarea
+    id: what
+    attributes: { label: What happened instead? Do not paste company data. }
+    validations: { required: true }

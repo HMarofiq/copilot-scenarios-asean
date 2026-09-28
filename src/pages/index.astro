@@ -1,0 +1,156 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { FACETS, FACET_TITLES, label } from '../lib/taxonomy';
+
+const base = import.meta.env.BASE_URL;
+const items = (await getCollection('scenarios')).sort((a, b) => a.data.id.localeCompare(b.data.id));
+
+const valuesOf = (s: (typeof items)[number], f: string): string[] => {
+  const d = s.data as any;
+  if (f === 'evidence') return [d.impact.evidence];
+  if (f === 'difficulty') return [String(d.difficulty)];
+  return d[f];
+};
+const facetValues = Object.fromEntries(
+  FACETS.map((f) => [f, [...new Set(items.flatMap((s) => valuesOf(s, f)))].sort()]),
+);
+---
+<Base title="Scenarios">
+  <section class="hero">
+    <h1>Copilot, Cowork &amp; Scout scenarios for real work</h1>
+    <p>Step-by-step scenarios for regulated industries in Indonesia and Malaysia. Every scenario lists the exact inputs, data controls, known limits and how to check the output.</p>
+    <input id="q" type="search" placeholder="Search scenarios, e.g. risalah, reconciliation, permit…" />
+  </section>
+
+  <div class="layout">
+    <aside class="facets">
+      <div class="facets-head"><strong>Filter</strong><button id="clear" type="button">Clear all</button></div>
+      {FACETS.map((f) => (
+        <fieldset data-facet={f}>
+          <legend>{FACET_TITLES[f]}</legend>
+          {facetValues[f].map((v) => (
+            <label><input type="checkbox" value={v} /> <span>{label(f, v)}</span> <em class="n"></em></label>
+          ))}
+        </fieldset>
+      ))}
+    </aside>
+
+    <section>
+      <p class="count"><strong id="shown">{items.length}</strong> of {items.length} scenarios
+        <span id="restored" hidden> · Showing your filters from last visit. <button id="restored-clear" type="button">Start fresh</button></span></p>
+      <div class="grid">
+        {items.map((s) => {
+          const d = s.data;
+          return (
+            <a class="card" href={`${base}scenarios/${d.id}/`} data-id={d.id}
+               data-text={[...Object.values(d.title), ...Object.values(d.summary)].join(' ').toLowerCase()}
+               {...Object.fromEntries(FACETS.map((f) => [`data-${f}`, valuesOf(s, f).join(' ')]))}>
+              <div class="card-top">
+                <span class="chip lvl">{label('difficulty', d.difficulty)}</span>
+                <span class={`chip ev-${d.impact.evidence}`}>{label('evidence', d.impact.evidence)}</span>
+              </div>
+              <h3><span data-l="en">{d.title.en}</span><span data-l="id">{d.title.id}</span><span data-l="ms">{d.title.ms}</span></h3>
+              <p><span data-l="en">{d.summary.en}</span><span data-l="id">{d.summary.id}</span><span data-l="ms">{d.summary.ms}</span></p>
+              <div class="meta">{label('industry', d.industry[0])} · {d.persona.map((p) => label('persona', p)).join(', ')}</div>
+              <div>{d.surface.map((x) => <span class="chip">{label('surface', x)}</span>)}</div>
+              <div class="time">⏱ {d.impact.baseline} → {d.impact.target}</div>
+            </a>
+          );
+        })}
+      </div>
+      <p id="empty" hidden>No scenarios match. Try removing a filter.</p>
+    </section>
+  </div>
+</Base>
+
+<script is:inline define:vars={{ base }}>
+  const cards = [...document.querySelectorAll('.card')];
+  const sets = [...document.querySelectorAll('fieldset[data-facet]')];
+  const q = document.getElementById('q');
+  const KEY = 'sl:v1:filters';
+  // A shared link wins over saved preferences; otherwise restore the visitor's last filters.
+  let params = new URLSearchParams(location.search);
+  let restored = false;
+  if (!params.toString()) {
+    try { params = new URLSearchParams(localStorage.getItem(KEY) || ''); restored = params.toString() !== ''; } catch {}
+  }
+  // Unknown values (e.g. a tag renamed since the last visit) are silently skipped.
+  sets.forEach(fs => (params.get(fs.dataset.facet) || '').split(',').filter(Boolean)
+    .forEach(v => { const cb = fs.querySelector(`input[value="${v}"]`); if (cb) cb.checked = true; }));
+  q.value = params.get('q') || '';
+  const note = document.getElementById('restored');
+  if (restored && [...document.querySelectorAll('.facets input:checked')].length + q.value.length) note.hidden = false;
+
+  const selected = () => Object.fromEntries(sets.map(fs => [fs.dataset.facet, [...fs.querySelectorAll('input:checked')].map(i => i.value)]));
+  // Full-text search via Pagefind (indexes every scenario body, all three prompt languages).
+  // Falls back to title/summary matching in `astro dev`, where no index exists.
+  let pf, pfMatch = null, seq = 0, timer;
+  const loadPf = async () => {
+    if (pf === undefined) { try { pf = await import(`${base}pagefind/pagefind.js`); } catch { pf = null; } }
+    return pf;
+  };
+  async function search(save) {
+    const my = ++seq, term = q.value.trim();
+    pfMatch = null;
+    const lib = term && await loadPf();
+    if (lib) {
+      const r = await lib.search(term);
+      const data = await Promise.all(r.results.slice(0, 200).map(x => x.data()));
+      if (my !== seq) return;
+      pfMatch = new Set(data.map(d => (d.url.match(/scenarios\/([^/]+)\//) || [])[1]).filter(Boolean));
+    }
+    apply(save);
+  }
+  const textOk = card => !q.value.trim() || (pfMatch ? pfMatch.has(card.dataset.id) : card.dataset.text.includes(q.value.trim().toLowerCase()));
+  const matches = (card, sel, skip) => Object.entries(sel).every(([f, vals]) =>
+    f === skip || !vals.length || vals.some(v => card.dataset[f].split(' ').includes(v))) && textOk(card);
+
+  function apply(save) {
+    const sel = selected();
+    let shown = 0;
+    cards.forEach(c => { const ok = matches(c, sel); c.hidden = !ok; shown += ok; });
+    document.getElementById('shown').textContent = shown;
+    document.getElementById('empty').hidden = shown > 0;
+    // live counts: how many results each option would give, given the other facets
+    sets.forEach(fs => fs.querySelectorAll('label').forEach(l => {
+      const v = l.querySelector('input').value, f = fs.dataset.facet;
+      const n = cards.filter(c => matches(c, sel, f) && c.dataset[f].split(' ').includes(v)).length;
+      l.querySelector('.n').textContent = n; l.classList.toggle('zero', n === 0);
+    }));
+    const p = new URLSearchParams();
+    Object.entries(sel).forEach(([f, v]) => v.length && p.set(f, v.join(',')));
+    if (q.value) p.set('q', q.value);
+    history.replaceState(null, '', p.toString() ? `?${p}` : location.pathname);
+    if (save) { try { localStorage.setItem(KEY, p.toString()); } catch {} note.hidden = true; }
+  }
+  document.querySelectorAll('.facets input').forEach(i => i.addEventListener('change', () => apply(true)));
+  q.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(() => search(true), 150); });
+  const clearAll = () => { document.querySelectorAll('.facets input').forEach(i => i.checked = false); q.value = ''; search(true); };
+  document.getElementById('clear').addEventListener('click', clearAll);
+  document.getElementById('restored-clear').addEventListener('click', clearAll);
+  apply(false);
+  if (q.value.trim()) search(false);
+</script>
+
+<style>
+  .hero { background:linear-gradient(120deg,#0f6cbd,#2b88d8 60%,#62abf5); color:#fff; border-radius:14px; padding:28px 32px; margin-bottom:22px }
+  .hero h1 { margin:0 0 6px; font-size:26px } .hero p { margin:0 0 16px; max-width:760px; opacity:.95 }
+  .hero input { width:100%; max-width:560px; padding:10px 14px; border-radius:8px; border:0; font:inherit; font-size:15px }
+  .layout { display:grid; grid-template-columns:250px 1fr; gap:24px; align-items:start }
+  .facets { background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px 16px; position:sticky; top:70px; max-height:calc(100vh - 90px); overflow:auto }
+  .facets-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px }
+  .facets-head button { border:0; background:none; color:var(--brand); cursor:pointer; font:inherit; font-size:13px }
+  fieldset { border:0; border-top:1px solid var(--line); margin:0; padding:10px 0 8px } legend { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--ink2); padding:0 }
+  fieldset label { display:flex; gap:8px; align-items:center; font-size:14px; padding:2px 0; cursor:pointer } fieldset label span { flex:1 }
+  fieldset label em { font-style:normal; font-size:12px; color:var(--ink2) } fieldset label.zero { opacity:.45 }
+  .count { margin:0 0 10px; color:var(--ink2) }
+  #restored { font-size:13px } #restored button { border:0; background:none; color:var(--brand); cursor:pointer; font:inherit; text-decoration:underline; padding:0 }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px }
+  .card { display:flex; flex-direction:column; gap:6px; background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px 18px; text-decoration:none; color:inherit; transition:box-shadow .15s, border-color .15s }
+  .card:hover { border-color:#b7cde6; box-shadow:0 4px 14px rgba(15,108,189,.12) }
+  .card h3 { margin:2px 0 0; font-size:17px; line-height:1.3 } .card p { margin:0; color:var(--ink2); font-size:14px }
+  .card .meta { font-size:12.5px; color:var(--ink2) } .card .time { font-size:12.5px; color:var(--ink); margin-top:auto }
+  .card-top { display:flex; gap:4px }
+  .card[hidden] { display:none }
+</style>

@@ -1,0 +1,76 @@
+---
+interface Props { title: string }
+const { title } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title} · Copilot Scenario Library ASEAN</title>
+  <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+  <script is:inline>
+    try { document.documentElement.dataset.lang = localStorage.getItem('sl:v1:lang') || 'en'; } catch {}
+  </script>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href={base}>
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="#0f6cbd"/><rect x="13" y="2" width="9" height="9" rx="2" fill="#5b9bd5"/><rect x="2" y="13" width="9" height="9" rx="2" fill="#5b9bd5"/><rect x="13" y="13" width="9" height="9" rx="2" fill="#0f6cbd"/></svg>
+      <span>Scenario Library <em>ID · MY</em></span>
+    </a>
+    <nav class="lang" aria-label="Prompt language">
+      <span>Prompts in</span>
+      <button data-set-lang="en">EN</button><button data-set-lang="id">ID</button><button data-set-lang="ms">BM</button>
+    </nav>
+  </header>
+  <main><slot /></main>
+  <footer class="foot">Community project. Not official Microsoft guidance. Content CC BY 4.0, code MIT. Product behaviour changes; check <code>validated_on</code>.</footer>
+  <script is:inline>
+    const store = (k, v) => { try { localStorage.setItem(k, v); } catch {} };
+    const sync = () => document.querySelectorAll('[data-set-lang]').forEach(b => b.classList.toggle('on', b.dataset.setLang === document.documentElement.dataset.lang));
+    document.querySelectorAll('[data-set-lang]').forEach(b => b.addEventListener('click', () => {
+      document.documentElement.dataset.lang = b.dataset.setLang; store('sl:v1:lang', b.dataset.setLang); sync();
+    }));
+    sync();
+    // Presenters open the session notes once; every later scenario opens them automatically.
+    let presenterOpen = false;
+    try { presenterOpen = localStorage.getItem('sl:v1:presenter') === 'open'; } catch {}
+    document.querySelectorAll('details.presenter').forEach(d => {
+      d.open = presenterOpen;
+      d.addEventListener('toggle', () => store('sl:v1:presenter', d.open ? 'open' : 'closed'));
+    });
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('.copy'); if (!btn) return;
+      navigator.clipboard?.writeText(btn.previousElementSibling.textContent); btn.textContent = 'Copied'; setTimeout(() => btn.textContent = 'Copy', 1200);
+    });
+  </script>
+</body>
+</html>
+
+<style is:global>
+  :root { --bg:#f7f8fa; --panel:#fff; --ink:#1b1f24; --ink2:#57606a; --line:#e3e6ea; --brand:#0f6cbd; --brand-soft:#ebf3fc; --warn:#fff8e6; --warnline:#f2c661; --info:#eef6ff; --infoline:#9ac2f0; font-family:"Segoe UI Variable","Segoe UI",system-ui,sans-serif; }
+  * { box-sizing:border-box } body { margin:0; background:var(--bg); color:var(--ink); font-size:15px; line-height:1.55 }
+  a { color:var(--brand) } code { background:#eef0f3; padding:1px 5px; border-radius:4px; font-size:.9em }
+  .top { position:sticky; top:0; z-index:5; display:flex; align-items:center; justify-content:space-between; padding:10px 28px; background:var(--panel); border-bottom:1px solid var(--line) }
+  .brand { display:flex; gap:10px; align-items:center; text-decoration:none; color:var(--ink); font-weight:600; font-size:16px } .brand em { font-style:normal; color:var(--ink2); font-weight:400 }
+  .lang { display:flex; gap:4px; align-items:center; font-size:13px; color:var(--ink2) } .lang span { margin-right:6px }
+  .lang button { border:1px solid var(--line); background:#fff; padding:4px 10px; border-radius:6px; cursor:pointer; font:inherit; color:var(--ink) }
+  .lang button.on { background:var(--brand); color:#fff; border-color:var(--brand) }
+  main { max-width:1280px; margin:0 auto; padding:24px 28px 48px }
+  .foot { text-align:center; color:var(--ink2); font-size:12px; padding:20px; border-top:1px solid var(--line) }
+  .chip { display:inline-block; font-size:12px; padding:2px 8px; border-radius:999px; background:#eef0f3; color:var(--ink2); margin:0 4px 4px 0; white-space:nowrap }
+  .chip.lvl { background:var(--brand-soft); color:var(--brand); font-weight:600 }
+  .chip.ev-estimated { background:#eef0f3 } .chip.ev-observed-in-pilot { background:#fff1d6; color:#8a5a00 } .chip.ev-customer-measured { background:#dff6dd; color:#0e700e }
+  [data-l] { display:none } html[data-lang="en"] [data-l="en"], html[data-lang="id"] [data-l="id"], html[data-lang="ms"] [data-l="ms"] { display:inline }
+  .prompt { display:none; position:relative; background:#f3f6fa; border:1px solid var(--line); border-left:3px solid var(--brand); border-radius:6px; padding:10px 70px 10px 14px; margin:10px 0 }
+  html[data-lang="en"] .prompt[data-lang="en"], html[data-lang="id"] .prompt[data-lang="id"], html[data-lang="ms"] .prompt[data-lang="ms"] { display:block }
+  .prompt p { margin:0; font-family:"Cascadia Mono",Consolas,monospace; font-size:13px } .prompt .lang { font-size:11px; font-weight:700; color:var(--brand) }
+  .prompt .copy { position:absolute; top:8px; right:8px; border:1px solid var(--line); background:#fff; border-radius:5px; font-size:12px; padding:3px 9px; cursor:pointer }
+  .callout { border-radius:8px; padding:10px 14px; margin:14px 0 } .callout ul { margin:6px 0 0; padding-left:20px }
+  .callout.warn { background:var(--warn); border:1px solid var(--warnline) } .callout.info { background:var(--info); border:1px solid var(--infoline) }
+  details.presenter { margin-top:28px; border:1px dashed #9aa4ae; border-radius:8px; padding:10px 16px; background:#fbfbfc }
+  details.presenter summary { cursor:pointer; font-weight:600 }
+  table { border-collapse:collapse; width:100%; font-size:14px; background:#fff } th, td { border:1px solid var(--line); padding:6px 10px; text-align:left } th { background:#f3f5f7 }
+</style>

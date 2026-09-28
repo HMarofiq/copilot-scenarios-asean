@@ -1,0 +1,15 @@
+name: "Suggest a scenario"
+description: A real task in your industry that Copilot, Cowork or Scout could help with.
+title: "Idea: "
+labels: [idea]
+body:
+  - type: dropdown
+    id: industry
+    attributes: { label: Industry, options: ["Banking & insurance", "Government, BUMN & GLC", "Energy, mining & plantation", "Other"] }
+  - type: input
+    id: role
+    attributes: { label: Who does this task today?, placeholder: "Corporate secretary" }
+  - type: textarea
+    id: task
+    attributes: { label: "The task: what goes in, what comes out, how often, how long it takes" }
+    validations: { required: true }

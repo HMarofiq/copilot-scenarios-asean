@@ -1,0 +1,92 @@
+# Single source of truth for every tag on the site.
+# The build fails if a scenario uses a value that is not listed here.
+# To add a tag: add it here in the same pull request as the scenario that needs it.
+
+industry:
+  banking-insurance: { en: "Banking & insurance" }
+  government-soe: { en: "Government, BUMN & GLC" }
+  energy-resources: { en: "Energy, mining & plantation" }
+  cross-industry: { en: "Cross-industry" }
+
+department:
+  compliance: { en: "Compliance" }
+  risk: { en: "Risk" }
+  operations: { en: "Operations" }
+  finance: { en: "Finance" }
+  corporate-secretary: { en: "Corporate Secretary" }
+  exec-office: { en: "Executive office" }
+  strategy: { en: "Strategy" }
+  hse: { en: "HSE" }
+  legal-compliance: { en: "Legal & compliance" }
+  hr: { en: "HR" }
+  procurement: { en: "Procurement" }
+  it: { en: "IT" }
+  sales: { en: "Sales" }
+  marketing: { en: "Marketing" }
+  audit: { en: "Internal audit" }
+
+persona:
+  # Banking & insurance
+  compliance-officer: { en: "Compliance officer" }
+  branch-ops-manager: { en: "Branch ops manager" }
+  credit-analyst: { en: "Credit analyst" }
+  relationship-manager: { en: "Relationship manager" }
+  claims-handler: { en: "Claims handler" }
+  risk-manager: { en: "Risk manager" }
+  # Government, BUMN & GLC
+  corporate-secretary: { en: "Corporate secretary" }
+  strategy-office: { en: "Strategy office / PMO" }
+  internal-auditor: { en: "Internal auditor (SPI)" }
+  procurement-officer: { en: "Procurement officer" }
+  legal-counsel: { en: "Legal counsel" }
+  policy-analyst: { en: "Ministry policy analyst" }
+  # Energy, mining & plantation
+  site-manager: { en: "Site / estate manager" }
+  hse-officer: { en: "HSE officer" }
+  maintenance-planner: { en: "Maintenance planner" }
+  esg-analyst: { en: "Sustainability / ESG analyst" }
+  plant-manager: { en: "Mill / plant manager" }
+  commercial-lead: { en: "Commercial / offtake lead" }
+  # Cross-industry
+  knowledge-worker: { en: "Any knowledge worker" }
+  people-manager: { en: "People manager" }
+  hr-business-partner: { en: "HR business partner" }
+
+surface:
+  copilot-chat: { en: "Copilot Chat" }
+  word: { en: "Word" }
+  excel: { en: "Excel" }
+  powerpoint: { en: "PowerPoint" }
+  outlook: { en: "Outlook" }
+  teams: { en: "Teams" }
+  agent: { en: "Agent" }
+  cowork: { en: "Cowork" }
+  scout: { en: "Scout" }
+
+licence:
+  copilot-chat: { en: "Copilot Chat (included)" }
+  m365-copilot: { en: "Microsoft 365 Copilot" }
+  copilot-studio: { en: "Copilot Studio" }
+  cowork: { en: "Copilot Cowork" }
+  scout: { en: "Microsoft Scout" }
+
+market:
+  ID: { en: "Indonesia" }
+  MY: { en: "Malaysia" }
+
+difficulty:
+  "1": { en: "L1 Starter", description: "One prompt against one source; skim the output." }
+  "2": { en: "L2 Practitioner", description: "Iterate over several turns with your own files, or run a ready-made Scout automation or Cowork task." }
+  "3": { en: "L3 Power user", description: "Chain apps, batch inputs, verify systematically, write your own Scout automation." }
+  "4": { en: "L4 Builder", description: "Publish an agent with grounding and instructions for other people to use." }
+
+evidence:
+  estimated: { en: "Estimated" }
+  observed-in-pilot: { en: "Observed in pilot" }
+  customer-measured: { en: "Customer measured" }
+
+sensitivity:
+  Public: { en: "Public" }
+  Internal: { en: "Internal" }
+  Confidential: { en: "Confidential" }
+  Highly Confidential: { en: "Highly Confidential" }
