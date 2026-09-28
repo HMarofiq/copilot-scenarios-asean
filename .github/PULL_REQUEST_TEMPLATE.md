@@ -1,7 +1,7 @@
 ## Scenario checklist
 
-- [ ] I ran every step end to end in the **demo tenant** (not a customer or production tenant)
-- [ ] `validated_on` is the date I ran it
+- [ ] `status` is honest: `draft` unless I ran every step end to end in the **demo tenant** (not a customer or production tenant)
+- [ ] If not draft: `validated_on` is the date I ran it
 - [ ] Every product claim is backed by a public link in `source_refs`
 - [ ] Limits and failure modes are ones I **observed**, not guessed
 - [ ] `impact.evidence` is honest (`estimated` unless I measured it)

@@ -85,6 +85,12 @@ evidence:
   observed-in-pilot: { en: "Observed in pilot" }
   customer-measured: { en: "Customer measured" }
 
+# Has someone actually run every step? Draft scenarios have not been run end to end yet.
+status:
+  draft: { en: "Draft", description: "Written from product knowledge; not yet run end to end." }
+  partly-validated: { en: "Partly validated", description: "Core steps run end to end; some steps (see note) not yet exercised." }
+  validated: { en: "Validated", description: "Every step run end to end in a demo tenant." }
+
 sensitivity:
   Public: { en: "Public" }
   Internal: { en: "Internal" }

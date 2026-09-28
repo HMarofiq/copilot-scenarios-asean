@@ -25,7 +25,7 @@ limits:
   - "Format each export as an Excel table first. Copilot in Excel works on tables."
   - "Very large exports should be trimmed to the week with Power Query before prompting."
 source_refs: ["https://learn.microsoft.com/copilot/microsoft-365/"]
-validated_on: 2026-09-26
+status: draft
 ---
 
 ## Situation
@@ -39,9 +39,9 @@ Branch operations reconciles the general ledger against teller cash and ATM sett
 **2. Find the breaks.** On the GL sheet, open Copilot in Excel:
 
 :::prompt
-EN: Compare this table with the Teller and ATM tables using Reference No and Amount. Add a column Match Status with Matched, Amount difference, Missing in Teller, Missing in ATM. Then add a column Likely Cause using: timing (value date differs by 1 day), reversal (same ref, opposite sign), or investigate.
-ID: Bandingkan tabel ini dengan tabel Teller dan ATM berdasarkan No Referensi dan Nominal. Tambahkan kolom Status Cocok berisi Cocok, Selisih nominal, Tidak ada di Teller, Tidak ada di ATM. Lalu tambahkan kolom Dugaan Penyebab: waktu (tanggal valuta beda 1 hari), pembalikan (referensi sama, tanda berlawanan), atau perlu investigasi.
-BM: Bandingkan jadual ini dengan jadual Teller dan ATM menggunakan No Rujukan dan Amaun. Tambah lajur Status Padanan: Sepadan, Beza amaun, Tiada dalam Teller, Tiada dalam ATM. Kemudian tambah lajur Punca Mungkin: masa (tarikh nilai berbeza 1 hari), pembalikan (rujukan sama, tanda bertentangan), atau perlu siasatan.
+EN: Compare this table with the Teller and ATM tables. Match on Reference No, ignoring leading zeros, then check Amount and date. Add a column Match Status with exactly one of: Matched, Date difference (same reference and amount, different date), Amount difference, Missing in Teller, Missing in ATM. Then add a column Likely Cause: timing (dates differ by 1 day), reversal (the same reference appears twice in this table with opposite signs), or investigate (anything else). Leave Likely Cause blank for Matched rows.
+ID: Bandingkan tabel ini dengan tabel Teller dan ATM. Cocokkan berdasarkan No Referensi dengan mengabaikan angka nol di depan, lalu periksa Nominal dan tanggal. Tambahkan kolom Status Cocok berisi salah satu dari: Cocok, Beda tanggal (referensi dan nominal sama, tanggal berbeda), Selisih nominal, Tidak ada di Teller, Tidak ada di ATM. Lalu tambahkan kolom Dugaan Penyebab: waktu (tanggal beda 1 hari), pembalikan (referensi yang sama muncul dua kali di tabel ini dengan tanda berlawanan), atau perlu investigasi (selain itu). Kosongkan Dugaan Penyebab untuk baris yang Cocok.
+BM: Bandingkan jadual ini dengan jadual Teller dan ATM. Padankan menggunakan No Rujukan dengan mengabaikan sifar di hadapan, kemudian semak Amaun dan tarikh. Tambah lajur Status Padanan dengan salah satu daripada: Sepadan, Beza tarikh (rujukan dan amaun sama, tarikh berbeza), Beza amaun, Tiada dalam Teller, Tiada dalam ATM. Kemudian tambah lajur Punca Mungkin: masa (tarikh berbeza 1 hari), pembalikan (rujukan yang sama muncul dua kali dalam jadual ini dengan tanda bertentangan), atau perlu siasatan (selain itu). Biarkan Punca Mungkin kosong bagi baris yang Sepadan.
 :::
 
 **3. Summarise.** Ask for a PivotTable of break count and total amount by Likely Cause.
@@ -55,7 +55,8 @@ BM: Bandingkan jadual ini dengan jadual Teller dan ATM menggunakan No Rujukan da
 
 ## When it goes wrong
 
-- **Everything shows as unmatched.** Reference numbers have leading zeros in one file and not the other. Ask Copilot to add a cleaned reference column first.
+- **Everything shows as unmatched.** Reference numbers are formatted differently between files (here, the GL keeps leading zeros and the teller system drops them). Keep "ignoring leading zeros" in the prompt, or ask Copilot to add a cleaned reference column first.
+- **Timing breaks show as Matched.** The prompt had no "Date difference" status, so Copilot matched on reference and amount only. Use the prompt above as written.
 
 ## Take it further
 
@@ -64,5 +65,5 @@ BM: Bandingkan jadual ini dengan jadual Teller dan ATM menggunakan No Rujukan da
 :::presenter
 **Ask before you start:** How many branches? Which core banking system? Who investigates breaks today?
 
-**Demo kit:** three fictional exports with 14 seeded breaks (6 timing, 4 reversal, 4 investigate).
+**Demo kit:** three fictional exports with 14 seeded breaks (6 timing, 4 reversal pairs, 4 investigate), a leading-zero trap, and an answer key. Download it from the panel on this page.
 :::

@@ -4,7 +4,7 @@ Thank you for helping. The library is only useful if every scenario works as wri
 
 ## The rules
 
-1. **Run it before you write it.** Every step must have been run end to end in a demo tenant. Set `validated_on` to that date.
+1. **Run it before you call it validated.** New scenarios can be published as `status: draft`, clearly labelled on the site. Only set `partly-validated` or `validated`, with `validated_on`, after running the steps end to end in a demo tenant.
 2. **Real work, not hypotheticals.** Name the exact inputs (file type, where it lives, how many). Describe a task someone actually does every week or month.
 3. **State the limits you saw.** If Copilot missed documents in a big batch, say so and give the batch size that worked.
 4. **Be honest about impact.** Use `evidence: estimated` unless you measured it.

@@ -29,7 +29,9 @@ limits:                          # limits you OBSERVED while running it
   - ""
 source_refs:                     # public learn.microsoft.com (or similar) links backing every capability claim
   - "https://learn.microsoft.com/"
-validated_on: 2026-01-01         # the day you last ran every step in the demo tenant
+status: draft                    # draft | partly-validated | validated
+# validated_on: 2026-01-01       # required once status is not draft: the day you last ran every step
+# validation_note: ""            # required for partly-validated: which steps were not exercised
 ---
 
 ## Situation

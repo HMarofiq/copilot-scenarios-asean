@@ -24,7 +24,7 @@ limits:
   - "Map 5-8 SOPs per prompt; larger batches silently drop documents."
   - "Scanned (image) PDFs cannot be read. OCR them first."
 source_refs: ["https://learn.microsoft.com/copilot/microsoft-365/"]
-validated_on: 2026-09-26
+status: draft
 ---
 
 ## Situation

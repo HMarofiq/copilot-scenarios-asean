@@ -4,3 +4,6 @@ dist/
 .env
 # Private customer/project names for the banned-terms check. NEVER commit.
 .banned-terms.local
+# Demo kits are generated from kits/ at build time.
+.kits-tmp/
+public/kits/*.zip

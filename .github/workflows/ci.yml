@@ -36,6 +36,9 @@ jobs:
           BANNED_TERMS: ${{ secrets.BANNED_TERMS }}
         run: node scripts/check-banned-terms.mjs
 
+      - name: Demo kit answer keys
+        run: npm test
+
       - name: Build (schema validation + Markdown render + search index)
         run: npm run build
 
