@@ -5,6 +5,7 @@ import { label } from '../../lib/taxonomy';
 import { isPublished } from '../../lib/publish';
 import { existsSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+import ToolIcon from '../../components/ToolIcon.astro';
 
 export async function getStaticPaths() {
   const items = await getCollection('scenarios', (s) => isPublished(s.data.status));
@@ -12,13 +13,14 @@ export async function getStaticPaths() {
 }
 const { s } = Astro.props;
 const d = s.data;
-const { Content } = await render(s);
+const { Content, headings } = await render(s);
+const stepsId = headings.find(heading => heading.text.toLowerCase() === 'steps')?.slug ?? 'scenario-steps';
 const base = import.meta.env.BASE_URL;
 const kitPath = join(process.cwd(), 'public', 'kits', `${d.id}.zip`);
 const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.round(statSync(kitPath).size / 1024) } : null;
 ---
 <Base title={d.title.en}>
-  <p class="crumb"><a href={base}>All scenarios</a> / {label('industry', d.industry[0])}</p>
+  <p class="crumb"><a id="back-to-results" href={`${base}?view=all`} data-base={base}>&larr; All scenarios</a> / {label('industry', d.industry[0])}</p>
   <div class="page">
     <article data-pagefind-body>
       <h1 data-pagefind-meta="title"><span data-l="en">{d.title.en}</span><span data-l="id">{d.title.id}</span><span data-l="ms">{d.title.ms}</span></h1>
@@ -27,7 +29,7 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
         {d.industry.map((x) => <a class="chip" href={`${base}?industry=${x}`}>{label('industry', x)}</a>)}
         {d.department.map((x) => <a class="chip" href={`${base}?department=${x}`}>{label('department', x)}</a>)}
         {d.persona.map((x) => <a class="chip" href={`${base}?persona=${x}`}>{label('persona', x)}</a>)}
-        {d.surface.map((x) => <a class="chip" href={`${base}?surface=${x}`}>{label('surface', x)}</a>)}
+        {d.surface.map((x) => <a class="chip tool-chip" href={`${base}?surface=${x}`}><ToolIcon tool={x}/>{label('surface', x)}</a>)}
         {d.market.map((x) => <span class="chip">{label('market', x)}</span>)}
       </div>
 
@@ -40,7 +42,8 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
         </div>
       </section>
 
-      <div class="prose"><Content /></div>
+      <div class="quick-start"><a href={`#${stepsId}`}>Go to steps &amp; prompts <span aria-hidden="true">&darr;</span></a><span>Check the required licence and inputs before you begin.</span></div>
+      <div class="prose" id="scenario-steps"><Content /></div>
     </article>
 
     <aside class="side">
@@ -62,20 +65,37 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
   </div>
 </Base>
 
+<script>
+  const back = document.getElementById('back-to-results');
+  const query = new URLSearchParams(location.search).get('library');
+  if (back instanceof HTMLAnchorElement && query) {
+    const params = new URLSearchParams(query);
+    back.href = `${back.dataset.base}?${params}`;
+    back.textContent = params.get('view') === 'recommended' ? '\u2190 Back to your suggestions' : '\u2190 Back to results';
+  }
+</script>
+
 <style>
   .crumb { font-size:13px; color:var(--ink2); margin:0 0 8px }
-  .kit { display:block; margin-bottom:14px; padding:12px 16px; border-radius:12px; background:var(--brand); color:#fff; text-decoration:none }
-  .kit:hover { background:#0c5aa0 } .kit strong { display:block; font-size:15px } .kit span { font-size:12.5px; opacity:.9 }
+  .kit { display:block; margin-bottom:14px; padding:16px; border-radius:12px; background:var(--brand); color:var(--cp-accent-fg); text-decoration:none }
+  .kit:hover { background:var(--cp-accent-hover) } .kit strong { display:block; font-size:15px } .kit span { font-size:12.5px; opacity:.9 }
   .page { display:grid; grid-template-columns:1fr 260px; gap:28px; align-items:start }
-  article { background:#fff; border:1px solid var(--line); border-radius:12px; padding:24px 32px }
-  h1 { margin:0 0 8px; font-size:28px; line-height:1.25 }
-  .tags a.chip { text-decoration:none } .tags a.chip:hover { background:#dfe3e8 }
-  .card60 { margin:18px 0 8px; background:var(--brand-soft); border:1px solid #c7ddf3; border-radius:10px; padding:14px 18px }
+  article { background:var(--cp-surface); border:1px solid var(--line); border-radius:16px; padding:28px 32px; min-width:0 }
+  h1 { margin:0 0 16px; font-size:32px; line-height:1.2; letter-spacing:-.025em; font-weight:600 }
+  .tags a.chip { text-decoration:none } .tags a.chip:hover { background:var(--cp-accent-soft); color:var(--cp-accent) }
+  .card60 { margin:24px 0 8px; background:var(--brand-soft); border:1px solid var(--cp-border); border-radius:10px; padding:14px 18px }
   .grid60 { display:grid; grid-template-columns:1fr 1.3fr .9fr; gap:18px } .grid60 p { margin:2px 0 0; font-size:14px }
   .k { font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--ink2); margin:10px 0 3px }
   .card60 > .k { margin-top:0; color:var(--brand) }
   .prose :global(h2) { font-size:19px; margin:26px 0 8px; padding-top:6px; border-top:1px solid var(--line) }
-  .side { position:sticky; top:70px } .box { background:#fff; border:1px solid var(--line); border-radius:12px; padding:6px 16px 12px }
+  .side { position:sticky; top:104px } .box { background:var(--cp-surface); border:1px solid var(--line); border-radius:12px; padding:6px 16px 12px }
   .box p { margin:0; font-size:14px } .src { font-size:13px !important; overflow-wrap:anywhere }
-  .chip.fresh { background:#dff6dd; color:#0e700e } .chip.stale { background:#fde7e9; color:#b10e1c }
+  .quick-start { display:flex; align-items:center; gap:20px; margin:20px 0; font-size:13px; flex-wrap:wrap } .quick-start a { font-weight:600 } .quick-start span { color:var(--cp-text-muted) }
+  .prose { overflow-wrap:anywhere; scroll-margin-top:104px }
+  .prose :global(table) { display:block; max-width:100%; overflow:auto }
+  .prose :global(img) { max-width:100%; height:auto }
+  .prose :global(pre) { max-width:100%; overflow:auto }
+  .prose :global(h2) { scroll-margin-top:104px }
+  @media(max-width:850px) { .page { grid-template-columns:1fr } .side { position:static; grid-row:1 } .kit { margin-bottom:12px } article { padding:24px } .grid60 { grid-template-columns:1fr } }
+  @media(max-width:640px) { article { padding:20px 16px } h1 { font-size:26px } .crumb { margin-bottom:16px } }
 </style>

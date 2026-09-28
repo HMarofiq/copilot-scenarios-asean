@@ -1,162 +1,217 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { FACETS, FACET_TITLES, label } from '../lib/taxonomy';
+import { FACETS, FACET_TITLES, label, taxonomy } from '../lib/taxonomy';
 import { isPublished } from '../lib/publish';
+import { ROLES } from '../lib/discovery.mjs';
+import ToolIcon from '../components/ToolIcon.astro';
 
 const base = import.meta.env.BASE_URL;
 const items = (await getCollection('scenarios', (s) => isPublished(s.data.status))).sort((a, b) => a.data.id.localeCompare(b.data.id));
-
-const valuesOf = (s: (typeof items)[number], f: string): string[] => {
-  const d = s.data as any;
-  if (f === 'evidence') return [d.impact.evidence];
-  if (f === 'difficulty') return [String(d.difficulty)];
-  return d[f];
+const valuesOf = (s: (typeof items)[number], f: typeof FACETS[number]): string[] => {
+  if (f === 'evidence') return [s.data.impact.evidence];
+  if (f === 'difficulty') return [String(s.data.difficulty)];
+  return s.data[f];
 };
-const facetValues = Object.fromEntries(
-  FACETS.map((f) => [f, [...new Set(items.flatMap((s) => valuesOf(s, f)))].sort()]),
-);
+const facetValues = Object.fromEntries(FACETS.map(f => [f, [...new Set(items.flatMap(s => valuesOf(s, f)))].sort()]));
+const choices = Object.fromEntries(FACETS.map(f => [f, Object.keys(taxonomy[f])]));
+const labels = Object.fromEntries(FACETS.map(f => [f, Object.fromEntries(Object.keys(taxonomy[f]).map(v => [v, label(f, v)]))]));
+const tools = ['outlook', 'teams', 'word', 'excel', 'powerpoint', 'copilot-chat', 'agent', 'cowork', 'scout'];
+const data = items.map(s => ({
+  id: s.data.id,
+  text: [...Object.values(s.data.title), ...Object.values(s.data.summary), s.data.card.problem, s.data.card.output].join(' ').toLowerCase(),
+  ...Object.fromEntries(FACETS.map(f => [f, valuesOf(s, f)])),
+}));
 ---
-<Base title="Scenarios">
-  <section class="hero">
-    <h1>Copilot, Cowork &amp; Scout scenarios for real work</h1>
-    <p>Step-by-step scenarios for regulated industries in Indonesia and Malaysia. Every scenario lists the exact inputs, data controls, known limits and how to check the output.</p>
-    <input id="q" type="search" placeholder="Search scenarios, e.g. risalah, reconciliation, permit…" />
-  </section>
-
-  <div class="layout">
-    <aside class="facets">
-      <div class="facets-head"><strong>Filter</strong><button id="clear" type="button">Clear all</button></div>
-      {FACETS.map((f) => (
-        <fieldset data-facet={f}>
-          <legend>{FACET_TITLES[f]}</legend>
-          {facetValues[f].map((v) => (
-            <label><input type="checkbox" value={v} /> <span>{label(f, v)}</span> <em class="n"></em></label>
-          ))}
-        </fieldset>
-      ))}
-    </aside>
-
-    <section>
-      <p class="count"><strong id="shown">{items.length}</strong> of {items.length} scenarios
-        <span id="restored" hidden> · Showing your filters from last visit. <button id="restored-clear" type="button">Start fresh</button></span></p>
-      <div class="grid">
-        {items.map((s) => {
-          const d = s.data;
-          return (
-            <a class="card" href={`${base}scenarios/${d.id}/`} data-id={d.id}
-               data-text={[...Object.values(d.title), ...Object.values(d.summary)].join(' ').toLowerCase()}
-               {...Object.fromEntries(FACETS.map((f) => [`data-${f}`, valuesOf(s, f).join(' ')]))}>
-              <div class="card-top">
-                <span class="chip lvl">{label('difficulty', d.difficulty)}</span>
-                <span class={`chip ev-${d.impact.evidence}`}>{label('evidence', d.impact.evidence)}</span>
-              </div>
-              <h3><span data-l="en">{d.title.en}</span><span data-l="id">{d.title.id}</span><span data-l="ms">{d.title.ms}</span></h3>
-              <p><span data-l="en">{d.summary.en}</span><span data-l="id">{d.summary.id}</span><span data-l="ms">{d.summary.ms}</span></p>
-              <div class="meta">{label('industry', d.industry[0])} · {d.persona.map((p) => label('persona', p)).join(', ')}</div>
-              <div>{d.surface.map((x) => <span class="chip">{label('surface', x)}</span>)}</div>
-              <div class="time">⏱ {d.impact.baseline} → {d.impact.target}</div>
-            </a>
-          );
-        })}
+<Base title="Find your next Copilot scenario">
+  <div id="discovery" data-base={base} data-choices={JSON.stringify(choices)} data-labels={JSON.stringify(labels)} data-scenarios={JSON.stringify(data)} data-dev={import.meta.env.DEV}>
+    <section data-view="home" class="welcome">
+      <div class="eyebrow"><span class="eyebrow-line"></span> PRACTICAL AI, EVERYDAY WORK</div>
+      <h1 tabindex="-1">Your work.<br />A little more <span>possible.</span></h1>
+      <p class="welcome-copy">Find practical ways Copilot, Cowork and Scout can help.<br class="desktop-break" /> Start with your role, or take a look around.</p>
+      <div class="entry-grid">
+        <a href="?view=guide" class="entry-card entry-primary" data-route="guide">
+          <div class="entry-top"><span class="entry-icon" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="16" cy="10" r="5"/><path d="M6 28v-4a10 10 0 0 1 20 0v4M24 6h6M27 3v6"/></svg></span><span class="entry-tag">GUIDED DISCOVERY</span></div>
+          <h2>Start with my persona</h2>
+          <p>A few quick questions about your role, department and tools. Find a useful place to start.</p>
+          <span class="entry-cta">Find scenarios for me <span aria-hidden="true">&rarr;</span></span>
+          <span class="entry-note">3 questions. Skip any you like.</span>
+        </a>
+        <a href="?view=all" class="entry-card" data-route="all">
+          <div class="entry-top"><span class="entry-icon" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="10" height="10" rx="2"/><rect x="18" y="4" width="10" height="10" rx="2"/><rect x="4" y="18" width="10" height="10" rx="2"/><rect x="18" y="18" width="10" height="10" rx="2"/></svg></span><span class="entry-tag">EXPLORE AT YOUR PACE</span></div>
+          <h2>Explore all scenarios</h2>
+          <p>Have something in mind? Search the library and filter by the work you want to do.</p>
+          <span class="entry-cta">Browse all scenarios <span aria-hidden="true">&rarr;</span></span>
+          <span class="entry-note">Go straight to the full library.</span>
+        </a>
       </div>
-      <p id="empty" hidden>No scenarios match. Try removing a filter.</p>
+      <div class="welcome-foot"><span>No sign-in to browse</span><span>Step-by-step guides</span><span>Prompts in EN, ID &amp; BM</span></div>
+    </section>
+
+    <section data-view="guide" class="guide" hidden aria-label="Find scenarios for your persona">
+      <div class="guide-nav"><button type="button" id="guide-back" class="text-button">&larr; Back</button><a href="?view=all" data-route="all">Browse all scenarios instead</a></div>
+      <div class="step-label" id="step-label">STEP 1 OF 3</div>
+      <ol class="stepper" aria-label="Your progress">
+        <li data-step-marker="1"><span>1</span> Your role</li><li data-step-marker="2"><span>2</span> Department</li><li data-step-marker="3"><span>3</span> Everyday tools</li>
+      </ol>
+      <form id="guide-form">
+        <fieldset data-step="1">
+          <legend tabindex="-1">Which best describes your role?</legend>
+          <p class="question-hint">Choose the closest fit. It does not need to match your job title.</p>
+          <div class="answer-grid role-grid">
+            {ROLES.map(role => <label class="answer"><input type="radio" name="role" value={role.id}/><span><strong>{role.title}</strong><small>{role.description}</small></span></label>)}
+            <label class="answer"><input type="radio" name="role" value=""/><span><strong>Something else / Not sure</strong><small>Discover possibilities across different roles.</small></span></label>
+          </div>
+        </fieldset>
+        <fieldset data-step="2" hidden>
+          <legend tabindex="-1">Which area do you work in?</legend>
+          <p class="question-hint">Select any that apply. Work across teams? You can choose more than one.</p>
+          <div class="answer-grid compact-grid">
+            {Object.keys(taxonomy.department).sort((a,b) => label('department', a).localeCompare(label('department', b))).map(value => <label class="answer"><input type="checkbox" name="departments" value={value}/><span>{label('department', value)}</span></label>)}
+          </div>
+          <p class="question-hint">Your area is not listed? Skip this question to keep your options open.</p>
+        </fieldset>
+        <fieldset data-step="3" hidden>
+          <legend tabindex="-1">Which tools do you use regularly?</legend>
+          <p class="question-hint">Select any that apply. We will prioritise familiar tools, not limit what you can discover.</p>
+          <div class="answer-grid compact-grid">
+            {tools.map(value => <label class="answer"><input type="checkbox" name="tools" value={value}/><span class="tool-label"><ToolIcon tool={value}/>{label('surface', value)}</span></label>)}
+          </div>
+          <p class="question-hint">Use other tools, or not sure? Skip this question. App use does not tell us your Copilot licence.</p>
+        </fieldset>
+        <div class="guide-actions"><button type="submit" class="button primary" id="continue">Continue <span aria-hidden="true">&rarr;</span></button><button type="button" class="text-button" id="skip-question">Skip this question</button><button type="button" class="text-button early-results" id="show-now">Show suggestions now</button></div>
+      </form>
+      <p class="privacy-note">No account or personal details needed. Your choices stay in this browser URL unless you share it.</p>
+    </section>
+
+    <section data-view="library" hidden>
+      <div class="library-top"><a href={base} data-route="home" class="back-link">&larr; Start</a><button type="button" id="edit-persona" class="text-button">Find scenarios for my persona</button></div>
+      <div class="library-heading"><div><div class="eyebrow" id="results-eyebrow">THE SCENARIO LIBRARY</div><h1 id="results-title" tabindex="-1">Explore all scenarios</h1><p id="results-description">Find a practical starting point for the work in front of you.</p></div><span class="library-total">{items.length}<small>scenarios to explore</small></span></div>
+      <div id="persona-summary" class="persona-summary" hidden><div><strong>Your starting point</strong><div id="persona-chips"></div></div><button type="button" id="change-answers" class="text-button">Change answers</button></div>
+      <div class="search-row"><label class="search-box"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><span class="sr-only">Search scenarios</span><input id="q" type="search" placeholder="What would you like help with? Try budget, meeting or report..." autocomplete="off"/></label><button type="button" class="button" id="clear">Clear filters</button></div>
+      <p id="search-note" class="search-note" role="status" hidden></p>
+      <div class="library-layout">
+        <aside class="filter-panel" aria-label="Scenario filters">
+          <details class="filter-disclosure" open>
+            <summary>Refine your results <span aria-hidden="true">+</span></summary>
+            <div class="filter-content">
+              {['department', 'surface'].map(f => <fieldset data-facet={f}><legend>{f === 'surface' ? 'Apps & tools' : FACET_TITLES[f]}</legend>{facetValues[f].map(v => <label><input type="checkbox" value={v}/><span class:list={{'tool-label': f === 'surface'}}>{f === 'surface' && <ToolIcon tool={v}/>}<span>{label(f, v)}</span></span><em class="n"></em></label>)}</fieldset>)}
+              <details class="more-filters"><summary>More filters</summary>
+                {FACETS.filter(f => !['department', 'surface'].includes(f)).map(f => <fieldset data-facet={f}><legend>{FACET_TITLES[f]}</legend>{facetValues[f].map(v => <label><input type="checkbox" value={v}/><span>{label(f, v)}</span><em class="n"></em></label>)}</fieldset>)}
+              </details>
+            </div>
+          </details>
+        </aside>
+        <div class="results">
+          <div id="active-filters" class="active-filters" aria-label="Selected filters"></div>
+          <div class="results-toolbar"><p id="result-count" role="status" aria-live="polite" tabindex="-1"></p><span id="sort-label">Browse the library</span></div>
+          <div class="scenario-grid" id="scenario-grid">
+            {items.map(s => {
+              const d = s.data;
+              return <a class="scenario-card" href={`${base}scenarios/${d.id}/`} data-id={d.id}>
+                <div class="card-top"><span class="chip lvl">{label('difficulty', d.difficulty)}</span><span class="card-industry">{label('industry', d.industry[0])}</span></div>
+                <h2><span data-l="en">{d.title.en}</span><span data-l="id">{d.title.id}</span><span data-l="ms">{d.title.ms}</span></h2>
+                <p class="card-summary"><span data-l="en">{d.summary.en}</span><span data-l="id">{d.summary.id}</span><span data-l="ms">{d.summary.ms}</span></p>
+                <div class="card-output"><span>YOU GET</span><p>{d.card.output}</p></div>
+                <p class="match-reason" hidden></p>
+                <div class="card-tools">{d.surface.map(x => <span class="chip tool-chip"><ToolIcon tool={x}/>{label('surface', x)}</span>)}</div>
+                <p class="card-licence"><strong>Requires:</strong> {d.licence.map(x => label('licence', x)).join(' + ')}</p>
+                <div class="card-bottom"><span>View steps &amp; prompts</span><span aria-hidden="true">&rarr;</span></div>
+              </a>;
+            })}
+          </div>
+          <div id="empty" class="empty-state" hidden><h2>No scenarios match these filters</h2><p>Try a broader search or clear your filters. Your persona answers will stay in place.</p><button type="button" class="button" id="empty-clear">Clear filters and search</button></div>
+          <button type="button" class="button show-more" id="show-more" hidden>See more suggestions</button>
+          <p class="results-note">Recommendations reflect your selections, not verified access. Check the licence, inputs and setup steps before trying a scenario.</p>
+        </div>
+      </div>
     </section>
   </div>
+  <noscript><p>Enable JavaScript for guided discovery and filtering, or open a scenario directly:</p><ul>{items.map(s => <li><a href={`${base}scenarios/${s.data.id}/`}>{s.data.title.en}</a></li>)}</ul></noscript>
 </Base>
 
-<script is:inline define:vars={{ base }}>
-  const cards = [...document.querySelectorAll('.card')];
-  const sets = [...document.querySelectorAll('fieldset[data-facet]')];
-  const q = document.getElementById('q');
-  const KEY = 'sl:v1:filters';
-  // A shared link wins over saved preferences; otherwise restore the visitor's last filters.
-  let params = new URLSearchParams(location.search);
-  let restored = false;
-  if (!params.toString()) {
-    try { params = new URLSearchParams(localStorage.getItem(KEY) || ''); restored = params.toString() !== ''; } catch {}
-  }
-  // Unknown values (e.g. a tag renamed since the last visit) are silently skipped.
-  sets.forEach(fs => (params.get(fs.dataset.facet) || '').split(',').filter(Boolean)
-    .forEach(v => { const cb = fs.querySelector(`input[value="${v}"]`); if (cb) cb.checked = true; }));
-  q.value = params.get('q') || '';
-  const note = document.getElementById('restored');
-  if (restored && [...document.querySelectorAll('.facets input:checked')].length + q.value.length) note.hidden = false;
-
-  const selected = () => Object.fromEntries(sets.map(fs => [fs.dataset.facet, [...fs.querySelectorAll('input:checked')].map(i => i.value)]));
-  // Full-text search via Pagefind (indexes every scenario body, all three prompt languages).
-  // Falls back to title/summary matching in `astro dev`, where no index exists.
-  let pf, pfLoading, pfMatch = null, seq = 0, timer;
-  // import() only fetches the JS; init() pulls the WASM engine and index metadata (~150 KB).
-  const loadPf = () => pfLoading ??= import(`${base}pagefind/pagefind.js`)
-    .then(async m => { await m.init?.(); return (pf = m); }, () => (pf = null));
-  async function search(save) {
-    const my = ++seq, term = q.value.trim();
-    pfMatch = null;
-    if (term && pf === undefined) document.getElementById('shown').textContent = 'Searching…';
-    const lib = term && await loadPf();
-    if (lib) {
-      const r = await lib.search(term);
-      const data = await Promise.all(r.results.slice(0, 200).map(x => x.data()));
-      if (my !== seq) return;
-      pfMatch = new Set(data.map(d => (d.url.match(/scenarios\/([^/]+)\//) || [])[1]).filter(Boolean));
-    }
-    apply(save);
-  }
-  const textOk = card => !q.value.trim() || (pfMatch ? pfMatch.has(card.dataset.id) : card.dataset.text.includes(q.value.trim().toLowerCase()));
-  const matches = (card, sel, skip) => Object.entries(sel).every(([f, vals]) =>
-    f === skip || !vals.length || vals.some(v => card.dataset[f].split(' ').includes(v))) && textOk(card);
-
-  function apply(save) {
-    const sel = selected();
-    let shown = 0;
-    cards.forEach(c => { const ok = matches(c, sel); c.hidden = !ok; shown += ok; });
-    document.getElementById('shown').textContent = shown;
-    document.getElementById('empty').hidden = shown > 0;
-    // live counts: how many results each option would give, given the other facets
-    sets.forEach(fs => fs.querySelectorAll('label').forEach(l => {
-      const v = l.querySelector('input').value, f = fs.dataset.facet;
-      const n = cards.filter(c => matches(c, sel, f) && c.dataset[f].split(' ').includes(v)).length;
-      l.querySelector('.n').textContent = n; l.classList.toggle('zero', n === 0);
-    }));
-    const p = new URLSearchParams();
-    Object.entries(sel).forEach(([f, v]) => v.length && p.set(f, v.join(',')));
-    if (q.value) p.set('q', q.value);
-    history.replaceState(null, '', p.toString() ? `?${p}` : location.pathname);
-    if (save) { try { localStorage.setItem(KEY, p.toString()); } catch {} note.hidden = true; }
-  }
-  document.querySelectorAll('.facets input').forEach(i => i.addEventListener('change', () => apply(true)));
-  // Start downloading the search index as soon as the visitor shows intent, not on the first keystroke.
-  ['focus', 'pointerenter'].forEach(ev => q.addEventListener(ev, loadPf, { once: true }));
-  q.addEventListener('input', () => {
-    if (pf && q.value.trim()) pf.preload(q.value.trim());
-    clearTimeout(timer); timer = setTimeout(() => search(true), 150);
-  });
-  const clearAll = () => { document.querySelectorAll('.facets input').forEach(i => i.checked = false); q.value = ''; search(true); };
-  document.getElementById('clear').addEventListener('click', clearAll);
-  document.getElementById('restored-clear').addEventListener('click', clearAll);
-  apply(false);
-  if (q.value.trim()) search(false);
+<script>
+  import '../scripts/discovery.js';
 </script>
 
 <style>
-  .hero { background:linear-gradient(120deg,#0f6cbd,#2b88d8 60%,#62abf5); color:#fff; border-radius:14px; padding:28px 32px; margin-bottom:22px }
-  .hero h1 { margin:0 0 6px; font-size:26px } .hero p { margin:0 0 16px; max-width:760px; opacity:.95 }
-  .hero input { width:100%; max-width:560px; padding:10px 14px; border-radius:8px; border:0; font:inherit; font-size:15px }
-  .layout { display:grid; grid-template-columns:250px 1fr; gap:24px; align-items:start }
-  .facets { background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px 16px; position:sticky; top:70px; max-height:calc(100vh - 90px); overflow:auto }
-  .facets-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px }
-  .facets-head button { border:0; background:none; color:var(--brand); cursor:pointer; font:inherit; font-size:13px }
-  fieldset { border:0; border-top:1px solid var(--line); margin:0; padding:10px 0 8px } legend { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--ink2); padding:0 }
-  fieldset label { display:flex; gap:8px; align-items:center; font-size:14px; padding:2px 0; cursor:pointer } fieldset label span { flex:1 }
-  fieldset label em { font-style:normal; font-size:12px; color:var(--ink2) } fieldset label.zero { opacity:.45 }
-  .count { margin:0 0 10px; color:var(--ink2) }
-  #restored { font-size:13px } #restored button { border:0; background:none; color:var(--brand); cursor:pointer; font:inherit; text-decoration:underline; padding:0 }
-  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px }
-  .card { display:flex; flex-direction:column; gap:6px; background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px 18px; text-decoration:none; color:inherit; transition:box-shadow .15s, border-color .15s }
-  .card:hover { border-color:#b7cde6; box-shadow:0 4px 14px rgba(15,108,189,.12) }
-  .card h3 { margin:2px 0 0; font-size:17px; line-height:1.3 } .card p { margin:0; color:var(--ink2); font-size:14px }
-  .card .meta { font-size:12.5px; color:var(--ink2) } .card .time { font-size:12.5px; color:var(--ink); margin-top:auto }
-  .card-top { display:flex; gap:4px }
-  .card[hidden] { display:none }
+  .eyebrow { display:flex; align-items:center; gap:10px; color:var(--cp-accent); font-size:11px; letter-spacing:.16em; font-weight:700 }
+  .eyebrow-line { width:28px; height:2px; background:var(--cp-accent) }
+  .welcome { max-width:960px; margin:32px auto 0 }
+  .welcome h1 { font-size:clamp(42px,5.2vw,68px); letter-spacing:-.05em; font-weight:600; line-height:1.08; margin:24px 0 }
+  .welcome h1 span { color:var(--cp-accent) }
+  .welcome-copy { color:var(--cp-text-muted); font-size:19px; line-height:1.6; margin:0 0 36px }
+  .entry-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px }
+  .entry-card { display:flex; flex-direction:column; padding:28px; border:1px solid var(--cp-border); background:var(--cp-surface); border-radius:16px; text-decoration:none; color:var(--cp-text); transition:border-color .15s,transform .15s }
+  .entry-card:hover { border-color:var(--cp-accent); transform:translateY(-3px) }
+  .entry-primary { border-color:var(--cp-accent); background:var(--cp-bg-elevated) }
+  .entry-top { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:24px }
+  .entry-icon { display:grid; place-items:center; background:var(--cp-accent-soft); color:var(--cp-accent); width:48px; height:48px; border-radius:10px } .entry-icon svg { width:28px; height:28px }
+  .entry-tag { font-size:10px; letter-spacing:.1em; font-weight:600; color:var(--cp-text-muted) }
+  .entry-card h2 { margin:0 0 10px; font-size:24px; letter-spacing:-.025em }
+  .entry-card p { margin:0 0 28px; font-size:15px; color:var(--cp-text-muted); max-width:350px }
+  .entry-cta { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:auto; font-weight:600; min-height:48px; color:var(--cp-accent) }
+  .entry-primary .entry-cta { background:var(--cp-accent); color:var(--cp-accent-fg); border-radius:10px; padding:12px 16px }
+  .entry-cta > span { font-size:22px; line-height:1 }
+  .entry-note { font-size:12px; color:var(--cp-text-muted); margin-top:12px }
+  .welcome-foot { display:flex; flex-wrap:wrap; gap:12px 28px; padding:28px 0 8px; font-size:12px; color:var(--cp-text-muted) } .welcome-foot span::before { content:'\2713'; color:var(--cp-accent); margin-right:8px }
+  .button { display:inline-flex; justify-content:center; align-items:center; gap:24px; padding:12px 20px; min-height:46px; border-radius:10px; border:1px solid var(--cp-border); background:var(--cp-surface); color:var(--cp-text); font-weight:600; cursor:pointer }
+  .button:hover { border-color:var(--cp-accent) } .button.primary { background:var(--cp-accent); color:var(--cp-accent-fg); border-color:var(--cp-accent) } .button.primary:hover { background:var(--cp-accent-hover) }
+  .text-button { background:none; border:0; color:var(--cp-accent); cursor:pointer; padding:10px 0; font-size:14px; min-height:44px; text-align:left }
+  .text-button:hover, .back-link:hover { text-decoration:underline }
+  .guide { max-width:840px; margin:0 auto } .guide-nav { display:flex; justify-content:space-between; align-items:center; gap:20px; margin-bottom:32px } .guide-nav a { font-size:13px; color:var(--cp-text-muted) }
+  .step-label { color:var(--cp-accent); font-size:11px; letter-spacing:.12em; font-weight:700 }
+  .stepper { display:flex; list-style:none; padding:0; gap:28px; margin:16px 0 36px; font-size:13px; color:var(--cp-text-muted) }
+  .stepper li { display:flex; align-items:center; gap:8px } .stepper span { border:1px solid var(--cp-border-strong); border-radius:50%; width:26px; height:26px; display:grid; place-items:center; font-size:12px }
+  .stepper [aria-current="step"] { color:var(--cp-accent); font-weight:600 } .stepper [aria-current="step"] span { background:var(--cp-accent); color:var(--cp-accent-fg); border-color:var(--cp-accent) }
+  .guide fieldset { border:0; padding:0; margin:0; min-width:0 }
+  .guide legend { font-size:clamp(26px,3vw,34px); line-height:1.2; letter-spacing:-.03em; font-weight:600; padding:0; max-width:100% }
+  .question-hint { color:var(--cp-text-muted); margin:12px 0 24px }
+  .answer-grid { display:grid; gap:12px } .role-grid { grid-template-columns:1fr 1fr } .compact-grid { grid-template-columns:repeat(3,1fr) }
+  .answer { display:flex; align-items:flex-start; gap:12px; padding:18px; background:var(--cp-surface); border:1px solid var(--cp-border); border-radius:10px; cursor:pointer; transition:border-color .15s }
+  .answer:hover { border-color:var(--cp-border-strong) } .answer:has(input:checked) { background:var(--cp-accent-soft); border-color:var(--cp-accent) } .answer:has(input:focus-visible) { outline:3px solid var(--cp-accent); outline-offset:3px }
+  .answer input { width:18px; height:18px; margin:3px 0 0; flex-shrink:0 } .answer strong { display:block; font-size:15px; font-weight:600 } .answer small { display:block; color:var(--cp-text-muted); margin-top:5px; line-height:1.5; font-size:13px } .compact-grid .answer { padding:14px; align-items:center; font-size:14px; min-height:56px }
+  .guide-actions { display:flex; align-items:center; gap:24px; border-top:1px solid var(--cp-border); margin-top:32px; padding-top:24px } .early-results { margin-left:auto }
+  .privacy-note { color:var(--cp-text-muted); font-size:12px; margin-top:24px }
+  .library-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px } .back-link { color:var(--cp-text-muted); font-size:14px; text-decoration:none }
+  .library-heading { display:flex; align-items:center; justify-content:space-between; gap:32px; margin-bottom:24px } .library-heading h1 { margin:8px 0; font-size:36px; letter-spacing:-.035em; font-weight:600; line-height:1.2 } .library-heading p { margin:0; color:var(--cp-text-muted); max-width:740px }
+  .library-total { font-size:36px; color:var(--cp-accent); font-weight:600; line-height:1.2; text-align:right; flex-shrink:0 } .library-total small { display:block; font-size:11px; color:var(--cp-text-muted); font-weight:400; margin-top:4px }
+  .persona-summary { display:flex; justify-content:space-between; gap:20px; align-items:center; border:1px solid var(--cp-border); background:var(--cp-bg-elevated); border-radius:10px; padding:16px 20px; margin-bottom:24px } .persona-summary strong { font-size:12px; display:block; margin-bottom:8px } .persona-summary .text-button { flex-shrink:0 }
+  .search-row { display:flex; gap:12px; margin-bottom:24px } .search-box { display:flex; align-items:center; gap:12px; background:var(--cp-surface); border:1px solid var(--cp-border-strong); border-radius:10px; padding:0 16px; flex:1; color:var(--cp-text-muted); min-width:0 } .search-box:focus-within { outline:2px solid var(--cp-accent); outline-offset:2px } .search-box svg { flex-shrink:0 } .search-box input { background:none; border:0; color:var(--cp-text); width:100%; min-width:0; padding:14px 0; outline:none } .search-box input::placeholder { color:var(--cp-text-muted) }
+  .search-note { font-size:13px; color:var(--cp-text-muted); margin-top:-12px }
+  .library-layout { display:grid; grid-template-columns:224px minmax(0,1fr); gap:28px; align-items:start }
+  .filter-panel { border:1px solid var(--cp-border); background:var(--cp-surface); border-radius:12px; padding:16px; position:sticky; top:104px; max-height:calc(100vh - 128px); overflow:auto }
+  .filter-disclosure > summary { font-weight:600; font-size:14px; cursor:pointer; list-style:none; display:flex; justify-content:space-between; gap:8px }
+  .filter-disclosure[open] > summary > span { display:none }
+  .filter-content fieldset { border:0; border-top:1px solid var(--cp-border); padding:14px 0 12px; margin:20px 0 0; min-width:0 } .filter-content legend { font-size:12px; font-weight:600; padding:0 8px 0 0 }
+  .filter-content label { display:flex; gap:8px; align-items:center; cursor:pointer; font-size:13px; min-height:32px; padding:4px 0 } .filter-content label > span { flex:1 } .filter-content input { width:16px; height:16px; margin:0; flex-shrink:0 } .filter-content em { font-style:normal; font-size:11px; color:var(--cp-text-muted) } .filter-content .zero { color:var(--cp-text-muted) }
+  .more-filters > summary { cursor:pointer; font-size:13px; color:var(--cp-accent); padding:12px 0; border-top:1px solid var(--cp-border) }
+  .results-toolbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:16px; color:var(--cp-text-muted); font-size:13px } .results-toolbar p { margin:0 } #sort-label { font-size:12px }
+  .active-filters { display:flex; flex-wrap:wrap; gap:8px } .active-filters:not(:empty) { margin-bottom:16px }
+  .active-filters :global(button) { border:1px solid var(--cp-border); border-radius:6px; background:var(--cp-surface); color:var(--cp-text); cursor:pointer; padding:6px 10px; font-size:12px; min-height:32px }
+  .scenario-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px }
+  .scenario-card { display:flex; flex-direction:column; gap:14px; background:var(--cp-surface); color:var(--cp-text); text-decoration:none; padding:24px; border:1px solid var(--cp-border); border-radius:16px; transition:border-color .15s; min-width:0; overflow-wrap:anywhere }
+  .scenario-card:hover { border-color:var(--cp-accent) } .card-top { display:flex; align-items:flex-start; gap:8px; justify-content:space-between } .card-industry { color:var(--cp-text-muted); font-size:11px; text-align:right } .card-top .chip { flex-shrink:0; font-size:11px; margin:0 }
+  .scenario-card h2 { font-size:20px; letter-spacing:-.02em; line-height:1.35; margin:0; font-weight:600 } .card-summary { color:var(--cp-text-muted); font-size:14px; margin:0 }
+  .card-output { background:var(--cp-bg-elevated); border-radius:8px; padding:12px } .card-output > span { font-size:10px; font-weight:700; letter-spacing:.1em; color:var(--cp-text-muted) } .card-output p { margin:4px 0 0; font-size:13px }
+  .match-reason { margin:0; font-size:12px; color:var(--cp-accent); font-weight:500 }
+  .card-tools { margin-top:auto } .card-licence { margin:0; font-size:12px; color:var(--cp-text-muted) } .card-licence strong { font-weight:600 }
+  .card-bottom { display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--cp-border); padding-top:14px; color:var(--cp-accent); font-size:13px; font-weight:600 } .card-bottom > span:last-child { font-size:20px; line-height:1 }
+  .show-more { margin:24px auto 0; display:flex } .results-note { font-size:12px; color:var(--cp-text-muted); margin:24px 0 0 }
+  .empty-state { padding:40px 24px; text-align:center; background:var(--cp-surface); border:1px solid var(--cp-border); border-radius:16px } .empty-state h2 { font-size:22px; margin-top:0 } .empty-state p { color:var(--cp-text-muted) }
+  .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0 }
+  @media(min-width:1100px) { .scenario-grid:has(> .scenario-card:nth-child(3):not([hidden])) { align-items:stretch } }
+  @media(max-width:900px) { .library-layout { grid-template-columns:190px minmax(0,1fr); gap:20px } .scenario-grid { grid-template-columns:1fr } .entry-card { padding:24px } }
+  @media(max-width:640px) {
+    .welcome { margin-top:12px } .welcome h1 { margin:16px 0; font-size:38px } .welcome-copy { font-size:16px; margin-bottom:24px } .desktop-break { display:none }
+    .entry-grid, .role-grid { grid-template-columns:1fr } .entry-card { padding:20px } .entry-top { margin-bottom:12px } .entry-card h2 { font-size:22px }
+    .entry-icon { width:36px; height:36px } .entry-icon svg { width:24px; height:24px } .entry-card p { font-size:14px; margin-bottom:16px } .entry-note { margin-top:8px }
+    .compact-grid { grid-template-columns:repeat(2,minmax(0,1fr)) } .guide-nav { margin-bottom:24px } .guide-nav a { max-width:150px; text-align:right }
+    .stepper { gap:14px; font-size:11px; justify-content:space-between; margin-bottom:28px } .stepper li { gap:5px } .stepper span { width:22px; height:22px }
+    .guide-actions { flex-wrap:wrap; gap:8px 20px } .early-results { width:100%; margin:0 } .question-hint { font-size:14px }
+    .library-heading h1 { font-size:30px } .library-total { display:none } .library-heading p { font-size:14px } .persona-summary { padding:14px; align-items:flex-start; flex-direction:column; gap:4px }
+    .search-row { flex-wrap:wrap; gap:8px } .search-box { flex-basis:100% } .search-box input { font-size:14px } .search-row > button { padding:8px 12px; min-height:36px; font-size:12px }
+    .library-layout { grid-template-columns:1fr; gap:20px } .filter-panel { position:static; max-height:none } .filter-content { display:grid; grid-template-columns:1fr 1fr; gap:0 16px } .more-filters { grid-column:1/-1 }
+    .scenario-card { padding:20px } .results-toolbar { font-size:12px } #sort-label { font-size:11px } .welcome-foot { gap:10px 20px }
+  }
 </style>

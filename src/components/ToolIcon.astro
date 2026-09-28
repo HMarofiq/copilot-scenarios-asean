@@ -1,0 +1,6 @@
+---
+import { toolIconUrl } from '../lib/tool-icons.mjs';
+interface Props { tool: string }
+const { tool } = Astro.props;
+---
+<span class="tool-icon" aria-hidden="true" style={`--tool-icon: url("${toolIconUrl(import.meta.env.BASE_URL, tool)}")`}></span>

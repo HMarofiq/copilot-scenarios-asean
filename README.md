@@ -17,6 +17,14 @@ The site publishes only scenarios with `status: validated`, and never shows the 
 
 Full-text search only works after `npm run build` (use `npx astro preview`).
 
+## Discovery experience
+
+The homepage offers a three-question persona finder or direct browsing (`?view=all`). The finder ranks existing scenario tags by department, broad role, then familiar tools; it does not infer licences or hide scenarios just because a tool differs. Explicit browse filters still narrow the results. Answers, filters and searches are encoded in the URL for refresh, back navigation and sharing; no account or recommendation service is needed.
+
+UI-only matching and URL logic lives in `src/lib/discovery.mjs`, with broad role mappings in `ROLES`. New scenarios use the existing taxonomy and become discoverable when published and rebuilt; no scenario schema changes are required. Run the focused checks with `node --test tests/discovery.test.mjs`.
+
+The appearance switch offers Light (the default) and Dark, and saves the visitor's choice locally. Light uses a darker Microsoft blue accent; Dark uses a brighter blue with slate surfaces. Both keep readable text and distinct borders without pure white or black surfaces. Tool labels include locally hosted [Microsoft Fluent System Icons](https://github.com/microsoft/fluentui-system-icons), used as functional symbols rather than product logos. The original MIT notice is in `public/approved/icons/LICENSE.txt`; mappings live in `src/lib/tool-icons.mjs`.
+
 ## Layout
 
 | Path | What |

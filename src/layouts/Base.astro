@@ -4,32 +4,83 @@ const { title } = Astro.props;
 const base = import.meta.env.BASE_URL;
 ---
 <!doctype html>
-<html lang="en" data-lang="en">
+<html lang="en" data-lang="en" data-theme="light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{title} · Copilot Scenario Library ASEAN</title>
   <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
   <script is:inline>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get('scoutTheme');
+      let saved;
+      try { saved = localStorage.getItem('sl:v1:theme'); }
+      catch (error) { console.warn('Theme preference storage is unavailable.', error); }
+      const valid = value => value === 'light' || value === 'dark';
+      const theme = valid(param) ? param : valid(saved) ? saved : 'light';
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
     try { document.documentElement.dataset.lang = localStorage.getItem('sl:v1:lang') || 'en'; } catch {}
   </script>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <header class="top">
     <a class="brand" href={base}>
-      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2" fill="#0f6cbd"/><rect x="13" y="2" width="9" height="9" rx="2" fill="#5b9bd5"/><rect x="2" y="13" width="9" height="9" rx="2" fill="#5b9bd5"/><rect x="13" y="13" width="9" height="9" rx="2" fill="#0f6cbd"/></svg>
-      <span>Scenario Library <em>ID · MY</em></span>
+      <svg class="brand-mark" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="18" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>
+      <span>Scenario Library <em>Indonesia &amp; Malaysia</em></span>
     </a>
-    <nav class="lang" aria-label="Prompt language">
-      <span>Prompts in</span>
-      <button data-set-lang="en">EN</button><button data-set-lang="id">ID</button><button data-set-lang="ms">BM</button>
-    </nav>
+    <a class="browse-nav" href={`${base}?view=all`}>All scenarios</a>
+    <div class="header-controls">
+      <nav class="lang" aria-label="Prompt language">
+        <span>Prompts in</span>
+        <button data-set-lang="en">EN</button><button data-set-lang="id">ID</button><button data-set-lang="ms">BM</button>
+      </nav>
+      <div class="theme-switch" role="group" aria-label="Color theme">
+        <button type="button" data-set-theme="light" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>Light</button>
+        <button type="button" data-set-theme="dark" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20.6 14.3A9 9 0 0 1 9.7 3.4a9 9 0 1 0 10.9 10.9Z"/></svg>Dark</button>
+      </div>
+    </div>
   </header>
-  <main><slot /></main>
+  <p id="theme-status" class="visually-hidden" role="status"></p>
+  <main id="main"><slot /></main>
   <footer class="foot">Community project. Not official Microsoft guidance. Content CC BY 4.0, code MIT. Product behaviour changes; always check current Microsoft documentation.</footer>
   <script is:inline>
+    const syncTheme = () => document.querySelectorAll('[data-set-theme]').forEach(button => {
+      button.setAttribute('aria-pressed', String(button.dataset.setTheme === document.documentElement.dataset.theme));
+    });
+    document.querySelectorAll('[data-set-theme]').forEach(button => button.addEventListener('click', () => {
+      const theme = button.dataset.setTheme;
+      document.documentElement.dataset.theme = theme;
+      syncTheme();
+      const url = new URL(location.href);
+      if (url.searchParams.has('scoutTheme')) {
+        url.searchParams.set('scoutTheme', theme);
+        history.replaceState(history.state, '', url);
+      }
+      const status = document.getElementById('theme-status');
+      try {
+        localStorage.setItem('sl:v1:theme', theme);
+        status.textContent = `${theme === 'light' ? 'Light' : 'Dark'} theme selected and saved.`;
+      } catch (error) {
+        console.warn('Theme preference could not be saved.', error);
+        status.textContent = 'Theme changed for this page. Browser storage is unavailable, so your choice cannot be saved.';
+      }
+    }));
+    syncTheme();
+    window.addEventListener('pageshow', () => {
+      const param = new URLSearchParams(location.search).get('scoutTheme');
+      try {
+        const saved = localStorage.getItem('sl:v1:theme');
+        document.documentElement.dataset.theme = ['light', 'dark'].includes(param) ? param : ['light', 'dark'].includes(saved) ? saved : document.documentElement.dataset.theme;
+      } catch (error) { console.warn('Theme preference storage is unavailable.', error); }
+      syncTheme();
+    });
     const store = (k, v) => { try { localStorage.setItem(k, v); } catch {} };
-    const sync = () => document.querySelectorAll('[data-set-lang]').forEach(b => b.classList.toggle('on', b.dataset.setLang === document.documentElement.dataset.lang));
+    const sync = () => document.querySelectorAll('[data-set-lang]').forEach(b => {
+      const selected = b.dataset.setLang === document.documentElement.dataset.lang;
+      b.classList.toggle('on', selected); b.setAttribute('aria-pressed', String(selected));
+    });
     document.querySelectorAll('[data-set-lang]').forEach(b => b.addEventListener('click', () => {
       document.documentElement.dataset.lang = b.dataset.setLang; store('sl:v1:lang', b.dataset.setLang); sync();
     }));
@@ -41,36 +92,122 @@ const base = import.meta.env.BASE_URL;
       d.open = presenterOpen;
       d.addEventListener('toggle', () => store('sl:v1:presenter', d.open ? 'open' : 'closed'));
     });
-    document.addEventListener('click', e => {
+    document.addEventListener('click', async e => {
       const btn = e.target.closest('.copy'); if (!btn) return;
-      navigator.clipboard?.writeText(btn.previousElementSibling.textContent); btn.textContent = 'Copied'; setTimeout(() => btn.textContent = 'Copy', 1200);
+      try {
+        if (!navigator.clipboard) throw new Error('Clipboard unavailable');
+        await navigator.clipboard.writeText(btn.previousElementSibling.textContent);
+        btn.textContent = 'Copied';
+      } catch {
+        btn.textContent = 'Select to copy';
+        const range = document.createRange(); range.selectNodeContents(btn.previousElementSibling);
+        const selection = window.getSelection(); selection.removeAllRanges(); selection.addRange(range);
+        btn.setAttribute('aria-label', 'Automatic copy unavailable. Text selected; use your device copy command.');
+      }
+      setTimeout(() => { btn.textContent = 'Copy'; btn.removeAttribute('aria-label'); }, 2400);
     });
   </script>
 </body>
 </html>
 
 <style is:global>
-  :root { --bg:#f7f8fa; --panel:#fff; --ink:#1b1f24; --ink2:#57606a; --line:#e3e6ea; --brand:#0f6cbd; --brand-soft:#ebf3fc; --warn:#fff8e6; --warnline:#f2c661; --info:#eef6ff; --infoline:#9ac2f0; font-family:"Segoe UI Variable","Segoe UI",system-ui,sans-serif; }
+  :root {
+    color-scheme: light;
+    --cp-bg: #edf1f5;
+    --cp-bg-elevated: #f6f8f9;
+    --cp-surface: #fafbfc;
+    --cp-surface-soft: #e9eef1;
+    --cp-border: #becad5;
+    --cp-border-strong: #6a7e90;
+    --cp-text: #243746;
+    --cp-text-muted: #465b6c;
+    --cp-text-soft: #536778;
+    --cp-accent: #005a9e;
+    --cp-accent-hover: #004578;
+    --cp-accent-soft: rgba(0, 90, 158, 0.09);
+    --cp-accent-fg: #f7fafc;
+    --cp-success: #44765d;
+    --cp-danger: #a04f50;
+    --cp-warning: #94702c;
+    --cp-link: #005a9e;
+    --cp-shadow: 0 12px 32px rgba(52, 65, 76, 0.08);
+    --cp-overlay: rgba(237, 241, 245, 0.9);
+    --cp-panel: rgba(250, 251, 252, 0.9);
+    --cp-panel-strong: rgba(250, 251, 252, 0.96);
+    --cp-sheen: rgba(250, 251, 252, 0.5);
+    --cp-highlight: rgba(0, 90, 158, 0.14);
+    --bg:var(--cp-bg); --panel:var(--cp-surface); --ink:var(--cp-text); --ink2:var(--cp-text-muted); --line:var(--cp-border); --brand:var(--cp-accent); --brand-soft:var(--cp-accent-soft); --warn:var(--cp-bg-elevated); --warnline:var(--cp-warning); --info:var(--cp-surface-soft); --infoline:var(--cp-border-strong);
+    font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;
+  }
+  html[data-theme="dark"] {
+    color-scheme: dark;
+    --cp-bg: #1f252c;
+    --cp-bg-elevated: #272e35;
+    --cp-surface: #2b333b;
+    --cp-surface-soft: #333e48;
+    --cp-border: #52616f;
+    --cp-border-strong: #91a1af;
+    --cp-text: #e0e7ed;
+    --cp-text-muted: #bdc9d3;
+    --cp-text-soft: #b0bfcc;
+    --cp-accent: #8fc7f0;
+    --cp-accent-hover: #afdafa;
+    --cp-accent-soft: rgba(143, 199, 240, 0.12);
+    --cp-accent-fg: #27343e;
+    --cp-success: #9abfa7;
+    --cp-danger: #d6a2a0;
+    --cp-warning: #d6b173;
+    --cp-link: #8fc7f0;
+    --cp-shadow: 0 12px 32px rgba(17, 23, 29, 0.18);
+    --cp-overlay: rgba(31, 37, 44, 0.9);
+    --cp-panel: rgba(43, 51, 59, 0.9);
+    --cp-panel-strong: rgba(43, 51, 59, 0.96);
+    --cp-sheen: rgba(212, 220, 226, 0.04);
+    --cp-highlight: rgba(143, 199, 240, 0.14);
+  }
   * { box-sizing:border-box } body { margin:0; background:var(--bg); color:var(--ink); font-size:15px; line-height:1.55 }
-  a { color:var(--brand) } code { background:#eef0f3; padding:1px 5px; border-radius:4px; font-size:.9em }
-  .top { position:sticky; top:0; z-index:5; display:flex; align-items:center; justify-content:space-between; padding:10px 28px; background:var(--panel); border-bottom:1px solid var(--line) }
+  [hidden] { display:none !important }
+  :focus-visible { outline:3px solid var(--cp-accent); outline-offset:4px }
+  a { color:var(--brand) } code { background:var(--cp-surface-soft); padding:1px 5px; border-radius:4px; font-size:.9em; font-family:Consolas,"Courier New",Courier,monospace }
+  button, input, select { font:inherit; accent-color:var(--cp-accent) }
+  button, a, input { -webkit-tap-highlight-color:var(--cp-highlight) }
+  .skip-link { position:fixed; top:-100px; left:16px; z-index:10; padding:12px; background:var(--cp-surface) } .skip-link:focus { top:12px }
+  .top { position:sticky; top:0; z-index:5; display:flex; flex-wrap:wrap; gap:16px 24px; align-items:center; justify-content:space-between; padding:16px max(28px,calc((100vw - 1224px)/2)); background:var(--panel); border-bottom:1px solid var(--line) }
   .brand { display:flex; gap:10px; align-items:center; text-decoration:none; color:var(--ink); font-weight:600; font-size:16px } .brand em { font-style:normal; color:var(--ink2); font-weight:400 }
+  .brand em { display:block; font-size:11px; letter-spacing:.04em } .brand-mark { color:var(--cp-accent); flex-shrink:0 }
+  .browse-nav { margin-left:auto; color:var(--cp-text-muted); font-size:14px; text-decoration:none } .browse-nav:hover { color:var(--cp-accent) }
   .lang { display:flex; gap:4px; align-items:center; font-size:13px; color:var(--ink2) } .lang span { margin-right:6px }
-  .lang button { border:1px solid var(--line); background:#fff; padding:4px 10px; border-radius:6px; cursor:pointer; font:inherit; color:var(--ink) }
-  .lang button.on { background:var(--brand); color:#fff; border-color:var(--brand) }
-  main { max-width:1280px; margin:0 auto; padding:24px 28px 48px }
+  .lang button { border:1px solid var(--line); background:var(--cp-surface); padding:6px 10px; min-height:36px; border-radius:6px; cursor:pointer; font:inherit; color:var(--ink) }
+  .lang button.on { background:var(--cp-surface-soft); color:var(--cp-accent); border-color:var(--cp-border-strong); font-weight:600 }
+  .header-controls { display:flex; align-items:center; gap:20px }
+  .theme-switch { display:flex; gap:2px; padding:3px; border:1px solid var(--cp-border); border-radius:10px; background:var(--cp-bg-elevated) }
+  .theme-switch button { display:flex; align-items:center; justify-content:center; gap:6px; border:1px solid transparent; border-radius:7px; background:transparent; color:var(--cp-text-muted); padding:6px 9px; min-height:34px; font-size:12px; cursor:pointer }
+  .theme-switch button[aria-pressed="true"] { color:var(--cp-text); background:var(--cp-surface-soft); border-color:var(--cp-border-strong); font-weight:600 }
+  .theme-switch svg { width:16px; height:16px; flex-shrink:0 }
+  .visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0 }
+  main { max-width:1280px; min-height:calc(100vh - 166px); margin:0 auto; padding:32px 28px 64px }
   .foot { text-align:center; color:var(--ink2); font-size:12px; padding:20px; border-top:1px solid var(--line) }
-  .chip { display:inline-block; font-size:12px; padding:2px 8px; border-radius:999px; background:#eef0f3; color:var(--ink2); margin:0 4px 4px 0; white-space:nowrap }
+  .chip { display:inline-block; font-size:12px; padding:3px 8px; border-radius:6px; background:var(--cp-surface-soft); color:var(--ink2); margin:0 4px 4px 0; overflow-wrap:anywhere }
   .chip.lvl { background:var(--brand-soft); color:var(--brand); font-weight:600 }
-  .chip.ev-estimated { background:#eef0f3 } .chip.ev-observed-in-pilot { background:#fff1d6; color:#8a5a00 } .chip.ev-customer-measured { background:#dff6dd; color:#0e700e }
+  .tool-icon { display:inline-block; width:18px; height:18px; flex:0 0 18px; background:currentColor; mask-image:var(--tool-icon); -webkit-mask-image:var(--tool-icon); mask-position:center; -webkit-mask-position:center; mask-size:contain; -webkit-mask-size:contain; mask-repeat:no-repeat; -webkit-mask-repeat:no-repeat; vertical-align:middle }
+  .tool-label, .chip.tool-chip { display:inline-flex; align-items:center; gap:6px; vertical-align:middle }
+  .chip.tool-chip .tool-icon { width:16px; height:16px; flex-basis:16px }
+  .chip.ev-estimated { background:var(--cp-surface-soft) } .chip.ev-observed-in-pilot, .chip.ev-customer-measured { background:var(--cp-accent-soft); color:var(--cp-accent) }
   [data-l] { display:none } html[data-lang="en"] [data-l="en"], html[data-lang="id"] [data-l="id"], html[data-lang="ms"] [data-l="ms"] { display:inline }
-  .prompt { display:none; position:relative; background:#f3f6fa; border:1px solid var(--line); border-left:3px solid var(--brand); border-radius:6px; padding:10px 70px 10px 14px; margin:10px 0 }
+  .prompt { display:none; position:relative; background:var(--cp-bg-elevated); border:1px solid var(--line); border-left:3px solid var(--brand); border-radius:10px; padding:16px 100px 16px 16px; margin:12px 0; overflow-wrap:anywhere }
   html[data-lang="en"] .prompt[data-lang="en"], html[data-lang="id"] .prompt[data-lang="id"], html[data-lang="ms"] .prompt[data-lang="ms"] { display:block }
-  .prompt p { margin:0; font-family:"Cascadia Mono",Consolas,monospace; font-size:13px } .prompt .lang { font-size:11px; font-weight:700; color:var(--brand) }
-  .prompt .copy { position:absolute; top:8px; right:8px; border:1px solid var(--line); background:#fff; border-radius:5px; font-size:12px; padding:3px 9px; cursor:pointer }
+  .prompt p { margin:0; font-family:Consolas,"Courier New",Courier,monospace; font-size:13px } .prompt .lang { font-size:11px; font-weight:700; color:var(--brand) }
+  .prompt .copy { position:absolute; top:8px; right:8px; border:1px solid var(--line); background:var(--cp-surface); color:var(--cp-text); border-radius:6px; font-size:12px; min-height:36px; padding:6px 10px; cursor:pointer }
   .callout { border-radius:8px; padding:10px 14px; margin:14px 0 } .callout ul { margin:6px 0 0; padding-left:20px }
   .callout.warn { background:var(--warn); border:1px solid var(--warnline) } .callout.info { background:var(--info); border:1px solid var(--infoline) }
-  details.presenter { margin-top:28px; border:1px dashed #9aa4ae; border-radius:8px; padding:10px 16px; background:#fbfbfc }
+  details.presenter { margin-top:28px; border:1px dashed var(--cp-border-strong); border-radius:8px; padding:10px 16px; background:var(--cp-bg-elevated) }
   details.presenter summary { cursor:pointer; font-weight:600 }
-  table { border-collapse:collapse; width:100%; font-size:14px; background:#fff } th, td { border:1px solid var(--line); padding:6px 10px; text-align:left } th { background:#f3f5f7 }
+  table { border-collapse:collapse; width:100%; font-size:14px; background:var(--cp-surface) } th, td { border:1px solid var(--line); padding:6px 10px; text-align:left } th { background:var(--cp-surface-soft) }
+  @media(max-width:640px) {
+    .top { padding:12px 16px; gap:12px; flex-wrap:wrap } .brand { font-size:14px } .browse-nav { font-size:12px }
+    .header-controls { width:100%; justify-content:space-between; gap:8px } .lang span { display:none } main { padding:24px 16px 40px }
+    .theme-switch button { padding:6px 7px; gap:4px }
+    .prompt { padding:48px 12px 12px } .foot { text-align:left }
+  }
+  @media(prefers-reduced-motion:reduce) { *, *::before, *::after { scroll-behavior:auto !important; transition:none !important } }
 </style>
