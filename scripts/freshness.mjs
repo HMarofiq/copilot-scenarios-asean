@@ -11,11 +11,12 @@ const stale = readdirSync(DIR).filter((f) => f.endsWith('.md')).map((f) => {
   const t = readFileSync(join(DIR, f), 'utf8');
   const id = (t.match(/^id:\s*(\S+)/m) || [])[1];
   const title = (t.match(/^title:.*?en:\s*"([^"]+)"/m) || [])[1] ?? id;
+  const status = (t.match(/^status:\s*(\S+)/m) || [])[1];
   const v = (t.match(/^validated_on:\s*(\S+)/m) || [])[1];
-  const age = v ? Math.floor((now - Date.parse(v)) / 864e5) : Infinity;
-  return { id, title, validated_on: v ?? null, age_days: age };
-}).filter((s) => s.age_days > MAX_DAYS);
+  const age = v ? Math.floor((now - Date.parse(v)) / 864e5) : null;
+  return { id, title, status, validated_on: v ?? null, age_days: age };
+}).filter((s) => s.status !== 'draft' && s.age_days > MAX_DAYS);
 
 stale.forEach((s) => console.error(`! ${s.id}: validated ${s.validated_on} (${s.age_days} days ago)`));
-if (!stale.length) console.error(`✓ freshness: all scenarios validated within ${MAX_DAYS} days`);
+if (!stale.length) console.error(`✓ freshness: every validated scenario was run within ${MAX_DAYS} days`);
 console.log(JSON.stringify(stale));

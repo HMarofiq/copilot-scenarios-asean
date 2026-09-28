@@ -25,7 +25,7 @@ limits:
   - "Do not rely on Copilot to interpret site photos for technical cause."
   - "Statements contain personal and health data. Remove injured worker identifiers where not needed (UU PDP, PDPA)."
 source_refs: ["https://learn.microsoft.com/copilot/microsoft-365/"]
-validated_on: 2026-09-26
+status: draft
 ---
 
 ## Situation

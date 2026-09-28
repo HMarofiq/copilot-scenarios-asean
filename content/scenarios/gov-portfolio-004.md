@@ -24,7 +24,7 @@ limits:
   - "Subsidiaries that report as images or scanned PDFs are skipped and listed."
   - "Verify Cowork availability and current behaviour on the public docs before running."
 source_refs: ["https://learn.microsoft.com/copilot/microsoft-365/"]
-validated_on: 2026-09-26
+status: draft
 ---
 
 ## Situation

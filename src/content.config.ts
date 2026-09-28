@@ -25,7 +25,14 @@ const scenarios = defineCollection({
     card: z.object({ problem: z.string().min(1), output: z.string().min(1) }),
     limits: z.array(z.string()).min(1),
     source_refs: z.array(z.url().refine((u) => u.startsWith('https://'), 'source_refs must be public https links')).min(1),
-    validated_on: z.coerce.date(),
+    status: z.enum(keys('status')),
+    validated_on: z.coerce.date().optional(),
+    validation_note: z.string().optional(),
+  }).superRefine((d, ctx) => {
+    if (d.status === 'draft' && d.validated_on) ctx.addIssue({ code: 'custom', path: ['validated_on'], message: 'draft scenarios have not been validated; remove validated_on' });
+    if (d.status !== 'draft' && !d.validated_on) ctx.addIssue({ code: 'custom', path: ['validated_on'], message: `status ${d.status} needs validated_on` });
+    if (d.status === 'partly-validated' && !d.validation_note) ctx.addIssue({ code: 'custom', path: ['validation_note'], message: 'say which steps were not exercised' });
+    if (d.impact.evidence !== 'estimated' && d.status === 'draft') ctx.addIssue({ code: 'custom', path: ['impact', 'evidence'], message: 'a draft cannot have measured evidence' });
   }),
 });
 

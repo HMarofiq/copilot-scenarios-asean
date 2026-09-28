@@ -14,6 +14,10 @@ const run = (cmd, args) => new Promise((resolve) => {
   p.on('close', (code) => resolve(code !== 0 || failed));
 });
 
+if (await run('node', ['scripts/build-kits.mjs'])) {
+  console.error('\nBuild failed: a demo kit could not be generated.');
+  process.exit(1);
+}
 if (await run('npx', ['astro', 'build'])) {
   console.error('\nBuild failed: Astro reported errors above.');
   process.exit(1);

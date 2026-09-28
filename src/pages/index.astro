@@ -10,6 +10,7 @@ const valuesOf = (s: (typeof items)[number], f: string): string[] => {
   const d = s.data as any;
   if (f === 'evidence') return [d.impact.evidence];
   if (f === 'difficulty') return [String(d.difficulty)];
+  if (f === 'status') return [d.status];
   return d[f];
 };
 const facetValues = Object.fromEntries(
@@ -48,6 +49,7 @@ const facetValues = Object.fromEntries(
                {...Object.fromEntries(FACETS.map((f) => [`data-${f}`, valuesOf(s, f).join(' ')]))}>
               <div class="card-top">
                 <span class="chip lvl">{label('difficulty', d.difficulty)}</span>
+                <span class={`chip st-${d.status}`}>{label('status', d.status)}</span>
                 <span class={`chip ev-${d.impact.evidence}`}>{label('evidence', d.impact.evidence)}</span>
               </div>
               <h3><span data-l="en">{d.title.en}</span><span data-l="id">{d.title.id}</span><span data-l="ms">{d.title.ms}</span></h3>

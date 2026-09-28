@@ -25,7 +25,7 @@ limits:
   - "Mixed Bahasa and English speech lowers transcript accuracy. Set the spoken language before the meeting."
   - "People speaking from one room device are not separately attributed."
 source_refs: ["https://learn.microsoft.com/microsoftteams/copilot-teams-transcription"]
-validated_on: 2026-09-26
+status: draft
 ---
 
 ## Situation

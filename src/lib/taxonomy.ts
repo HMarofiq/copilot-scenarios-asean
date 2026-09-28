@@ -15,8 +15,8 @@ export const keys = (facet: string) => {
 
 export const label = (facet: string, v: string | number) => taxonomy[facet]?.[String(v)]?.en ?? String(v);
 
-export const FACETS = ['industry', 'department', 'persona', 'difficulty', 'surface', 'licence', 'market', 'evidence'] as const;
+export const FACETS = ['industry', 'department', 'persona', 'difficulty', 'surface', 'licence', 'market', 'status', 'evidence'] as const;
 export const FACET_TITLES: Record<string, string> = {
   industry: 'Industry', department: 'Department', persona: 'Persona', difficulty: 'Level',
-  surface: 'Applicability', licence: 'Licence', market: 'Market', evidence: 'Evidence',
+  surface: 'Applicability', licence: 'Licence', market: 'Market', status: 'Validation', evidence: 'Evidence',
 };
