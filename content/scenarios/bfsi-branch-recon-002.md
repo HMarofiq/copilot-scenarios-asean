@@ -24,8 +24,12 @@ card:
 limits:
   - "Format each export as an Excel table first. Copilot in Excel works on tables."
   - "Very large exports should be trimmed to the week with Power Query before prompting."
+  - "If your tenant requires a sensitivity label, Excel asks for one before you can edit. Copilot works on the labelled, encrypted workbook."
+  - "An encrypting label can block Export, Download and Print. Share the workbook as a link instead of attaching a copy."
 source_refs: ["https://learn.microsoft.com/copilot/microsoft-365/"]
-status: draft
+status: validated
+validated_on: 2026-09-28
+validation_note: "Run end to end in a demo tenant on a Confidential (encrypted) workbook: 132 of 132 GL rows classified correctly, all 14 seeded breaks found, no false positives. Pivot totals and the email's four investigate items matched the answer key."
 ---
 
 ## Situation
@@ -34,7 +38,7 @@ Branch operations reconciles the general ledger against teller cash and ATM sett
 
 ## Steps
 
-**1. Put the three exports on one workbook,** one sheet each, each formatted as a table (Ctrl+T). Remove account numbers you don't need for matching.
+**1. Put the three exports on one workbook,** one sheet each, each formatted as a table (Ctrl+T) and named GL, Teller and ATM. Remove account numbers you don't need for matching. If Excel asks for a sensitivity label, choose your bank's Confidential label.
 
 **2. Find the breaks.** On the GL sheet, open Copilot in Excel:
 
@@ -44,19 +48,37 @@ ID: Bandingkan tabel ini dengan tabel Teller dan ATM. Cocokkan berdasarkan No Re
 BM: Bandingkan jadual ini dengan jadual Teller dan ATM. Padankan menggunakan No Rujukan dengan mengabaikan sifar di hadapan, kemudian semak Amaun dan tarikh. Tambah lajur Status Padanan dengan salah satu daripada: Sepadan, Beza tarikh (rujukan dan amaun sama, tarikh berbeza), Beza amaun, Tiada dalam Teller, Tiada dalam ATM. Kemudian tambah lajur Punca Mungkin: masa (tarikh berbeza 1 hari), pembalikan (rujukan yang sama muncul dua kali dalam jadual ini dengan tanda bertentangan), atau perlu siasatan (selain itu). Biarkan Punca Mungkin kosong bagi baris yang Sepadan.
 :::
 
-**3. Summarise.** Ask for a PivotTable of break count and total amount by Likely Cause.
+**3. Summarise.** In the same Copilot pane:
 
-**4. Send the pack.** In Outlook, draft to the area manager with Copilot, attaching the workbook, and list only the "investigate" items with amounts.
+:::prompt
+EN: Create a PivotTable of break count and total amount by Likely Cause.
+ID: Buat PivotTable jumlah selisih dan total nominal per Dugaan Penyebab.
+BM: Bina PivotTable bilangan perbezaan dan jumlah amaun mengikut Punca Mungkin.
+:::
+
+**4. Draft the pack.** Open Copilot Chat (in Outlook or at m365.cloud.microsoft), type `/` and pick the workbook, then run the prompt below. Paste the result into a new email and share the workbook as a link.
+
+:::prompt
+EN: Using this workbook, draft an email to the area manager about this week's reconciliation. Open with one sentence giving the number of breaks and total amount for each Likely Cause. Then show only the rows where Likely Cause is investigate, as a table with Reference No, Match Status and Amount IDR. End by asking for an owner for each investigate item by Wednesday. Keep it under 150 words. Do not include customer names or account numbers.
+ID: Dengan workbook ini, buat draf email kepada area manager tentang rekonsiliasi minggu ini. Awali dengan satu kalimat berisi jumlah selisih dan total nominal untuk setiap Dugaan Penyebab. Lalu tampilkan hanya baris dengan Dugaan Penyebab perlu investigasi, dalam tabel berisi No Referensi, Status Cocok, dan Nominal. Tutup dengan meminta penanggung jawab untuk setiap item investigasi paling lambat hari Rabu. Maksimal 150 kata. Jangan cantumkan nama nasabah atau nomor rekening.
+BM: Menggunakan buku kerja ini, sediakan draf e-mel kepada pengurus kawasan tentang penyesuaian minggu ini. Mulakan dengan satu ayat yang menyatakan bilangan perbezaan dan jumlah amaun bagi setiap Punca Mungkin. Kemudian paparkan hanya baris dengan Punca Mungkin perlu siasatan, dalam jadual dengan No Rujukan, Status Padanan dan Amaun. Akhiri dengan meminta pemilik bagi setiap item siasatan selewat-lewatnya hari Rabu. Tidak melebihi 150 patah perkataan. Jangan masukkan nama pelanggan atau nombor akaun.
+:::
+
+> Copilot writes the Match Status and Likely Cause columns as formulas, not typed values. Next week, paste the new exports into the same tables and the columns recalculate. Check the formulas once (click a cell in Match Status) so you know what they test.
 
 ## Check it
 
 - Matched total plus break total must equal the GL control total for the week.
 - Re-count breaks with a COUNTIF on Match Status and compare with the pivot.
+- Every reference number in the email must exist in the workbook. Search for each one (Ctrl+F) before you send.
 
 ## When it goes wrong
 
 - **Everything shows as unmatched.** Reference numbers are formatted differently between files (here, the GL keeps leading zeros and the teller system drops them). Keep "ignoring leading zeros" in the prompt, or ask Copilot to add a cleaned reference column first.
 - **Timing breaks show as Matched.** The prompt had no "Date difference" status, so Copilot matched on reference and amount only. Use the prompt above as written.
+- **Copilot says it is retrying.** It sometimes reads a table the wrong way first and corrects itself. Wait for Done before checking the result.
+- **Export and Download are greyed out.** Your sensitivity label blocks copies. This is expected; share a link to the workbook instead.
+- **Typing `/` in the email body does nothing.** File references work in Copilot Chat, not in the inline Help me write box. Use Copilot Chat for step 4.
 
 ## Take it further
 
@@ -64,6 +86,8 @@ BM: Bandingkan jadual ini dengan jadual Teller dan ATM. Padankan menggunakan No 
 
 :::presenter
 **Ask before you start:** How many branches? Which core banking system? Who investigates breaks today?
+
+**Timing on the validation run:** step 2 took about 1 minute, step 3 about 1 minute, step 4 about 40 seconds.
 
 **Demo kit:** three fictional exports with 14 seeded breaks (6 timing, 4 reversal pairs, 4 investigate), a leading-zero trap, and an answer key. Download it from the panel on this page.
 :::
