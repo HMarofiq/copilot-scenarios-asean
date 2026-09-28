@@ -39,6 +39,15 @@ export default async function build({ dir }) {
     'Set spoken language to Indonesian before starting. Read naturally; small ad-libs are fine.', '',
     ...SCRIPT.map(([k, t]) => `${k}: ${t}`), '',
   ].join('\n'));
+  // Ready-made Teams-style transcript of the same meeting, for demos without a live recording.
+  let s = 5;
+  const tx = ['# Rapat Direksi Fabrikam Holding 28 September 2026 - Transcript', 'Started transcription'];
+  for (const [k, text] of SCRIPT) {
+    tx.push(`**${CAST[k].replace(/ \(.*\)$/, '')}**   ${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`, text);
+    s += 12 + Math.round(text.length / 9);
+  }
+  tx.push('Stopped transcription');
+  await writeDocx(join(dir, 'FICTIONAL_Transcript_Rapat_Direksi_2026-09-28.docx'), tx, { title: 'Transcript' });
   await writeDocx(join(dir, 'FICTIONAL_Agenda_Rapat_Direksi_2026-09-28.docx'), [
     '# Agenda Rapat Direksi / Board of Directors meeting agenda',
     '**Fabrikam Holding Group (fictional).** 28 September 2026, 09:00 WIB, Teams.',
@@ -61,12 +70,13 @@ export default async function build({ dir }) {
     '## Traps',
     '- The Director of Operations disagreed on the logistics share. Minutes should record the concern neutrally, not as a decision.',
     '- The electrification deadline was ambiguous ("next meeting, or latest end of October"). Correct output marks it [TO CONFIRM].',
+    '- Only three of the four attending directors speak. Correct output marks the fourth attendee [TO CONFIRM] rather than inventing a name.',
     '- 1.2 trillion was said in English as "1.2 trillion rupiah". Check the number survives the transcript exactly.',
   ], { title: 'Answer key' });
   writeReadme(dir, {
     title: 'Demo kit: Board meeting minutes from a Teams transcript', scenario: 'gov-risalah-003',
-    contents: ['MEETING_SCRIPT_to_record.txt (13 lines, 4 speakers, about 4 minutes)', 'FICTIONAL_Agenda_Rapat_Direksi_2026-09-28.docx', 'FICTIONAL_Template_Risalah_Rapat.docx', 'ANSWER_KEY_expected_minutes.docx (presenter only)'],
-    setup: ['Schedule a Teams meeting in the demo tenant with four demo accounts, each on its own device.', 'Turn on transcription, set spoken language to Indonesian, and read the script.', 'After the meeting, follow the scenario steps from the Recap tab.'],
-    spoilers: [`${DECISIONS.length} decisions and ${ACTIONS.length} action items (one with an ambiguous due date).`, 'See ANSWER_KEY_expected_minutes.docx for the traps.'],
+    contents: ['MEETING_SCRIPT_to_record.txt (13 lines, 4 speakers, about 5 minutes)', 'FICTIONAL_Transcript_Rapat_Direksi_2026-09-28.docx (the same meeting as a ready-made Teams-style transcript)', 'FICTIONAL_Agenda_Rapat_Direksi_2026-09-28.docx', 'FICTIONAL_Template_Risalah_Rapat.docx', 'ANSWER_KEY_expected_minutes.docx (presenter only)'],
+    setup: ['Best: schedule a Teams meeting in the demo tenant with four demo accounts, each on its own device, turn on transcription (spoken language Indonesian), read the script, then follow the scenario from the Recap tab.', 'Quick: skip the recording. Upload the ready-made transcript, agenda and template to OneDrive, open each once in Word for the web, then attach the transcript and agenda in Copilot Chat.'],
+    spoilers: [`${DECISIONS.length} decisions and ${ACTIONS.length} action items (one with an ambiguous due date).`, 'Only 3 of the 4 attending directors speak. A good answer marks the fourth as [TO CONFIRM] instead of guessing a name.', 'See ANSWER_KEY_expected_minutes.docx for the traps.'],
   });
 }
