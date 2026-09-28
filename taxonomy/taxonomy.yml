@@ -51,6 +51,7 @@ persona:
   knowledge-worker: { en: "Any knowledge worker" }
   people-manager: { en: "People manager" }
   hr-business-partner: { en: "HR business partner" }
+  finance-controller: { en: "Finance controller / FP&A" }
 
 surface:
   copilot-chat: { en: "Copilot Chat" }
