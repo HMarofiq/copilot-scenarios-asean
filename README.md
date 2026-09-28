@@ -13,6 +13,8 @@ npm run build      # schema check, render, Pagefind index -> dist/
 npm run check      # sections, images, banned terms
 ```
 
+The site publishes only scenarios with `status: validated`, and never shows the status itself. Draft and partly validated scenarios stay in the repo for the maintainer. To preview everything locally: `PUBLISH_ALL=1 npm run dev` (PowerShell: `$env:PUBLISH_ALL='1'; npm run dev`).
+
 Full-text search only works after `npm run build` (use `npx astro preview`).
 
 ## Layout

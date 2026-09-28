@@ -26,7 +26,7 @@ const base = import.meta.env.BASE_URL;
     </nav>
   </header>
   <main><slot /></main>
-  <footer class="foot">Community project. Not official Microsoft guidance. Content CC BY 4.0, code MIT. Product behaviour changes; check <code>validated_on</code>.</footer>
+  <footer class="foot">Community project. Not official Microsoft guidance. Content CC BY 4.0, code MIT. Product behaviour changes; always check current Microsoft documentation.</footer>
   <script is:inline>
     const store = (k, v) => { try { localStorage.setItem(k, v); } catch {} };
     const sync = () => document.querySelectorAll('[data-set-lang]').forEach(b => b.classList.toggle('on', b.dataset.setLang === document.documentElement.dataset.lang));
@@ -63,7 +63,6 @@ const base = import.meta.env.BASE_URL;
   .chip { display:inline-block; font-size:12px; padding:2px 8px; border-radius:999px; background:#eef0f3; color:var(--ink2); margin:0 4px 4px 0; white-space:nowrap }
   .chip.lvl { background:var(--brand-soft); color:var(--brand); font-weight:600 }
   .chip.ev-estimated { background:#eef0f3 } .chip.ev-observed-in-pilot { background:#fff1d6; color:#8a5a00 } .chip.ev-customer-measured { background:#dff6dd; color:#0e700e }
-  .chip.st-draft { background:#fff; border:1px dashed #9aa4ae; padding:1px 7px } .chip.st-partly-validated { background:#fff1d6; color:#8a5a00 } .chip.st-validated { background:#dff6dd; color:#0e700e; font-weight:600 }
   [data-l] { display:none } html[data-lang="en"] [data-l="en"], html[data-lang="id"] [data-l="id"], html[data-lang="ms"] [data-l="ms"] { display:inline }
   .prompt { display:none; position:relative; background:#f3f6fa; border:1px solid var(--line); border-left:3px solid var(--brand); border-radius:6px; padding:10px 70px 10px 14px; margin:10px 0 }
   html[data-lang="en"] .prompt[data-lang="en"], html[data-lang="id"] .prompt[data-lang="id"], html[data-lang="ms"] .prompt[data-lang="ms"] { display:block }

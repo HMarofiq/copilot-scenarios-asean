@@ -2,18 +2,18 @@
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { label } from '../../lib/taxonomy';
+import { isPublished } from '../../lib/publish';
 import { existsSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 export async function getStaticPaths() {
-  const items = await getCollection('scenarios');
+  const items = await getCollection('scenarios', (s) => isPublished(s.data.status));
   return items.map((s) => ({ params: { id: s.data.id }, props: { s } }));
 }
 const { s } = Astro.props;
 const d = s.data;
 const { Content } = await render(s);
 const base = import.meta.env.BASE_URL;
-const ageDays = d.validated_on ? Math.floor((Date.now() - d.validated_on.getTime()) / 864e5) : null;
 const kitPath = join(process.cwd(), 'public', 'kits', `${d.id}.zip`);
 const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.round(statSync(kitPath).size / 1024) } : null;
 ---
@@ -22,9 +22,6 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
   <div class="page">
     <article data-pagefind-body>
       <h1 data-pagefind-meta="title"><span data-l="en">{d.title.en}</span><span data-l="id">{d.title.id}</span><span data-l="ms">{d.title.ms}</span></h1>
-      {d.status === 'draft' && (
-        <p class="draft-banner"><strong>Draft.</strong> This scenario has not been run end to end yet. Steps and prompts may change. If you try it, <a href="https://github.com/HMarofiq/copilot-scenarios-asean/issues/new/choose">tell us how it went</a>.</p>
-      )}
       <div class="tags">
         <span class="chip lvl">{label('difficulty', d.difficulty)}</span>
         {d.industry.map((x) => <a class="chip" href={`${base}?industry=${x}`}>{label('industry', x)}</a>)}
@@ -58,10 +55,6 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
         {d.licence.map((x) => <span class="chip">{label('licence', x)}</span>)}
         <div class="k">Sensitivity</div><p>{d.data.sensitivity}</p>
         <div class="k">Sign-off</div><p>{d.data.signoff}</p>
-        <div class="k">Validation</div>
-        <p><span class={`chip st-${d.status}`}>{label('status', d.status)}</span></p>
-        {d.validated_on && <p>{d.validated_on.toISOString().slice(0, 10)} {ageDays! > 90 ? <span class="chip stale">Needs revalidation</span> : <span class="chip fresh">Fresh</span>}</p>}
-        {d.validation_note && <p class="note">{d.validation_note}</p>}
         <div class="k">Sources</div>
         {d.source_refs.map((u) => <p class="src"><a href={u}>{new URL(u).hostname}</a></p>)}
       </div>
@@ -73,8 +66,6 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
   .crumb { font-size:13px; color:var(--ink2); margin:0 0 8px }
   .kit { display:block; margin-bottom:14px; padding:12px 16px; border-radius:12px; background:var(--brand); color:#fff; text-decoration:none }
   .kit:hover { background:#0c5aa0 } .kit strong { display:block; font-size:15px } .kit span { font-size:12.5px; opacity:.9 }
-  .draft-banner { margin:10px 0 4px; padding:8px 12px; border:1px dashed #9aa4ae; border-radius:8px; background:#fafbfc; font-size:14px }
-  .note { font-size:12.5px !important; color:var(--ink2); margin-top:4px !important }
   .page { display:grid; grid-template-columns:1fr 260px; gap:28px; align-items:start }
   article { background:#fff; border:1px solid var(--line); border-radius:12px; padding:24px 32px }
   h1 { margin:0 0 8px; font-size:28px; line-height:1.25 }
