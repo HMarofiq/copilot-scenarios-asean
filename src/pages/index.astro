@@ -85,14 +85,12 @@ const facetValues = Object.fromEntries(
   const selected = () => Object.fromEntries(sets.map(fs => [fs.dataset.facet, [...fs.querySelectorAll('input:checked')].map(i => i.value)]));
   // Full-text search via Pagefind (indexes every scenario body, all three prompt languages).
   // Falls back to title/summary matching in `astro dev`, where no index exists.
-  let pf, pfMatch = null, seq = 0, timer;
-  const loadPf = async () => {
-    if (pf === undefined) { try { pf = await import(`${base}pagefind/pagefind.js`); } catch { pf = null; } }
-    return pf;
-  };
+  let pf, pfLoading, pfMatch = null, seq = 0, timer;
+  const loadPf = () => pfLoading ??= import(`${base}pagefind/pagefind.js`).then(m => (pf = m), () => (pf = null));
   async function search(save) {
     const my = ++seq, term = q.value.trim();
     pfMatch = null;
+    if (term && pf === undefined) document.getElementById('shown').textContent = 'Searching…';
     const lib = term && await loadPf();
     if (lib) {
       const r = await lib.search(term);
@@ -125,6 +123,8 @@ const facetValues = Object.fromEntries(
     if (save) { try { localStorage.setItem(KEY, p.toString()); } catch {} note.hidden = true; }
   }
   document.querySelectorAll('.facets input').forEach(i => i.addEventListener('change', () => apply(true)));
+  // Start downloading the search index as soon as the visitor shows intent, not on the first keystroke.
+  ['focus', 'pointerenter'].forEach(ev => q.addEventListener(ev, loadPf, { once: true }));
   q.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(() => search(true), 150); });
   const clearAll = () => { document.querySelectorAll('.facets input').forEach(i => i.checked = false); q.value = ''; search(true); };
   document.getElementById('clear').addEventListener('click', clearAll);
