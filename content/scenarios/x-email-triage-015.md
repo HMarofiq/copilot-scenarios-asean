@@ -43,7 +43,7 @@ status: draft
 
 ## Situation
 
-An operations manager opens Outlook at 07:30 to 40 unread emails in Bahasa Indonesia, English and Bahasa Melayu. Somewhere in there: the manager needs numbers before a Direksi meeting, a customer complaint needs an answer today, a system approval expires at 17:00, and a colleague asks for a decision in the last line of a long thread where the manager is only in CC. Around them sit newsletters, notifications, out-of-office replies, marketing marked URGENT and a fake password reset.
+A CTO at an Indonesian distributor opens Outlook at 07:30 to 40 unread emails in Bahasa Indonesia, English and Bahasa Melayu. Somewhere in there: the CEO needs uptime and incident numbers for a Direksi meeting by 12.00, the largest retail customer escalates an outage complaint that must be answered by 17.00, a colocation purchase order waiting in SAP expires at 17.00, and an architect asks for overtime approval for the ERP cutover weekend in the last paragraph of a long thread where the CTO is only in CC. Around them sit a CFO request for the Q4 re-forecast, a Malaysian vendor asking in Bahasa Melayu to confirm maintenance windows, FYIs, newsletters, notifications, out-of-office replies, marketing marked URGENT and a convincing fake password-expiry email.
 
 The routine is the same every day: find what needs you, clear the rest, reply to the urgent ones. Write your rules down once, then let Copilot apply them. The higher the tier, the more of the routine runs without you starting it. Every tier stops before anything is sent or deleted.
 

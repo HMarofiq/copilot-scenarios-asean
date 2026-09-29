@@ -35,7 +35,8 @@ export const money = (n) => n.toLocaleString('en-US');
  *   { table: [[header...], [row...]] }, { pageBreak: true }
  * **bold** inline is supported.
  */
-export async function writeDocx(path, blocks, { title = '' } = {}) {
+// Options for tenant seeding: stamp=false drops the visible FICTIONAL header/footer; keywords set the Office Tags property.
+export async function writeDocx(path, blocks, { title = '', stamp = true, keywords, creator } = {}) {
   const runs = (text) => text.split(/(\*\*[^*]+\*\*)/).filter(Boolean).map((t) =>
     t.startsWith('**') ? new docx.TextRun({ text: t.slice(2, -2), bold: true }) : new docx.TextRun(t));
   const children = [];
@@ -56,10 +57,10 @@ export async function writeDocx(path, blocks, { title = '' } = {}) {
     else if (b.startsWith('> ')) children.push(new docx.Paragraph({ children: [new docx.TextRun({ text: b.slice(2), italics: true, color: '666666' })] }));
     else children.push(new docx.Paragraph({ children: runs(b), spacing: { after: 120 } }));
   }
-  const stamp = (t) => new docx.Paragraph({ alignment: docx.AlignmentType.CENTER, children: [new docx.TextRun({ text: t, color: 'C00000', bold: true, size: 16 })] });
+  const banner = (t) => new docx.Paragraph({ alignment: docx.AlignmentType.CENTER, children: [new docx.TextRun({ text: t, color: 'C00000', bold: true, size: 16 })] });
   const doc = new docx.Document({
-    creator: 'Scenario Library demo kit', title, description: NOTICE,
-    sections: [{ headers: { default: new docx.Header({ children: [stamp(NOTICE)] }) }, footers: { default: new docx.Footer({ children: [stamp(SHORT)] }) }, children }],
+    creator: creator ?? 'Scenario Library demo kit', title, description: stamp ? NOTICE : undefined, keywords,
+    sections: [stamp ? { headers: { default: new docx.Header({ children: [banner(NOTICE)] }) }, footers: { default: new docx.Footer({ children: [banner(SHORT)] }) }, children } : { children }],
   });
   ensure(path);
   writeFileSync(path, await docx.Packer.toBuffer(doc));
@@ -69,16 +70,20 @@ export async function writeDocx(path, blocks, { title = '' } = {}) {
  * Excel workbook. Each sheet: { name, columns: [{header,key,width,numFmt}], rows: [..], table?: false }
  * A first sheet "README" carries the FICTIONAL notice so data sheets stay clean Excel tables.
  */
-export async function writeXlsx(path, sheets, { readme = [] } = {}) {
+export async function writeXlsx(path, sheets, { readme = [], stamp = true, keywords, creator, title } = {}) {
   const wb = new ExcelJS.Workbook();
-  wb.creator = 'Scenario Library demo kit';
-  wb.description = NOTICE;
-  const r = wb.addWorksheet('README');
-  r.getColumn(1).width = 110;
-  [SHORT, NOTICE, '', ...readme].forEach((line, i) => {
-    const row = r.addRow([line]);
-    if (i < 2) row.font = { bold: true, color: { argb: 'FFC00000' } };
-  });
+  wb.creator = creator ?? 'Scenario Library demo kit';
+  if (stamp) wb.description = NOTICE;
+  if (keywords) wb.keywords = keywords;
+  if (title) wb.title = title;
+  if (stamp) {
+    const r = wb.addWorksheet('README');
+    r.getColumn(1).width = 110;
+    [SHORT, NOTICE, '', ...readme].forEach((line, i) => {
+      const row = r.addRow([line]);
+      if (i < 2) row.font = { bold: true, color: { argb: 'FFC00000' } };
+    });
+  }
   for (const s of sheets) {
     const ws = wb.addWorksheet(s.name);
     if (s.table !== false) {
@@ -105,10 +110,10 @@ export function writeCsv(path, header, rows) {
 }
 
 /** PDF with a diagonal FICTIONAL watermark on every page. Blocks as in writeDocx; '| a | b |' lines render monospaced. */
-export function writePdf(path, blocks, { title = '' } = {}) {
+export function writePdf(path, blocks, { title = '', stamp = true, keywords, author } = {}) {
   ensure(path);
   return new Promise((resolve) => {
-    const pdf = new PDFDocument({ size: 'A4', margins: { top: 64, bottom: 64, left: 64, right: 64 }, info: { Title: title, Subject: NOTICE } });
+    const pdf = new PDFDocument({ size: 'A4', margins: { top: 64, bottom: 64, left: 64, right: 64 }, info: { Title: title, ...(stamp ? { Subject: NOTICE } : {}), ...(keywords ? { Keywords: keywords } : {}), ...(author ? { Author: author } : {}) } });
     const stream = createWriteStream(path);
     pdf.pipe(stream);
     const mark = () => {
@@ -118,8 +123,7 @@ export function writePdf(path, blocks, { title = '' } = {}) {
       pdf.fontSize(7).fillColor('#C00000').text(NOTICE, 64, 30, { width: 467, align: 'center' }).fillColor('black');
       pdf.x = 64; pdf.y = Math.max(64, y === undefined ? 64 : 64);
     };
-    mark();
-    pdf.on('pageAdded', mark);
+    if (stamp) { mark(); pdf.on('pageAdded', mark); }
     for (const b of blocks) {
       if (typeof b === 'object' && b.pageBreak) { pdf.addPage(); continue; }
       if (b.startsWith('# ')) pdf.moveDown(0.5).font('Helvetica-Bold').fontSize(15).text(b.slice(2)).moveDown(0.4);
