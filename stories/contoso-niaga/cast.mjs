@@ -1,0 +1,65 @@
+// Cast of the contoso-niaga world. Internal people are existing users of the demo tenant (alias = mail nickname);
+// their story title may differ from the directory title. External people use .example domains from world.mjs.
+// style: how they write. Writers follow it so each person sounds like the same person in every episode.
+
+export const CAST = {
+  carlos: { alias: 'CarlosS', name: 'Carlos Slattery', title: 'Chief Technology Officer', dept: 'Technology',
+    reportsTo: 'adelia', lang: 'id+en',
+    style: 'Bilingual. Short, decisive replies. Uses "Thanks" and "Noted". Signs "Carlos".',
+    signature: 'Carlos Slattery\nChief Technology Officer\nPT Contoso Niaga Nusantara' },
+  adelia: { alias: 'achin', name: 'Adelia Chin', title: 'President Director (CEO)', dept: 'Executive Management', lang: 'id',
+    style: 'Bahasa Indonesia with English business terms. Warm but direct, gives the reason and the deadline in the first two lines. Calls Carlos by first name. Signs "Salam, Adelia".',
+    signature: 'Adelia Chin\nPresident Director\nPT Contoso Niaga Nusantara' },
+  andre: { alias: 'AndreL', name: 'Andre Lawson', title: 'Chief Financial Officer', dept: 'Finance', reportsTo: 'adelia', lang: 'en',
+    style: 'Formal English, numbered lists, always states the deadline in bold words and where the template lives. Signs with full block.',
+    signature: 'Andre Lawson\nChief Financial Officer\nPT Contoso Niaga Nusantara\nT +62 21 5550 1100' },
+  babak: { alias: 'BabakS', name: 'Babak Shammas', title: 'Head of Financial Consolidation', dept: 'Finance', reportsTo: 'andre', lang: 'en',
+    style: 'Precise English, tables and timelines, no small talk.',
+    signature: 'Babak Shammas\nHead of Financial Consolidation\nFinance Division' },
+  lydia: { alias: 'LydiaB', name: 'Lydia Bauer', title: 'Enterprise IT Architect (Head of Infrastructure & SRE)', dept: 'Technology', reportsTo: 'carlos', lang: 'id+en',
+    style: 'Thorough. Bahasa Indonesia mixed with technical English terms; bullet points, numbers, links to tickets. Long emails with context first, ask last. Signs "Salam, Lydia".',
+    signature: 'Lydia Bauer\nEnterprise IT Architect | Infrastructure & SRE\nPT Contoso Niaga Nusantara' },
+  kian: { alias: 'KianL', name: 'Kian Lambert', title: 'Application Development Manager (Proyek Nusa cutover lead)', dept: 'Technology', reportsTo: 'carlos', lang: 'id',
+    style: 'Friendly, practical Bahasa Indonesia, calls Carlos "Pak Carlos", explains trade-offs, attaches or links files.',
+    signature: 'Kian Lambert\nApplication Development Manager\nProyek Nusa - Cutover Lead' },
+  serena: { alias: 'SerenaD', name: 'Serena Davis', title: 'Senior Developer, Portal Mitra', dept: 'Technology', reportsTo: 'kian', lang: 'id',
+    style: 'Upbeat, concise Bahasa Indonesia, uses metrics.', signature: 'Serena Davis\nSenior Developer - Portal Mitra' },
+  indra: { alias: 'indrapr', name: 'Indra Permana', title: 'Chief Information Security Officer', dept: 'Security', reportsTo: 'adelia', lang: 'id',
+    style: 'Formal Bahasa Indonesia.', signature: 'Indra Permana\nChief Information Security Officer' },
+  isaac: { alias: 'IsaacF', name: 'Isaac Fielder', title: 'Security Operations Lead', dept: 'Security', reportsTo: 'indra', lang: 'en',
+    style: 'Procedural English with steps and links to the portal.', signature: 'Isaac Fielder\nSecurity Operations Lead\nInformation Security Office' },
+  cassandra: { alias: 'CassandraD', name: 'Cassandra Dunn', title: 'Compliance Manager', dept: 'Compliance', reportsTo: 'indra', lang: 'id',
+    style: 'Checklists in Bahasa Indonesia, friendly awareness tone.', signature: 'Cassandra Dunn\nCompliance Manager' },
+  charlotte: { alias: 'CharlotteW', name: 'Charlotte Waltson', title: 'VP of Procurement', dept: 'Procurement', reportsTo: 'andre', lang: 'en',
+    style: 'Process-driven English, cites policy and portal steps.', signature: 'Charlotte Waltson\nVP of Procurement' },
+  cecil: { alias: 'CecilF', name: 'Cecil Folk', title: 'Chief Marketing & Communications Officer', dept: 'Marketing', reportsTo: 'adelia', lang: 'id',
+    style: 'Formal company announcements in Bahasa Indonesia.', signature: 'Cecil Folk\nChief Marketing & Communications Officer' },
+  mona: { alias: 'MonaK', name: 'Mona Kane', title: 'Chief Sales Officer', dept: 'Sales', reportsTo: 'adelia', lang: 'id+en',
+    style: 'Customer-first, energetic; owns the Wingtip relationship.', signature: 'Mona Kane\nChief Sales Officer' },
+  sarah: { alias: 'SarahP', name: 'Sarah Perez', title: 'IT Service Delivery Lead', dept: 'Technology', reportsTo: 'carlos', lang: 'id', style: 'Short updates.', signature: 'Sarah Perez\nIT Service Delivery Lead' },
+  elvia: { alias: 'ElviaA', name: 'Elvia Atkins', title: 'Data Platform Lead', dept: 'Technology', reportsTo: 'carlos', lang: 'id', style: 'Short updates.', signature: 'Elvia Atkins\nData Platform Lead' },
+
+  // External people (no tenant account)
+  yohana: { external: true, org: 'wingtip', name: 'Yohana Siregar', email: 'yohana.siregar@wingtip-retail.example', title: 'Head of Merchandising Operations', lang: 'id',
+    style: 'Formal, polite and firm Bahasa Indonesia ("Yth. Bapak Carlos"). States the business impact and a clear deadline.',
+    signature: 'Yohana Siregar\nHead of Merchandising Operations\nPT Wingtip Retail Nusantara\nT +62 21 5550 7788' },
+  meiling: { external: true, org: 'northwind', name: 'Tan Mei Ling', email: 'meiling.tan@northwind-supply.example', title: 'Project Manager', lang: 'ms+en',
+    style: 'Formal Bahasa Melayu ("Salam sejahtera Encik Carlos"), switches to English for logistics notices.',
+    signature: 'Tan Mei Ling\nProject Manager\nNorthwind Supply Sdn Bhd\nJohor Bahru, Malaysia\nT +60 7 555 0142' },
+};
+
+// Mailbox-style senders that are systems or bulk senders.
+export const SYSTEM_SENDERS = {
+  sap: { name: 'SAP Workflow', email: 'sap-workflow@erp.contoso-niaga.example' },
+  hr: { name: 'HR Contoso Niaga', email: 'hr-portal@contoso-niaga.example' },
+  bi: { name: 'BI Team', email: 'bi-reports@contoso-niaga.example' },
+  legal: { name: 'Legal Contoso Niaga', email: 'legal@contoso-niaga.example' },
+  sharepoint: { name: 'SharePoint Online', email: 'no-reply@sharepointonline.example' },
+  planner: { name: 'Microsoft Planner', email: 'noreply@planner.example' },
+  techweek: { name: 'TechWeek Nusantara', email: 'newsletter@techweek-nusantara.example' },
+  litwareEvents: { name: 'Litware Data Center Events', email: 'events@litware-dc.example' },
+  pulse: { name: 'Customer Pulse', email: 'survey@pulse-research.example' },
+  serverparts: { name: 'Server Parts Direct', email: 'promo@serverparts-direct.example' },
+  tikethemat: { name: 'Tiket Hemat', email: 'promo@tikethemat.example' },
+  phish: { name: 'IT Helpdesk', email: 'it-helpdesk@c0ntoso-helpdesk.example' },
+};

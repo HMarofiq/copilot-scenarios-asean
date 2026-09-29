@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>%TITLE%</title>
+<script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const theme = param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+<style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef; --cp-bg-elevated: #fcfbf8; --cp-surface: #ffffff; --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede; --cp-border-strong: #919191; --cp-text: #242424; --cp-text-muted: #5c5c5c; --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b; --cp-accent-hover: #9a1a41; --cp-accent-soft: rgba(177, 31, 75, 0.08); --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a; --cp-danger: #dc2626; --cp-warning: #f59e0b; --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12); --cp-overlay: rgba(255, 255, 255, 0.8); --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96); --cp-sheen: rgba(255, 255, 255, 0.55); --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a; --cp-bg-elevated: #343231; --cp-surface: #292929; --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747; --cp-border-strong: #5f5f5f; --cp-text: #dedede; --cp-text-muted: #919191; --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1; --cp-accent-hover: #fb7b91; --cp-accent-soft: rgba(253, 142, 161, 0.14); --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80; --cp-danger: #f87171; --cp-warning: #fbbf24; --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32); --cp-overlay: rgba(41, 41, 41, 0.88); --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96); --cp-sheen: rgba(255, 255, 255, 0.04); --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--cp-bg); color: var(--cp-text); font: 14.5px/1.55 "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif; }
+.wrap { max-width: 1280px; margin: 0 auto; padding: 28px 24px 64px; }
+h1 { font-size: 26px; margin: 0 0 4px; } h2 { font-size: 19px; margin: 0 0 12px; } h3 { font-size: 15.5px; margin: 16px 0 8px; }
+.muted { color: var(--cp-text-muted); } .soft { color: var(--cp-text-soft); } .small { font-size: 12.5px; }
+.badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.badge { font-size: 12px; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--cp-border); background: var(--cp-surface); color: var(--cp-text-muted); }
+.badge.accent { background: var(--cp-accent-soft); color: var(--cp-accent); border-color: transparent; font-weight: 600; }
+.badge.warn { color: var(--cp-warning); }
+.tabs { position: sticky; top: 0; z-index: 5; background: var(--cp-bg); border-bottom: 1px solid var(--cp-border); margin: 18px -24px 20px; padding: 8px 24px; display: flex; gap: 4px; flex-wrap: wrap; }
+.tabs button { font: inherit; font-size: 13.5px; border: 0; background: transparent; color: var(--cp-text-muted); padding: 6px 12px; border-radius: 0.625rem; cursor: pointer; }
+.tabs button:hover { background: var(--cp-accent-soft); color: var(--cp-accent); }
+.tabs button[aria-selected="true"] { background: var(--cp-accent); color: var(--cp-accent-fg); }
+.panel { display: none; } .panel.on { display: block; }
+.card { background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 16px; padding: 16px 18px; box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14); }
+.grid { display: grid; gap: 12px; } .g4 { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); } .g3 { grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); } .g2 { grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); }
+.stat .n { font-size: 28px; font-weight: 700; color: var(--cp-accent); line-height: 1.1; } .stat .l { color: var(--cp-text-muted); font-size: 12.5px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 7px 9px; border-bottom: 1px solid var(--cp-border); vertical-align: top; }
+th { color: var(--cp-text-muted); font-weight: 600; font-size: 11.5px; text-transform: uppercase; letter-spacing: .03em; background: var(--cp-surface-soft); }
+.tbl { overflow: auto; border: 1px solid var(--cp-border); border-radius: 12px; background: var(--cp-surface); }
+.pill { display: inline-block; font-size: 11px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--cp-border); white-space: nowrap; }
+.pill.act { color: var(--cp-accent); border-color: var(--cp-accent); font-weight: 600; } .pill.week { color: var(--cp-link); border-color: var(--cp-link); }
+.pill.fyi { color: var(--cp-text-muted); } .pill.noise { color: var(--cp-text-soft); border-style: dashed; } .pill.suspicious { color: var(--cp-danger); border-color: var(--cp-danger); font-weight: 600; }
+.pill.dual { color: var(--cp-success); border-color: var(--cp-success); } .pill.trap { color: var(--cp-danger); border-color: var(--cp-danger); }
+.mail { display: grid; grid-template-columns: 380px 1fr; gap: 0; border: 1px solid var(--cp-border); border-radius: 16px; overflow: hidden; background: var(--cp-surface); min-height: 640px; }
+.list { border-right: 1px solid var(--cp-border); overflow-y: auto; max-height: 78vh; }
+.item { padding: 10px 12px; border-bottom: 1px solid var(--cp-border); cursor: pointer; }
+.item:hover { background: var(--cp-highlight); } .item.sel { background: var(--cp-accent-soft); box-shadow: inset 3px 0 0 var(--cp-accent); }
+.item .row1 { display: flex; justify-content: space-between; gap: 8px; } .item .from { font-weight: 600; font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item .time { color: var(--cp-text-soft); font-size: 11.5px; white-space: nowrap; } .item .subj { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item .meta { margin-top: 3px; display: flex; gap: 4px; flex-wrap: wrap; }
+.reader { padding: 18px 22px; overflow-y: auto; max-height: 78vh; }
+.reader h2 { margin-bottom: 8px; }
+.hdr { font-size: 13px; color: var(--cp-text-muted); border-bottom: 1px solid var(--cp-border); padding-bottom: 10px; margin-bottom: 14px; }
+.hdr b { color: var(--cp-text); font-weight: 600; }
+.body { white-space: pre-wrap; font-family: "Segoe UI", Aptos, Calibri, sans-serif; font-size: 14px; line-height: 1.6; }
+.why { margin-top: 18px; border: 1px dashed var(--cp-border-strong); border-radius: 0.625rem; padding: 10px 12px; font-size: 12.5px; background: var(--cp-surface-soft); }
+.why .trap { color: var(--cp-danger); font-weight: 600; }
+.att { margin-top: 14px; border: 1px solid var(--cp-border); border-radius: 0.625rem; padding: 10px 12px; }
+.filters { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 10px; }
+.filters button { font: inherit; font-size: 12.5px; padding: 4px 11px; border-radius: 0.625rem; border: 1px solid var(--cp-border); background: var(--cp-surface); color: var(--cp-text); cursor: pointer; }
+.filters button[aria-pressed="true"] { background: var(--cp-accent); color: var(--cp-accent-fg); border-color: var(--cp-accent); }
+.teams { display: grid; grid-template-columns: 300px 1fr; border: 1px solid var(--cp-border); border-radius: 16px; overflow: hidden; background: var(--cp-surface); min-height: 600px; }
+.bubbles { padding: 16px 20px; overflow-y: auto; max-height: 78vh; background: var(--cp-surface-soft); }
+.day { text-align: center; color: var(--cp-text-soft); font-size: 11.5px; margin: 14px 0 8px; }
+.b { max-width: 78%; margin: 4px 0; } .b .w { font-size: 11.5px; color: var(--cp-text-muted); margin: 6px 0 2px; }
+.b .t { display: inline-block; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 0.625rem; padding: 7px 11px; white-space: pre-wrap; font-size: 13.5px; }
+.b.me { margin-left: auto; text-align: right; } .b.me .t { background: var(--cp-accent-soft); border-color: transparent; text-align: left; }
+.docx h1 { font-size: 18px; } .docx h2 { font-size: 15.5px; } .docx p, .docx li { font-size: 13.5px; }
+.sheet { margin-top: 10px; } .sheet h4 { margin: 10px 0 6px; font-size: 13px; color: var(--cp-accent); }
+.phase { border-left: 4px solid var(--cp-border-strong); } .phase.up { border-left-color: var(--cp-warning); } .phase.down { border-left-color: var(--cp-success); }
+ul.tight { margin: 6px 0 0; padding-left: 18px; } ul.tight li { margin: 3px 0; }
+ol.steps { counter-reset: s; list-style: none; padding: 0; margin: 0; }
+ol.steps > li { counter-increment: s; position: relative; padding: 11px 14px 11px 50px; border: 1px solid var(--cp-border); border-radius: 0.625rem; background: var(--cp-surface); margin-bottom: 8px; }
+ol.steps > li::before { content: counter(s); position: absolute; left: 14px; top: 11px; width: 24px; height: 24px; border-radius: 50%; background: var(--cp-accent-soft); color: var(--cp-accent); font-weight: 700; display: grid; place-items: center; font-size: 12.5px; }
+.gate { font-size: 12px; font-weight: 600; color: var(--cp-warning); }
+code, .mono { font-family: Consolas, "Courier New", Courier, monospace; font-size: 12px; background: var(--cp-surface-soft); padding: 1px 5px; border-radius: 4px; }
+.decision { display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--cp-border); } .decision:last-child { border-bottom: 0; }
+.decision .q { font-weight: 600; } .decision .rec { color: var(--cp-accent); font-size: 13px; margin-top: 2px; }
+.num { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--cp-accent); color: var(--cp-accent); display: grid; place-items: center; font-weight: 700; font-size: 13px; }
+.arc h3 { margin-top: 0; } .arc ul { font-size: 13px; }
+footer { margin-top: 36px; color: var(--cp-text-soft); font-size: 12px; }
+@media (max-width: 900px) { .mail, .teams { grid-template-columns: 1fr; } .list { max-height: 40vh; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Demo tenant hydration plan: Email triage</h1>
+    <p class="muted">Plan only, nothing deployed yet. Every email, chat message, file and meeting shown here is exactly what the seeder will write. Review it, answer the decisions, then reply <strong>approved</strong>.</p>
+    <div class="badges" id="badges"></div>
+  </header>
+
+  <div class="tabs" role="tablist" id="tabs">
+    <button role="tab" data-p="overview" aria-selected="true">Overview</button>
+    <button role="tab" data-p="story">Story &amp; cast</button>
+    <button role="tab" data-p="inbox">Morning inbox</button>
+    <button role="tab" data-p="history">Email history</button>
+    <button role="tab" data-p="chats">Teams chats</button>
+    <button role="tab" data-p="files">Files</button>
+    <button role="tab" data-p="calendar">Calendar</button>
+    <button role="tab" data-p="deploy">How it's deployed</button>
+    <button role="tab" data-p="decisions">Decisions</button>
+  </div>
+
+  <section class="panel on" id="p-overview">
+    <div class="grid g4" id="stats"></div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card">
+        <h3 style="margin-top:0">What the demo shows</h3>
+        <p class="small">Carlos Slattery, CTO of PT Contoso Niaga Nusantara, opens Outlook at 07:30 on a Wednesday to find 40 unread emails in three languages. By 12.00 he owes the CEO a Direksi pack, by 15.00 an overtime approval hidden in a CC thread, and by 17.00 a colocation PO approval and an answer to the company's biggest retail customer about an outage. Around them: FYIs, newsletters, notifications, marketing marked URGENT, and a convincing phishing email.</p>
+        <p class="small">Behind the inbox is two weeks of real collaboration: the outage review, a Teams chat about the board numbers, the cutover plan, a re-forecast template, each owned by the person who wrote it. Copilot (Premium) can connect the inbox to that context. Basic can't.</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">Housekeeping: everything is tagged <span class="pill act">Triage</span></h3>
+        <div class="tbl"><table>
+          <thead><tr><th>Item</th><th>Tag</th></tr></thead>
+          <tbody>
+            <tr><td>Emails (both sides)</td><td>Hidden property <span class="mono">DemoStory = Triage</span> on every copy, plus a line in the run list. Optional visible Outlook category <b>Triage</b>: see decision 6.</td></tr>
+            <tr><td>Teams chats</td><td>Name starts with <b>[Triage]</b>. All are group chats, because 1:1 chats can't be named.</td></tr>
+            <tr><td>Files</td><td>Office <b>Tags</b> property = <span class="mono">Triage; FICTIONAL DEMO DATA</span></td></tr>
+            <tr><td>Calendar events</td><td>Category <b>Triage</b> plus the hidden property</td></tr>
+          </tbody>
+        </table></div>
+        <p class="small muted">Undo finds everything by tag, not by guessing, including drafts Copilot later creates as replies to tagged emails.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h3 style="margin-top:0">A reusable story library</h3>
+      <p class="small">The content lives in the repo as a story library: <span class="mono">stories/contoso-niaga/</span> holds the world (company, systems, customers, vendors), the canon for 15 story arcs with exact numbers, and a cast with each person's role, writing style, language and signature. This email triage run is one <em>episode</em>. The next routines (meeting follow-up, follow-up chaser, weekly report) become new episodes in the same world and week, so they reuse the same people and facts instead of starting from scratch. All dates are relative to the demo day, so any episode can be seeded again on any date.</p>
+    </div>
+  </section>
+
+  <section class="panel" id="p-story">
+    <h2>Story arcs (canon)</h2>
+    <p class="muted small">Every seeded item belongs to one arc. These facts are fixed: writers and later episodes must not contradict them. Dates are shown for the planned demo day.</p>
+    <div class="grid g2" id="arcs"></div>
+    <h2 style="margin-top:24px">Cast</h2>
+    <div class="tbl"><table><thead><tr><th>Person</th><th>Role in story</th><th>Organisation</th><th>Account</th><th>Voice</th></tr></thead><tbody id="cast"></tbody></table></div>
+  </section>
+
+  <section class="panel" id="p-inbox">
+    <div class="filters" id="inbox-f"></div>
+    <div class="mail"><div class="list" id="inbox-list"></div><div class="reader" id="inbox-read"></div></div>
+  </section>
+
+  <section class="panel" id="p-history">
+    <p class="muted small">Older emails, already read, that the morning inbox builds on. Written to both sides like the colleague emails.</p>
+    <div class="mail"><div class="list" id="history-list"></div><div class="reader" id="history-read"></div></div>
+  </section>
+
+  <section class="panel" id="p-chats">
+    <p class="muted small">Imported with each message posted as its author and at its original time. Carlos's messages are on the right.</p>
+    <div class="teams"><div class="list" id="chat-list"></div><div class="bubbles" id="chat-read"></div></div>
+  </section>
+
+  <section class="panel" id="p-files">
+    <p class="muted small">Each file is created in its owner's OneDrive and shared with the people listed.</p>
+    <div class="mail"><div class="list" id="file-list"></div><div class="reader" id="file-read"></div></div>
+  </section>
+
+  <section class="panel" id="p-calendar">
+    <div class="tbl"><table><thead><tr><th>When</th><th>Meeting</th><th>Organiser</th><th>Attendees</th><th>Agenda</th></tr></thead><tbody id="cal"></tbody></table></div>
+  </section>
+
+  <section class="panel" id="p-deploy">
+    <h2>Seeder access: raised for the run, then back to read-only</h2>
+    <div class="grid g3">
+      <div class="card phase"><h3 style="margin-top:0">Today</h3><ul class="tight small">
+        <li>Read the user directory</li>
+        <li>Send and write mail and calendars for the 12-person cast only (Exchange scope)</li>
+        <li class="muted">Tested 29 Sep: Andre → Carlos arrived in 22 s; sending as Brooke was refused</li></ul></div>
+      <div class="card phase up"><h3 style="margin-top:0">During the run (about 45 min)</h3><ul class="tight small">
+        <li>Mail read, write and send, and calendars write, for any user</li>
+        <li>Teams: create chats, add members, import messages</li>
+        <li>OneDrive: create files and share them</li>
+        <li class="muted">Not needed yet: Teams and channel creation, Planner</li></ul></div>
+      <div class="card phase down"><h3 style="margin-top:0">After the run (read-only)</h3><ul class="tight small">
+        <li>Read the user directory; read mail and calendars for the cast, to grade Copilot's output</li>
+        <li>Everything else removed, then checked by trying to send and expecting a refusal</li></ul></div>
+    </div>
+    <p class="small muted">Never granted: permission for the app to change its own permissions, directory changes, password resets. Raising and lowering access happens under your one admin sign-in per run, so the app can't raise its own access. Certificate sign-in only; expires 29 Oct 2026.</p>
+
+    <h2 style="margin-top:22px">How each kind of item is written</h2>
+    <div class="grid g3">
+      <div class="card"><h3 style="margin-top:0"><span class="pill dual">Both sides</span> Colleague email</h3><p class="small">Written into the sender's Sent Items and every internal recipient's Inbox, with one message ID and the original time, unread for recipients. Adelia's Copilot sees what she asked; Carlos's sees what he received.</p></div>
+      <div class="card"><h3 style="margin-top:0"><span class="pill">Inbox only</span> Outside or system email</h3><p class="small">Written into each internal recipient's Inbox with the outside sender's name and address, unread, not a draft, with the original time and any attachments.</p></div>
+      <div class="card"><h3 style="margin-top:0"><span class="pill">Import</span> Teams chat</h3><p class="small">A [Triage] group chat is created with its members, then every message is imported as its author at its original time. Once finished it's a normal chat people can reply in.</p></div>
+    </div>
+
+    <h2 style="margin-top:22px">Runbook</h2>
+    <ol class="steps">
+      <li><b>Pre-flight.</b> One admin device-code sign-in. Check the tenant, that all 16 people exist and are licensed, and write down Carlos's current unread count (existing mail is never touched).</li>
+      <li><b>Raise access</b> for the run; wait for it to take effect; check with a new token.</li>
+      <li><b>Small test first:</b> 1 outside email, 1 both-sides email, 1 [Triage] chat with 3 messages. Check in the browser as Carlos: unread, right time and sender, not a draft, chat authors right.<div class="gate">Stop if anything looks wrong.</div></li>
+      <li><b>History:</b> files (upload, set Tags, share), past and upcoming calendar events, chats T1 to T4, history emails H1 to H6.</li>
+      <li><b>Morning inbox:</b> the 40 emails, oldest first, with attachments.</li>
+      <li><b>Check:</b> counts per mailbox, both sides present, tags present, chats visible, Copilot can find a chat and a file. Save the run list.</li>
+      <li><b>Lower access</b> to read-only and confirm a send attempt is refused.</li>
+      <li><b>Report,</b> then hand over for the Premium, Cowork and Scout tier tests.</li>
+    </ol>
+
+    <h2 style="margin-top:22px">Checks</h2>
+    <div class="tbl"><table><thead><tr><th>Check</th><th>Pass if</th></tr></thead><tbody id="checks"></tbody></table></div>
+
+    <h2 style="margin-top:22px">Undo</h2>
+    <ul class="tight small">
+      <li>One command, one admin sign-in: deletes every item tagged Triage in every mailbox and calendar, plus drafts replying to them, and the seeded files with their shares.</li>
+      <li>Teams: imported messages are deleted; the empty chats are renamed "[Triage] (removed)" and all but one member removed, because Teams keeps empty chats.</li>
+      <li>Existing mail, files and chats that weren't seeded are never touched.</li>
+    </ul>
+  </section>
+
+  <section class="panel" id="p-decisions">
+    <div class="card">
+      <div class="decision"><div class="num">1</div><div><div class="q">Main user: Carlos Slattery as CTO</div><div class="small muted">You demo as Carlos; the whole story is built around his inbox.</div><div class="rec">Recommended: yes</div></div></div>
+      <div class="decision"><div class="num">2</div><div><div class="q">Demo day for the first run</div><div class="small muted">Emails arrive between 16:00 the day before and 07:25 on the demo day. The world is set at the end of Q3 (Q4 re-forecast, cutover weekend), so it fits any date from late September to October.</div><div class="rec" id="d0rec"></div></div></div>
+      <div class="decision"><div class="num">3</div><div><div class="q">Colleague emails written to both sides with their original times, rather than real sends</div><div class="small muted">Real sends are all stamped "now" and would bunch 15 emails into one minute. Real sends stay available for live moments during a demo (Adelia emails Carlos on your cue to fire a Cowork trigger).</div><div class="rec">Recommended: both sides for seeding, real sends for live moments</div></div></div>
+      <div class="decision"><div class="num">4</div><div><div class="q">Teams chats by import</div><div class="small muted">The only supported way to post as other people. The small test checks that Copilot can find imported messages before the full run. Fallback: you give me sign-ins for 2 or 3 cast members and I post as them in the browser.</div><div class="rec">Recommended: yes, with the small test as the gate</div></div></div>
+      <div class="decision"><div class="num">5</div><div><div class="q">After the run: read-only access, or remove the app?</div><div class="small muted">Read-only lets me grade the tier tests without another sign-in. The app is removed when validation is done, or when its certificate expires on 29 Oct.</div><div class="rec">Recommended: read-only until validation is finished</div></div></div>
+      <div class="decision"><div class="num">6</div><div><div class="q">Visible "Triage" category on emails?</div><div class="small muted">A visible category would show on every email in Carlos's inbox during the demo, and Copilot may read it as "already triaged", which spoils the triage. The hidden property is just as reliable for cleanup and can't be seen.</div><div class="small muted" style="margin-top:4px">Also: no visible "FICTIONAL" banner in email bodies or inside files, so they read like real work. Emails carry a second hidden property <span class="mono">DemoData = FICTIONAL</span>; files carry it in their Tags.</div><div class="rec">Recommended: hidden property only on emails; visible [Triage] on chat names, file Tags and calendar categories</div></div></div>
+    </div>
+  </section>
+
+  <footer>Fictional demo data for the Copilot scenario library. Source: stories/contoso-niaga (world, cast, episodes/email-triage). Tenant details and run lists stay on the seeding PC.</footer>
+</div>
+<script>
+const DATA = /*DATA*/null;
+/*CLIENT*/
+</script>
+</body>
+</html>
