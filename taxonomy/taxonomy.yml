@@ -24,6 +24,7 @@ department:
   sales: { en: "Sales" }
   marketing: { en: "Marketing" }
   audit: { en: "Internal audit" }
+  all-departments: { en: "Any department" }
 
 persona:
   # Banking & insurance
@@ -65,11 +66,18 @@ surface:
   scout: { en: "Scout" }
 
 licence:
-  copilot-chat: { en: "Copilot Chat (included)" }
-  m365-copilot: { en: "Microsoft 365 Copilot" }
+  copilot-chat: { en: "Copilot Chat (Basic)" }
+  m365-copilot: { en: "Microsoft 365 Copilot (Premium)" }
   copilot-studio: { en: "Copilot Studio" }
   cowork: { en: "Copilot Cowork" }
   scout: { en: "Microsoft Scout" }
+
+# Tiered scenarios show one routine done four ways. Order here is the order on the page.
+tier:
+  basic: { en: "Copilot Chat (Basic)", description: "No Copilot add-on licence. Copilot works on what you open, attach or ask about in Outlook." }
+  premium: { en: "Microsoft 365 Copilot (Premium)", description: "Add-on licence. Grounded in your mail, chats, meetings and files; scheduled prompts." }
+  cowork: { en: "Copilot Cowork", description: "Premium plus Copilot credits. Runs multi-step tasks on a schedule or when an email arrives; asks before it sends." }
+  scout: { en: "Microsoft Scout", description: "Desktop agent that runs your automations on a schedule and reports back in Teams." }
 
 market:
   ID: { en: "Indonesia" }

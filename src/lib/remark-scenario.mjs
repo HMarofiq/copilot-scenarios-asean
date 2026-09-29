@@ -9,8 +9,18 @@
 //   :::presenter           collapsed "Running this as a session" block
 //   any markdown
 //   :::
+//
+//   ::::tier{key="basic"}  one way of doing the routine (frontmatter tiers); may contain :::prompt
+//   any markdown
+//   ::::
 import { visit, SKIP } from 'unist-util-visit';
 import { toString } from 'mdast-util-to-string';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { parse } from 'yaml';
+
+const TAX = parse(readFileSync(join(process.cwd(), 'taxonomy', 'taxonomy.yml'), 'utf8'));
+const lbl = (facet, v) => TAX[facet]?.[String(v)]?.en ?? String(v);
 
 const LANGS = [['EN', 'en'], ['ID', 'id'], ['BM', 'ms']];
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -31,6 +41,13 @@ function metaNodes(fm) {
   ];
 }
 
+// "Pick your tier" comparison, rendered from frontmatter so it can't drift from the tier blocks.
+function tierTable(tiers) {
+  const rows = tiers.map((t) => `<tr data-tier="${esc(t.key)}"><td><a href="#tier-${esc(t.key)}">${esc(lbl('tier', t.key))}</a></td>` +
+    `<td>${esc(lbl('difficulty', t.difficulty))}</td><td>${esc(t.runs)}</td><td>${esc(t.effort)}</td></tr>`).join('');
+  return { type: 'html', value: `<table class="tier-table"><thead><tr><th>Tier</th><th>Level</th><th>How it runs</th><th>Your time</th></tr></thead><tbody>${rows}</tbody></table>` };
+}
+
 export default function remarkScenario() {
   return (tree, file) => {
     const fm = file.data?.astro?.frontmatter;
@@ -38,6 +55,7 @@ export default function remarkScenario() {
       const at = tree.children.findIndex((n) => n.type === 'heading' && n.depth === 2 && toString(n).trim() === 'Steps');
       if (at < 0) file.fail('Scenario must have a "## Steps" section', tree);
       tree.children.splice(at, 0, ...metaNodes(fm));
+      if (fm.tiers) tree.children.splice(at + 5, 0, tierTable(fm.tiers));
     }
     visit(tree, (node, index, parent) => {
       if (node.type === 'containerDirective' && node.name === 'prompt') {
@@ -61,7 +79,16 @@ export default function remarkScenario() {
         node.children.unshift({ type: 'paragraph', data: { hName: 'summary' }, children: [{ type: 'text', value: 'Running this as a session' }] });
         return;
       }
-      if (node.type === 'containerDirective') file.fail(`Unknown block :::${node.name}. Use :::prompt or :::presenter.`, node);
+      if (node.type === 'containerDirective' && node.name === 'tier') {
+        const key = node.attributes?.key;
+        const t = (fm?.tiers ?? []).find((x) => x.key === key);
+        if (!t) file.fail(`::::tier{key="${key}"} has no matching entry in frontmatter tiers`, node);
+        node.data = { hName: 'section', hProperties: { className: ['tier'], id: `tier-${key}`, dataTier: key } };
+        node.children.unshift({ type: 'heading', depth: 3, children: [{ type: 'text', value: lbl('tier', key) }] },
+          { type: 'html', value: `<p class="tier-meta">${esc(lbl('difficulty', t.difficulty))} · ${esc(t.runs)} · ${esc(t.effort)}</p>` });
+        return;
+      }
+      if (node.type === 'containerDirective') file.fail(`Unknown block :::${node.name}. Use :::prompt, :::presenter or ::::tier.`, node);
       // remark-directive also parses things like ":30" or "Note:x" as directives; put them back as plain text.
       if (node.type === 'textDirective' || node.type === 'leafDirective') {
         const text = (node.type === 'leafDirective' ? '::' : ':') + node.name + (node.children?.length ? `[${toString(node)}]` : '');

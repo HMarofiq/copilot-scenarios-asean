@@ -18,6 +18,19 @@ for (const f of readdirSync(DIR).filter((x) => x.endsWith('.md'))) {
   if (!/^:::prompt$/m.test(body)) fail('needs at least one :::prompt block');
   if (!/^:::presenter$/m.test(body)) fail('needs a :::presenter block');
   if ((f.replace('.md', '')) !== (text.match(/^id:\s*(\S+)/m) || [])[1]) fail('file name must match id');
+
+  // Tiered scenarios: every frontmatter tier has exactly one ::::tier block inside Steps, each with a prompt.
+  const fmKeys = [...text.split(/^---$/m)[1].matchAll(/^\s*- \{ key: (\w+)/gm)].map((m) => m[1]);
+  const blocks = [...body.matchAll(/^::::tier\{key="(\w+)"\}\n([\s\S]*?)^::::$/gm)];
+  if (fmKeys.length || blocks.length) {
+    const steps = body.slice(body.indexOf('## Steps'), body.indexOf('## Check it'));
+    const bk = blocks.map((m) => m[1]);
+    if (fmKeys.join() !== bk.join()) fail(`tier blocks [${bk}] must match frontmatter tiers [${fmKeys}] in the same order`);
+    for (const m of blocks) {
+      if (!steps.includes(m[0])) fail(`tier ${m[1]} must sit inside ## Steps`);
+      if (!/^:::prompt$/m.test(m[2])) fail(`tier ${m[1]} needs at least one :::prompt`);
+    }
+  }
 }
 
 if (problems) { console.error(`\n${problems} problem(s). See templates/scenario-template.md`); process.exit(1); }

@@ -29,3 +29,32 @@ Thank you for helping. The library is only useful if every scenario works as wri
 | L2 Practitioner | Iterate over several turns with their own files, or run a ready-made Scout automation or Cowork task |
 | L3 Power user | Chain apps, batch inputs, verify systematically, write their own Scout automation |
 | L4 Builder | Publish an agent with grounding and instructions for other people |
+
+## Routines in tiers
+
+For a routine that people do with different licences (email triage, meeting follow-up, weekly report), write one page with a tier for each way of doing it. Add `tiers` to the frontmatter, in the order used in `taxonomy.yml`:
+
+```yaml
+difficulty: 1          # the entry tier's level
+licence: [copilot-chat, m365-copilot, cowork, scout]   # every tier's licence
+surface: [outlook, copilot-chat, cowork, scout, teams] # every tier's surfaces
+tiers:
+  - { key: basic, licence: copilot-chat, difficulty: 1, surface: [outlook], runs: "You run one prompt each morning", effort: "About 15 minutes" }
+  - { key: premium, licence: m365-copilot, difficulty: 2, surface: [copilot-chat], runs: "Scheduled prompt at 07:30", effort: "About 10 minutes" }
+```
+
+Then, inside `## Steps`, one block per tier in the same order. Tier blocks use four colons so they can contain prompts:
+
+```
+::::tier{key="basic"}
+**1. Open Copilot in Outlook.** ...
+
+:::prompt
+EN: ...
+ID: ...
+BM: ...
+:::
+::::
+```
+
+The site builds the comparison table from the frontmatter. The checks fail if a tier block is missing, out of order, outside Steps or without a prompt.
