@@ -29,7 +29,7 @@ card:
   output: "A review of all 19 playbook issues with clause numbers, verdicts and approvers; a reply to the vendor; an escalation memo for the General Counsel; and a first mark-up with comments."
 limits:
   - "A lawyer still decides. This is a first review, not legal advice. Check every clause number and approve every position before anything goes to the vendor."
-  - "Copilot's deletions are not tracked. With Track Changes on, new text shows as tracked, but text Copilot deletes simply disappears. Mark up a copy and finish with Compare in Word desktop."
+  - "Check the redline in the file you send. In Word for the web, Copilot's changes show as tracked insertions and deletions, but in our test the downloaded .docx kept the insertions and dropped the deleted text. Mark up a copy and finish with Compare in Word desktop."
   - "Copilot only checks what your playbook covers. Issues missing from your playbook are not checked."
   - "Web terms change. Print the vendor's online terms on the day you review and attach that copy; Copilot cannot know what a link said last month."
 source_refs:
@@ -38,7 +38,7 @@ source_refs:
   - "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-overview"
 status: validated
 validated_on: 2026-09-30
-validation_note: "Run end to end in a demo tenant with the kit (MSA with schedules 16,400 words plus Order Forms, Service Terms and playbook) in Word for the web: the review matched the answer key on 19 of 19 issues in the final run, including the clause 22.14 override of the DPA cap, the order of precedence that ranks the negotiated Special Conditions last, the AI-training right inside the online terms and the missing insurance clause; the vendor reply grouped all points without revealing approvers or fallbacks; the memo gave one table per approver and a Bahasa Indonesia summary; the mark-up changed six clauses with six comments tagged by issue ID. Found: deleted text is not kept as a tracked deletion; P12 came back once as Red line instead of Beyond fallback."
+validation_note: "Run end to end in a demo tenant with the kit (MSA with schedules 16,400 words plus Order Forms, Service Terms and playbook) in Word for the web: the review matched the answer key on 19 of 19 issues in the final run, including the clause 22.14 override of the DPA cap, the order of precedence that ranks the negotiated Special Conditions last, the AI-training right inside the online terms and the missing insurance clause; the vendor reply grouped all points without revealing approvers or fallbacks; the memo gave one table per approver and a Bahasa Indonesia summary; the mark-up changed six clauses with six comments tagged by issue ID. Found: Word for the web shows the full redline, but the .docx downloaded from OneDrive kept only the tracked insertions; P12 came back once as Red line instead of Beyond fallback. Test report with screenshots kept by the author."
 ---
 
 ## Situation
@@ -220,7 +220,7 @@ Bagi setiap perubahan, tambah komen yang bermula dengan ID isu buku panduan (con
 
 **After you run it:** you see six comments, starting P01, P01, P09, P10, P11 and P12. Clause 22.14 is gone, and 13.4 no longer mentions it.
 
-**8. Create the full redline.** Copilot does not keep what it deletes, so let Word show it.
+**8. Create the redline you send.** Word for the web shows Copilot's deletions, but the downloaded file may not keep them, so let Word desktop rebuild the redline.
 
 1. Open the marked-up copy in Word desktop.
 2. Select **Review** > **Compare** > **Compare Documents**.
@@ -248,7 +248,7 @@ Bagi setiap perubahan, tambah komen yang bermula dengan ID isu buku panduan (con
 - **A row is vague or quotes the wrong clause.** Long contracts get less attention in the middle. Ask about one issue: "Quote clause 22.14 in full and tell me which clauses it overrides." (step 3)
 - **The vendor reply mentions "our playbook" or "fallback".** Keep the sentence "Do not mention our internal approvers, fallback positions or the playbook itself." (step 4)
 - **The verdicts changed when you ran the review again.** Copilot reads the contract as it is now. If you marked up the original, restore it from Version history and do Part B on a copy. (step 6)
-- **Clause 22.14 disappeared with no red strike-through.** Copilot tracks what it adds, not what it deletes. Finish with Compare Documents. (step 8)
+- **The downloaded file has no strike-through for clause 22.14.** Word for the web shows it, but in our test the saved .docx kept only the insertions. Finish with Compare Documents in Word desktop and send that file. (step 8)
 
 ## Take it further
 
@@ -265,6 +265,6 @@ Bagi setiap perubahan, tambah komen yang bermula dengan ID isu buku panduan (con
 3. Point at P01: the Jakarta hosting Procurement won ranks last. Then P13: the AI-training right is in a PDF, not the contract. (5 min)
 4. Step 4, the vendor reply. Show group 4 (insurance) and that the playbook is never mentioned. (6 min)
 5. Step 5, the memo. Read the Bahasa Indonesia summary. (6 min)
-6. Steps 6 to 8 on the copy with Track Changes on. Show the comments tagged P01 to P12, point out that deletions are not kept, and show Compare in Word desktop. (10 min)
+6. Steps 6 to 8 on the copy with Track Changes on. Show the comments tagged P01 to P12, point out that the downloaded file loses the deletions, and show Compare in Word desktop. (10 min)
 7. Close: the lawyer still decides every position; Copilot did the reading and the drafting. (4 min)
 :::
