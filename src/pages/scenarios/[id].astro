@@ -40,14 +40,24 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
           <div><b>You get</b><p>{d.card.output}</p></div>
           <div><b>Time</b><p>{d.impact.baseline} → {d.impact.target}<br /><span class={`chip ev-${d.impact.evidence}`}>{label('evidence', d.impact.evidence)}</span></p></div>
         </div>
+        <p class="meta60">
+          <span><b>Licence</b> {d.licence.map((x) => label('licence', x)).join(' · ')}</span>
+          <span><b>Apps</b> {d.surface.map((x) => label('surface', x)).join(' · ')}</span>
+          {d.run_time && <span><b>Run time</b> {d.run_time}</span>}
+          <span class="data60">Your data: {d.data.sensitivity} · sign-off: {d.data.signoff.split(/[;,]/)[0]}</span>
+        </p>
       </section>
 
       <div class="quick-start">
         {kit && <a class="start-kit" href={kit.href} download>&darr; Download demo kit <span>{kit.kb} KB</span></a>}
-        <a class="start-go" href={`#${stepsId}`}>Start at step 1 <span aria-hidden="true">&darr;</span></a>
-        <span class="start-note">Check the licence and the data rules before you begin.</span>
+        <a class="start-go" id="start-step1" href={`#${stepsId}`}>Start at step 1 <span aria-hidden="true">&darr;</span></a>
+        <label class="presenting"><input type="checkbox" id="presenting" /> I'm presenting: show session notes</label>
       </div>
       <div class="prose" id="scenario-steps"><Content /></div>
+      <footer class="sources">
+        <b>Sources:</b> {d.source_refs.map((u, i) => <>{i > 0 && ' · '}<a href={u}>{new URL(u).hostname}</a></>)}
+        {d.validated_on && <span> · Validated {d.validated_on.toISOString().slice(0, 7)} · fictional data</span>}
+      </footer>
     </article>
 
     <aside class="side">
@@ -57,25 +67,19 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
           <span>Fictional files, answer key and setup notes · {kit.kb} KB</span>
         </a>
       )}
-      <div class="box datarules">
-        <div class="k">Data rules</div>
-        <p><strong>Sensitivity:</strong> {d.data.sensitivity}</p>
-        <p><strong>Sign-off:</strong> {d.data.signoff}</p>
-        <p class="tenant">Work account only. Never a consumer AI tool.</p>
-      </div>
       <nav class="onthispage" aria-labelledby="otp-h">
         <div class="k" id="otp-h">On this page</div>
         <ul>
-          {headings.filter((h) => h.depth >= 2 && h.depth <= 4).map((h) => (
+          {headings.filter((h) => h.depth >= 2 && h.depth <= 4 && !['files', 'heads-up'].includes(h.slug)).map((h) => (
             <li class={`d${h.depth}`}><a href={`#${h.slug}`}>{h.text}</a></li>
           ))}
         </ul>
       </nav>
-      <div class="box">
-        <div class="k">Licence</div>
-        {d.licence.map((x) => <span class="chip">{label('licence', x)}</span>)}
-        <div class="k">Sources</div>
-        {d.source_refs.map((u) => <p class="src"><a href={u}>{new URL(u).hostname}</a></p>)}
+      <div class="box datarules">
+        <div class="k">Data rules</div>
+        <p><strong>{d.data.sensitivity}</strong> · personal data: {d.data.customer_pii ? 'Yes' : 'No'}</p>
+        <p>Sign-off: {d.data.signoff}</p>
+        <p class="tenant">Work account only. Never a consumer AI tool.</p>
       </div>
     </aside>
   </div>
@@ -89,6 +93,37 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
     back.href = `${back.dataset.base}?${params}`;
     back.textContent = params.get('view') === 'recommended' ? '\u2190 Back to your suggestions' : '\u2190 Back to results';
   }
+  const start = document.getElementById('start-step1');
+  if (start instanceof HTMLAnchorElement && document.getElementById('step-1')) start.href = '#step-1';
+  // Step "Done" toggles and the Check-it ticks are remembered per scenario in this browser only.
+  const page = location.pathname;
+  const load = (k: string): unknown[] => { try { return JSON.parse(localStorage.getItem(k) || '[]'); } catch { return []; } };
+  const save = (k: string, v: unknown[]) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+  const doneKey = `sl:v1:done:${page}`;
+  const done = new Set(load(doneKey) as string[]);
+  const tick = (n: string) => {
+    const on = done.has(n);
+    document.querySelectorAll(`.done[data-step="${n}"]`).forEach((b) => { b.setAttribute('aria-pressed', String(on)); b.textContent = on ? '\u2713 Done' : 'Done'; b.closest('.stepcard')?.classList.toggle('is-done', on); });
+    document.querySelectorAll(`.onthispage a[href="#step-${n}"]`).forEach((a) => a.classList.toggle('is-done', on));
+  };
+  document.querySelectorAll<HTMLButtonElement>('.done').forEach((b) => {
+    const n = b.dataset.step ?? ''; tick(n);
+    b.addEventListener('click', () => { if (done.has(n)) done.delete(n); else done.add(n); save(doneKey, [...done]); tick(n); });
+  });
+  const checkKey = `sl:v1:check:${page}`;
+  const checks = load(checkKey) as number[];
+  const boxes = [...document.querySelectorAll<HTMLInputElement>('.checklist .chk')];
+  boxes.forEach((c, i) => {
+    c.checked = checks.includes(i);
+    c.addEventListener('change', () => save(checkKey, boxes.flatMap((x, j) => (x.checked ? [j] : []))));
+  });
+  const presenting = document.getElementById('presenting');
+  const notes = document.querySelector('details.presenter');
+  if (presenting instanceof HTMLInputElement && notes instanceof HTMLDetailsElement) {
+    presenting.checked = notes.open;
+    presenting.addEventListener('change', () => { notes.open = presenting.checked; });
+    notes.addEventListener('toggle', () => { presenting.checked = notes.open; });
+  } else presenting?.closest('label')?.remove();
 </script>
 
 <style>
@@ -107,6 +142,7 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
   .prose :global(h3) { font-size:19px; margin:26px 0 8px } .prose :global(h4) { font-size:17px; margin:0 }
   /* Keep running text at a readable measure; cards and tables use the full column. */
   .prose :global(p), .prose :global(ul), .prose :global(ol), .prose :global(.callout) { max-width:68ch }
+  .prose :global(.prompt .plines), .prose :global(.prompt .ptext), .prose :global(.prompt .pabout) { max-width:none }
   .prose :global(.stepcard) { max-width:none; border:1px solid var(--line); border-radius:12px; background:var(--cp-surface); padding:16px 18px; margin:0 0 16px }
   .prose :global(.stephead) { display:flex; align-items:flex-start; gap:11px; margin-bottom:10px }
   .prose :global(.stephead .num) { flex:none; width:28px; height:28px; border-radius:50%; background:var(--brand); color:var(--cp-accent-fg); font-weight:700; font-size:15px; line-height:28px; text-align:center }
@@ -135,11 +171,55 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
   .prose :global(pre) { max-width:100%; overflow:auto }
   .prose :global(h2), .prose :global(h3), .prose :global(h4) { scroll-margin-top:104px }
   .prose :global(.stepcard) { scroll-margin-top:104px }
-  @media print {
-    .quick-start, .side, .crumb { display:none }
+  /* In 60 seconds: one line with what it takes to run. */
+  .meta60 { display:flex; flex-wrap:wrap; gap:6px 18px; margin:12px 0 0; padding-top:10px; border-top:1px solid var(--cp-border); font-size:13px; color:var(--ink2) }
+  .meta60 b { color:var(--ink); margin-right:4px } .data60 { color:var(--warnline); font-weight:600 }
+  .presenting { margin-left:auto; display:inline-flex; align-items:center; gap:8px; color:var(--cp-text-muted); cursor:pointer }
+  .sources { margin-top:28px; padding-top:12px; border-top:1px solid var(--line); font-size:12.5px; color:var(--cp-text-muted) } .sources a { color:inherit }
+  /* Objective and situation */
+  .prose :global(.objective) { max-width:68ch; background:var(--brand-soft); border-left:4px solid var(--brand); border-radius:8px; padding:12px 16px; margin:12px 0 18px }
+  .prose :global(.objective-k) { font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--brand) }
+  .prose :global(.objective p) { margin:4px 0 0; font-size:16.5px; font-weight:600 }
+  /* Before you start */
+  .prose :global(.start-grid) { display:grid; grid-template-columns:1.1fr 1fr; gap:14px; align-items:stretch; margin:12px 0 16px }
+  .prose :global(.start-grid > *) { margin:0; max-width:none }
+  .prose :global(.needs) { border:1.5px solid var(--brand); border-radius:10px; padding:12px 16px; background:var(--cp-surface) }
+  .prose :global(.needs-k) { font-weight:700; color:var(--brand); margin-bottom:6px }
+  .prose :global(.needs dl) { margin:0; display:grid; gap:6px }
+  .prose :global(.need) { display:grid; grid-template-columns:80px 1fr; gap:10px; align-items:baseline }
+  .prose :global(.need dt) { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--ink2) } .prose :global(.need dd) { margin:0 }
+  .prose :global(.also) { display:block } .prose :global(.also + .also) { margin-top:3px }
+  .prose :global(.chip.lic) { background:var(--brand-soft); color:var(--brand); font-weight:600; font-size:13px }
+  .prose :global(.rules) { border-left-width:4px } .prose :global(.rules p) { margin:4px 0 0 }
+  .prose :global(.rules-k) { font-size:12px; letter-spacing:.05em; text-transform:uppercase; color:var(--warnline) }
+  .prose :global(.files) { list-style:none; padding:0; margin:6px 0 }
+  .prose :global(.files li) { padding:5px 0; border-bottom:1px solid var(--line); line-height:1.45 }
+  .prose :global(.files .fmeta) { color:var(--cp-text-muted); font-size:14px }
+  .prose :global(.files small) { display:block; font-size:12.5px; color:var(--cp-text-muted); margin-top:2px }
+  .prose :global(.files code) { font-size:11.5px; background:var(--cp-surface-soft); padding:1px 4px; border-radius:4px }
+  .prose :global(.headsup li) { margin:4px 0 }
+  /* Steps */
+  .prose :global(.stephead h4) { flex:1 }
+  .prose :global(.done) { flex:none; border:1px solid var(--line); background:var(--cp-surface); color:var(--cp-text-muted); border-radius:6px; font-size:12px; padding:4px 10px; min-height:30px; cursor:pointer }
+  .prose :global(.done[aria-pressed="true"]) { background:var(--cp-accent-soft); color:var(--brand); border-color:var(--brand); font-weight:600 }
+  .prose :global(.stepcard.is-done) { border-color:var(--brand); }
+  .prose :global(.trouble) { font-size:13px; color:var(--cp-text-muted); margin:10px 0 0 } .prose :global(.trouble a) { color:var(--brand) }
+  .prose :global(.routes) { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0 18px }
+  .prose :global(.route) { display:flex; flex-direction:column; gap:4px; border:1px solid var(--line); border-radius:10px; padding:12px 14px; text-decoration:none; color:var(--ink); background:var(--cp-surface) }
+  .prose :global(.route:hover) { border-color:var(--brand) } .prose :global(.route span) { font-size:13.5px; color:var(--cp-text-muted) } .prose :global(.route em) { font-style:normal; font-size:13px; color:var(--brand) }
+  /* Check it and fixes */
+  .prose :global(.checklist) { list-style:none; padding:0 }
+  .prose :global(.checklist li) { padding:7px 0 7px 28px; border-bottom:1px solid var(--line); position:relative }
+  .prose :global(.checklist .chk) { position:absolute; left:2px; top:10px; width:16px; height:16px; accent-color:var(--brand) }
+  .prose :global(.fixes) { list-style:none; padding:0 } .prose :global(.fixes li) { padding:8px 0; border-bottom:1px solid var(--line); scroll-margin-top:104px }
+  .prose :global(.fixes li:target) { background:var(--brand-soft) }
+  .prose :global(.steptag) { display:inline-block; font-size:11px; font-weight:700; color:var(--brand); background:var(--brand-soft); border-radius:5px; padding:1px 6px; vertical-align:1px }
+  @media(max-width:900px) { .prose :global(.start-grid) { grid-template-columns:1fr } }
+  @media(max-width:640px) { .prose :global(.routes) { grid-template-columns:1fr } .presenting { margin-left:0 } }  @media print {
+    .quick-start, .side, .crumb, .done, .presenting { display:none }
     .page { display:block } article { border:0; padding:0 }
     /* A printed prompt must show every line, not a scroll window. */
-    .prose :global(.plines) { max-height:none !important; overflow:visible !important }
+    .prose :global(.plines), .prose :global(.ptext) { max-height:none !important; overflow:visible !important }
     .prose :global(.stepcard) { break-inside:avoid; border-color:#999 }
   }
   @media(max-width:850px) { .page { grid-template-columns:1fr } .side { position:static; grid-row:2; max-height:none; overflow:visible } .kit { margin-bottom:12px } article { padding:24px } .grid60 { grid-template-columns:1fr } }
