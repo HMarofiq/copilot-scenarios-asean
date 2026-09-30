@@ -32,6 +32,22 @@ test('board paper: conflict is real', () => {
   assert.equal(bp.MISSING, 'Human Resources');
 });
 
-test('contract review: every playbook topic has an expected verdict', () => {
-  assert.deepEqual(Object.keys(cr.EXPECTED).sort(), cr.PLAYBOOK.map((p) => p.topic).sort());
+test('contract review: 19 issues, verdict mix, clauses and traps present in the texts', () => {
+  assert.equal(cr.ISSUES.length, 19);
+  assert.deepEqual(cr.verdictCounts(), { redline: 5, beyond: 9, meets: 1, fallback1: 3, notAddressed: 1 });
+  const msa = cr.MSA.filter((b) => typeof b === 'string');
+  const clause = (n) => msa.find((b) => b.startsWith(`${n} `));
+  for (const i of cr.ISSUES) for (const w of i.where.filter((x) => x.startsWith('MSA '))) {
+    assert.ok(clause(w.slice(4).split(/[ (]/)[0]), `${i.id}: ${w} missing from the MSA`);
+  }
+  assert.match(clause('22.14'), /^22\.14 Notwithstanding/);
+  assert.match(clause('14.2'), /sole and exclusive remedy/i);
+  assert.match(cr.plain(cr.MSA), /three times \(3x\)/);
+  assert.match(cr.plain(cr.TEXTS.ONLINE_TERMS), /train/i);
+  const all = Object.values(cr.TEXTS).map(cr.plain).join('\n');
+  assert.doesNotMatch(cr.plain(cr.MSA) + cr.plain(cr.TEXTS.ORDER_FORMS) + cr.plain(cr.TEXTS.ONLINE_TERMS), /insurance/i, 'P19 must be absent from the contract');
+  assert.doesNotMatch(all, /copilot|\btrap\b/i);
+  const heads = cr.TEXTS.PLAYBOOK.filter((b) => typeof b === 'string' && /^### P\d\d /.test(b)).map((b) => b.slice(4, 7));
+  assert.deepEqual(heads, cr.ISSUES.map((i) => i.id), 'playbook has one position per issue, in order');
+  assert.ok(cr.words(cr.MSA) > 14000, `MSA is long enough (${cr.words(cr.MSA)} words)`);
 });
