@@ -6,6 +6,7 @@ industry:
   banking-insurance: { en: "Banking & insurance" }
   government-soe: { en: "Government, BUMN & GLC" }
   energy-resources: { en: "Energy, mining & plantation" }
+  telco: { en: "Telecommunications" }
   cross-industry: { en: "Cross-industry" }
 
 department:
@@ -53,6 +54,8 @@ persona:
   people-manager: { en: "People manager" }
   hr-business-partner: { en: "HR business partner" }
   finance-controller: { en: "Finance controller / FP&A" }
+  # Telecommunications
+  marketing-manager: { en: "Marketing / campaign manager" }
 
 surface:
   copilot-chat: { en: "Copilot Chat" }

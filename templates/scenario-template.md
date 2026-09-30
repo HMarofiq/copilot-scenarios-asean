@@ -1,5 +1,5 @@
 ---
-id: bfsi-short-name-000          # prefix: bfsi | gov | enr | x (cross-industry); must match the file name
+id: bfsi-short-name-000          # prefix: bfsi | gov | enr | tel | x (cross-industry); must match the file name
 title: { en: "", id: "", ms: "" }
 summary:                         # one sentence, max 200 characters, shown on the card
   en: ""
