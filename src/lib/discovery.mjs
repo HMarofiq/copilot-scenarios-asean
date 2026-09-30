@@ -6,6 +6,10 @@ export const ROLES = [
   { id: 'it', title: 'IT or adoption specialist', description: 'Help others use tools and work effectively.', personas: [] },
 ];
 
+// Guided discovery ("Start with my persona") stays off until the library has enough scenarios per role.
+export const GUIDE_ENABLED = false;
+export const guideView = (view) => (!GUIDE_ENABLED && (view === 'guide' || view === 'recommended') ? 'all' : view);
+
 export const FACET_KEYS = ['industry', 'department', 'persona', 'difficulty', 'surface', 'licence', 'market', 'evidence'];
 
 export function readState(search, choices) {

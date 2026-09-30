@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { FACET_KEYS, readState, writeState, rankScenario, matchesFilters } from '../src/lib/discovery.mjs';
+import { FACET_KEYS, readState, writeState, rankScenario, matchesFilters, GUIDE_ENABLED, guideView } from '../src/lib/discovery.mjs';
 
 const choices = Object.fromEntries(FACET_KEYS.map(key => [key, []]));
 Object.assign(choices, { department: ['finance', 'it'], surface: ['excel', 'teams'], persona: ['people-manager'], licence: ['m365-copilot'] });
@@ -46,4 +46,12 @@ test('explicit filters use OR within facets and AND between facets', () => {
   assert.equal(matchesFilters(scenario, state.filters, 'surface'), true);
   state.filters.surface = ['excel', 'teams'];
   assert.equal(matchesFilters(scenario, state.filters), true);
+});
+
+test('guided discovery links fall back to the full library while the guide is switched off', () => {
+  if (GUIDE_ENABLED) return;
+  assert.equal(guideView('guide'), 'all');
+  assert.equal(guideView('recommended'), 'all');
+  assert.equal(guideView('home'), 'home');
+  assert.equal(guideView('all'), 'all');
 });
