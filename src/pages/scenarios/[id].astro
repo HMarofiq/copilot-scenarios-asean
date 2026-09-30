@@ -42,7 +42,11 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
         </div>
       </section>
 
-      <div class="quick-start"><a href={`#${stepsId}`}>Go to steps &amp; prompts <span aria-hidden="true">&darr;</span></a><span>Check the required licence and inputs before you begin.</span></div>
+      <div class="quick-start">
+        {kit && <a class="start-kit" href={kit.href} download>&darr; Download demo kit <span>{kit.kb} KB</span></a>}
+        <a class="start-go" href={`#${stepsId}`}>Start at step 1 <span aria-hidden="true">&darr;</span></a>
+        <span class="start-note">Check the licence and the data rules before you begin.</span>
+      </div>
       <div class="prose" id="scenario-steps"><Content /></div>
     </article>
 
@@ -53,11 +57,23 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
           <span>Fictional files, answer key and setup notes · {kit.kb} KB</span>
         </a>
       )}
+      <div class="box datarules">
+        <div class="k">Data rules</div>
+        <p><strong>Sensitivity:</strong> {d.data.sensitivity}</p>
+        <p><strong>Sign-off:</strong> {d.data.signoff}</p>
+        <p class="tenant">Work account only. Never a consumer AI tool.</p>
+      </div>
+      <nav class="onthispage" aria-labelledby="otp-h">
+        <div class="k" id="otp-h">On this page</div>
+        <ul>
+          {headings.filter((h) => h.depth >= 2 && h.depth <= 4).map((h) => (
+            <li class={`d${h.depth}`}><a href={`#${h.slug}`}>{h.text}</a></li>
+          ))}
+        </ul>
+      </nav>
       <div class="box">
         <div class="k">Licence</div>
         {d.licence.map((x) => <span class="chip">{label('licence', x)}</span>)}
-        <div class="k">Sensitivity</div><p>{d.data.sensitivity}</p>
-        <div class="k">Sign-off</div><p>{d.data.signoff}</p>
         <div class="k">Sources</div>
         {d.source_refs.map((u) => <p class="src"><a href={u}>{new URL(u).hostname}</a></p>)}
       </div>
@@ -87,15 +103,45 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
   .grid60 { display:grid; grid-template-columns:1fr 1.3fr .9fr; gap:18px } .grid60 p { margin:2px 0 0; font-size:14px }
   .k { font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--ink2); margin:10px 0 3px }
   .card60 > .k { margin-top:0; color:var(--brand) }
-  .prose :global(h2) { font-size:19px; margin:26px 0 8px; padding-top:6px; border-top:1px solid var(--line) }
-  .side { position:sticky; top:104px } .box { background:var(--cp-surface); border:1px solid var(--line); border-radius:12px; padding:6px 16px 12px }
+  .prose :global(h2) { font-size:24px; margin:34px 0 10px; padding-top:10px; border-top:1px solid var(--line); letter-spacing:-.015em }
+  .prose :global(h3) { font-size:19px; margin:26px 0 8px } .prose :global(h4) { font-size:17px; margin:0 }
+  /* Keep running text at a readable measure; cards and tables use the full column. */
+  .prose :global(p), .prose :global(ul), .prose :global(ol), .prose :global(.callout) { max-width:68ch }
+  .prose :global(.stepcard) { max-width:none; border:1px solid var(--line); border-radius:12px; background:var(--cp-surface); padding:16px 18px; margin:0 0 16px }
+  .prose :global(.stephead) { display:flex; align-items:flex-start; gap:11px; margin-bottom:10px }
+  .prose :global(.stephead .num) { flex:none; width:28px; height:28px; border-radius:50%; background:var(--brand); color:var(--cp-accent-fg); font-weight:700; font-size:15px; line-height:28px; text-align:center }
+  .prose :global(.stepcard > p:last-child) { margin-bottom:0 }
+  .prose :global(.after-run) { background:var(--cp-accent-soft); border-left:3px solid var(--cp-success); border-radius:6px; padding:9px 12px; margin:8px 0 0 }
+  .prose :global(h3.part) { padding-top:8px; border-top:1px solid var(--line); color:var(--brand) }
+  .prose :global(.part-note) { margin-top:-4px; color:var(--cp-text-muted) }
+  .side { position:sticky; top:104px; display:flex; flex-direction:column; gap:14px }
+  .box { background:var(--cp-surface); border:1px solid var(--line); border-radius:12px; padding:6px 16px 12px }
+  .datarules { border-left:4px solid var(--warnline) } .datarules .k { color:var(--warnline) } .datarules .tenant { margin-top:4px; font-weight:600 }
+  .onthispage { background:var(--cp-surface); border:1px solid var(--line); border-radius:12px; padding:10px 14px; min-height:0 }
+  /* The list scrolls, not the whole rail, so the data rules stay pinned next to the prompts. */
+  .onthispage ul { list-style:none; margin:0; padding:0; font-size:13.5px; max-height:min(46vh, 420px); overflow:auto; scrollbar-width:thin }
+  .onthispage li { padding:3px 0 } .onthispage a { text-decoration:none; color:var(--cp-text-muted) }
+  .onthispage a:hover { color:var(--cp-accent); text-decoration:underline }
+  .onthispage .d2 > a { font-weight:600; color:var(--ink) } .onthispage .d3 { padding-left:10px } .onthispage .d4 { padding-left:20px; font-size:13px }
   .box p { margin:0; font-size:14px } .src { font-size:13px !important; overflow-wrap:anywhere }
-  .quick-start { display:flex; align-items:center; gap:20px; margin:20px 0; font-size:13px; flex-wrap:wrap } .quick-start a { font-weight:600 } .quick-start span { color:var(--cp-text-muted) }
+  .quick-start { display:flex; align-items:center; gap:12px; margin:20px 0; font-size:13px; flex-wrap:wrap; padding:14px 16px; background:var(--cp-bg-elevated); border:1px solid var(--line); border-radius:12px }
+  .start-kit, .start-go { display:inline-flex; align-items:center; gap:8px; text-decoration:none; border-radius:8px; padding:10px 16px; font-size:15px; font-weight:600; min-height:44px; border:1px solid transparent }
+  .start-kit { background:var(--brand); color:var(--cp-accent-fg) } .start-kit:hover { background:var(--cp-accent-hover) } .start-kit span { font-weight:400; font-size:12px; opacity:.85 }
+  .start-go { background:var(--cp-surface); color:var(--brand); border-color:var(--line) } .start-go:hover { border-color:var(--cp-border-strong) }
+  .start-note { color:var(--cp-text-muted) }
   .prose { overflow-wrap:anywhere; scroll-margin-top:104px }
   .prose :global(table) { display:block; max-width:100%; overflow:auto }
   .prose :global(img) { max-width:100%; height:auto }
   .prose :global(pre) { max-width:100%; overflow:auto }
-  .prose :global(h2) { scroll-margin-top:104px }
-  @media(max-width:850px) { .page { grid-template-columns:1fr } .side { position:static; grid-row:1 } .kit { margin-bottom:12px } article { padding:24px } .grid60 { grid-template-columns:1fr } }
+  .prose :global(h2), .prose :global(h3), .prose :global(h4) { scroll-margin-top:104px }
+  .prose :global(.stepcard) { scroll-margin-top:104px }
+  @media print {
+    .quick-start, .side, .crumb { display:none }
+    .page { display:block } article { border:0; padding:0 }
+    /* A printed prompt must show every line, not a scroll window. */
+    .prose :global(.plines) { max-height:none !important; overflow:visible !important }
+    .prose :global(.stepcard) { break-inside:avoid; border-color:#999 }
+  }
+  @media(max-width:850px) { .page { grid-template-columns:1fr } .side { position:static; grid-row:2; max-height:none; overflow:visible } .kit { margin-bottom:12px } article { padding:24px } .grid60 { grid-template-columns:1fr } }
   @media(max-width:640px) { article { padding:20px 16px } h1 { font-size:26px } .crumb { margin-bottom:16px } }
 </style>

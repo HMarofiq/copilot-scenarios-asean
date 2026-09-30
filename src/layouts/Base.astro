@@ -94,13 +94,19 @@ const base = import.meta.env.BASE_URL;
     });
     document.addEventListener('click', async e => {
       const btn = e.target.closest('.copy'); if (!btn) return;
+      const box = btn.closest('.prompt')?.querySelector('.plines, .ptext');
+      if (!box) return;
+      // Copy exactly what is on screen: one line per instruction when it is a list.
+      const text = box.tagName === 'UL'
+        ? [...box.children].map(li => li.textContent.trim()).join('\n')
+        : box.textContent.trim();
       try {
         if (!navigator.clipboard) throw new Error('Clipboard unavailable');
-        await navigator.clipboard.writeText(btn.previousElementSibling.textContent);
+        await navigator.clipboard.writeText(text);
         btn.textContent = 'Copied';
       } catch {
         btn.textContent = 'Select to copy';
-        const range = document.createRange(); range.selectNodeContents(btn.previousElementSibling);
+        const range = document.createRange(); range.selectNodeContents(box);
         const selection = window.getSelection(); selection.removeAllRanges(); selection.addRange(range);
         btn.setAttribute('aria-label', 'Automatic copy unavailable. Text selected; use your device copy command.');
       }
@@ -165,7 +171,7 @@ const base = import.meta.env.BASE_URL;
     --cp-sheen: rgba(212, 220, 226, 0.04);
     --cp-highlight: rgba(143, 199, 240, 0.14);
   }
-  * { box-sizing:border-box } body { margin:0; background:var(--bg); color:var(--ink); font-size:15px; line-height:1.55 }
+  * { box-sizing:border-box } body { margin:0; background:var(--bg); color:var(--ink); font-size:16px; line-height:1.6 }
   [hidden] { display:none !important }
   :focus-visible { outline:3px solid var(--cp-accent); outline-offset:4px }
   a { color:var(--brand) } code { background:var(--cp-surface-soft); padding:1px 5px; border-radius:4px; font-size:.9em; font-family:Consolas,"Courier New",Courier,monospace }
@@ -194,10 +200,19 @@ const base = import.meta.env.BASE_URL;
   .chip.tool-chip .tool-icon { width:16px; height:16px; flex-basis:16px }
   .chip.ev-estimated { background:var(--cp-surface-soft) } .chip.ev-observed-in-pilot, .chip.ev-customer-measured { background:var(--cp-accent-soft); color:var(--cp-accent) }
   [data-l] { display:none } html[data-lang="en"] [data-l="en"], html[data-lang="id"] [data-l="id"], html[data-lang="ms"] [data-l="ms"] { display:inline }
-  .prompt { display:none; position:relative; background:var(--cp-bg-elevated); border:1px solid var(--line); border-left:3px solid var(--brand); border-radius:10px; padding:16px 100px 16px 16px; margin:12px 0; overflow-wrap:anywhere }
+  .prompt { display:none; position:relative; background:var(--cp-bg-elevated); border:1px solid var(--line); border-left:3px solid var(--brand); border-radius:10px; margin:12px 0; overflow:hidden; overflow-wrap:anywhere }
   html[data-lang="en"] .prompt[data-lang="en"], html[data-lang="id"] .prompt[data-lang="id"], html[data-lang="ms"] .prompt[data-lang="ms"] { display:block }
-  .prompt p { margin:0; font-family:Consolas,"Courier New",Courier,monospace; font-size:13px } .prompt .lang { font-size:11px; font-weight:700; color:var(--brand) }
-  .prompt .copy { position:absolute; top:8px; right:8px; border:1px solid var(--line); background:var(--cp-surface); color:var(--cp-text); border-radius:6px; font-size:12px; min-height:36px; padding:6px 10px; cursor:pointer }
+  .prompt .phead { display:flex; align-items:center; gap:10px; padding:8px 12px; background:var(--cp-surface); border-bottom:1px solid var(--line) }
+  .prompt .lang { font-size:11px; font-weight:700; letter-spacing:.06em; color:var(--brand) }
+  .prompt .plen { font-size:11px; color:var(--cp-text-soft) }
+  .prompt .pabout { margin:9px 14px 0; font-size:13px; font-style:italic; color:var(--cp-text-soft) }
+  .prompt .ptext { margin:0; padding:14px; font-size:15px }
+  /* Long prompts scroll in place, so one step never pushes the rest of the page away. */
+  .prompt .plines { margin:0; padding:10px 14px; list-style:none; max-height:15em; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin }
+  .prompt .plines li { padding:3px 0; font-size:15px }
+  .prompt .plines li + li { border-top:1px dotted var(--line) }
+  .prompt .plines:focus-visible { outline:3px solid var(--cp-accent); outline-offset:-3px }
+  .prompt .copy { margin-left:auto; border:1px solid var(--line); background:var(--cp-surface); color:var(--cp-text); border-radius:6px; font-size:12px; min-height:36px; padding:6px 10px; cursor:pointer }
   .callout { border-radius:8px; padding:10px 14px; margin:14px 0 } .callout ul { margin:6px 0 0; padding-left:20px }
   .callout.warn { background:var(--warn); border:1px solid var(--warnline) } .callout.info { background:var(--info); border:1px solid var(--infoline) }
   details.presenter { margin-top:28px; border:1px dashed var(--cp-border-strong); border-radius:8px; padding:10px 16px; background:var(--cp-bg-elevated) }
