@@ -19,7 +19,12 @@ const scenarios = defineCollection({
     difficulty: z.number().int().refine((n) => keys('difficulty').includes(String(n)), 'difficulty must be 1 to 4'),
     surface: tags('surface'),
     licence: tags('licence'),
-    inputs: z.array(z.object({ name: z.string(), format: z.string(), where: z.string(), count: z.string().optional() })).min(1),
+    inputs: z.array(z.object({ name: z.string(), format: z.string(), where: z.string(), count: z.string().optional(),
+      kit: z.array(z.string()).optional(), steps: z.array(z.number().int().positive()).optional() })).min(1),
+    // Optional: the end goal in one or two plain sentences (falls back to card.output), extra tools, and run time.
+    objective: z.string().optional(),
+    needs: z.array(z.string()).optional(),
+    run_time: z.string().optional(),
     data: z.object({ sensitivity: z.enum(keys('sensitivity')), customer_pii: z.boolean(), signoff: z.string().min(1) }),
     impact: z.object({ baseline: z.string(), target: z.string(), evidence: z.enum(keys('evidence')) }),
     card: z.object({ problem: z.string().min(1), output: z.string().min(1) }),
