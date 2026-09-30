@@ -39,10 +39,26 @@ test('maintenance: independent re-solve matches, and month-first parsing would b
   assert.ok(wrong.length > 0, 'the DD.MM trap changes at least one overdue flag');
 });
 
-test('kak: VAT normalisation and compliance issues', () => {
-  const p = Object.fromEntries(kak.VENDORS.map((v) => [v.id, kak.priceInclVat(v)]));
-  assert.equal(p.B, 4_218_000_000);
-  assert.equal(Object.entries(p).sort((a, b) => b[1] - a[1])[0][0], 'B', 'B is most expensive after VAT');
-  assert.equal(kak.VENDORS.reduce((m, v) => (v.price < m.price ? v : m)).id, 'B', 'B looks cheapest before VAT');
-  assert.deepEqual(kak.VENDORS.map((v) => kak.issues(v).length), [1, 1, 1]);
+test('kak: price normalisation, traps and ranking', () => {
+  const k = kak.answerKey();
+  const R = Object.fromEntries(k.rows.map((r) => [r.id, r]));
+  assert.equal(k.hpsIncl, 14_652_000_000);
+  assert.equal(R.A.incl, 14_294_224_800, 'A: 3-year total with the 7% uplift, plus 11% effective PPN');
+  assert.equal(R.C.arithmeticDiff, 63_000_000, 'C: training 20 x 18.5m typed as 307m');
+  assert.equal(R.C.incl, 14_324_550_000);
+  assert.ok(R.C.quoted < inclVatA(), 'before correction C looks cheaper than A');
+  assert.equal(R.B.quoted, 12_768_000_000, 'B applied 12% on the full DPP');
+  assert.equal(R.B.incl, 12_654_000_000);
+  assert.equal(R.D.dpp, 9_099_280_000, 'D: USD 456,000 at JISDOR 16,380 plus IDR services');
+  assert.ok(R.D.pctHps < 0.8, 'D is below 80% of HPS');
+  assert.deepEqual(k.rows.filter((r) => r.passes).map((r) => r.id), ['A', 'C']);
+  assert.ok(R.B.admin.length === 2 && R.D.admin.length === 2 && R.D.tech.length === 3);
+  assert.deepEqual(k.ranking, ['C', 'A']);
+  assert.deepEqual(kak.naiveRanking(), ['A', 'C'], 'ignoring the uplift flips the ranking');
+  assert.equal(kak.memoUserSum(), 460);
+  const kakText = kak.plain(kak.TEXTS.KAK_FINAL) + kak.plain(kak.TEXTS.TEMPLATE_KAK);
+  assert.doesNotMatch(kakText, /Adatum|14,65|13\.200/, 'the issued KAK names no brand and no HPS');
+  assert.match(kak.plain(kak.TEXTS.MEMO), /Adatum/);
+  assert.doesNotMatch(kak.plain(kak.TEXTS.PROPOSAL_D), /Adendum 1/);
+  function inclVatA() { return R.A.incl; }
 });

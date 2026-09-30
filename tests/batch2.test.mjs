@@ -27,11 +27,25 @@ test('claims: missing document, unnamed driver, betterment', () => {
   assert.equal(cl.ESTIMATE.filter((e) => e.covered).reduce((s, e) => s + e.amount, 0), 8_800_000);
 });
 
-test('board paper: conflict is real', () => {
-  assert.notEqual(bp.CONFLICT.finance, bp.CONFLICT.operations);
-  assert.equal(bp.MISSING, 'Human Resources');
+test('board paper: bridge, materiality, stale input, conflict and missing section', () => {
+  const k = bp.answerKey();
+  assert.equal(k.ev - k.netDebt, k.equity100);
+  assert.equal(k.equity100 * k.stake / 100, k.price);
+  assert.equal(k.ratioNow, 21.25);
+  assert.ok(k.material && !k.rupsNeeded);
+  assert.ok(!k.materialIfStale, 'the stale LOI price would wrongly look non-material');
+  assert.equal(k.conflict.gap, k.conflict.explainedBy, 'the EBITDA gap equals the one-off land gain');
+  const t = Object.fromEntries(Object.entries(bp.TEXTS).map(([key, v]) => [key, bp.plain(v)]));
+  assert.match(t.INPUT_OPERATIONS, /238/);
+  for (const key of ['INPUT_FINANCE', 'INPUT_LEGAL_TAX', 'INPUT_STRATEGY', 'INPUT_RISK']) assert.doesNotMatch(t[key], /\b238\b/, `${key} must not carry the management EBITDA`);
+  assert.match(t.INPUT_RISK, /19,58/);
+  assert.match(t.INPUT_FINANCE, /1,020|1\.020/);
+  assert.doesNotMatch(t.INPUT_STRATEGY, /1,020|1\.020/, 'Strategy only gives the EV');
+  assert.match(t.INPUT_LEGAL_TAX, /Laras Pratiwi/);
+  for (const cp of ['CDOB', 'Litware', 'Fabrikam Nusantara']) assert.match(t.INPUT_LEGAL_TAX, new RegExp(cp));
+  assert.equal(bp.SECTIONS.length, 10);
+  assert.ok(!('INPUT_HC' in bp.TEXTS), 'Human Capital has not submitted');
 });
-
 test('contract review: 19 issues, verdict mix, clauses and traps present in the texts', () => {
   assert.equal(cr.ISSUES.length, 19);
   assert.deepEqual(cr.verdictCounts(), { redline: 5, beyond: 9, meets: 1, fallback1: 3, notAddressed: 1 });
