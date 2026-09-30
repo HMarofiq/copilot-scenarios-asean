@@ -42,13 +42,26 @@ Who does this, how often, what they produce, and how they do it today. Two or th
 
 ## Steps
 
+<!-- "**N. Step name.**" becomes a numbered step card with its own heading.
+     "**Part A: name (about N minutes).**" becomes a section heading above the steps it covers.
+     A paragraph starting "After you run it:" is styled as that step's check. -->
+
 **1. Step name.** What to open and where.
 
 :::prompt
-EN: The prompt in English.
-ID: Prompt dalam Bahasa Indonesia.
-BM: Prompt dalam Bahasa Melayu.
+ABOUT: Optional one-line summary of what this prompt produces.
+EN: One instruction per line.
+Write each rule on its own line so a reader can scan it and edit one value.
+A prompt written as a single line still renders as one paragraph.
+ID: Satu instruksi per baris.
+Tulis setiap aturan pada barisnya sendiri.
+Prompt yang ditulis dalam satu baris tetap tampil sebagai satu paragraf.
+BM: Satu arahan setiap baris.
+Tulis setiap peraturan pada barisnya sendiri.
+Prompt yang ditulis dalam satu baris tetap dipaparkan sebagai satu perenggan.
 :::
+
+After you run it: how the user checks this step before moving on.
 
 **2. Next step.**
 

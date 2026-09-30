@@ -1,10 +1,15 @@
 // Authoring syntax for scenario files:
 //
 //   :::prompt              one prompt in three languages; the site toggle picks one
+//   ABOUT: ...            optional one-line caption, shown above every language
 //   EN: ...
 //   ID: ...
 //   BM: ...
 //   :::
+//
+//   A prompt written as one line stays one paragraph. Write one instruction per
+//   line and it renders as a scannable, scrollable list instead; the copy button
+//   always copies exactly what is on screen.
 //
 //   :::presenter           collapsed "Running this as a session" block
 //   any markdown
@@ -48,6 +53,85 @@ function tierTable(tiers) {
   return { type: 'html', value: `<table class="tier-table"><thead><tr><th>Tier</th><th>Level</th><th>How it runs</th><th>Your time</th></tr></thead><tbody>${rows}</tbody></table>` };
 }
 
+// --- Steps: turn the "**N. Title.**" authoring convention into real structure ---
+// Readers get a heading per step and a card to work inside; nothing in the
+// markdown has to change. Scenarios that don't use the convention are untouched.
+const STEP_RE = /^(\d+)[.)]\s*(.+)$/;
+const PART_RE = /^(Part\s+[A-Z0-9]+)\s*[:.]\s*(.*)$/i;
+
+// The bold run that opens a paragraph, e.g. "2. Build the variance sheet in Excel."
+function lead(node) {
+  if (node?.type !== 'paragraph') return null;
+  const first = node.children?.[0];
+  if (first?.type !== 'strong') return null;
+  return toString(first).trim().replace(/\s+/g, ' ').replace(/\\/g, '');
+}
+
+// Everything after the bold lead, with the joining space removed.
+function tail(node) {
+  const rest = node.children.slice(1).map((c) => ({ ...c }));
+  if (rest[0]?.type === 'text') rest[0].value = rest[0].value.replace(/^\s+/, '');
+  return rest.some((c) => toString(c).trim()) ? rest : null;
+}
+
+const el = (hName, className, children) => ({ type: 'scenarioBlock', data: { hName, hProperties: { className } }, children });
+
+function wrapSteps(children) {
+  const out = [];
+  let found = false;
+  let i = 0;
+  while (i < children.length) {
+    const node = children[i];
+    const text = lead(node);
+    const part = text && text.match(PART_RE);
+    const step = text && !part && text.match(STEP_RE);
+
+    if (part) {
+      found = true;
+      const note = tail(node);
+      out.push({ type: 'heading', depth: 3, data: { hProperties: { className: ['part'] } },
+        children: [{ type: 'text', value: `${part[1]}: ${part[2].replace(/\.\s*$/, '')}` }] });
+      if (note) out.push(el('p', ['part-note'], note));
+      i += 1;
+      continue;
+    }
+
+    if (step) {
+      found = true;
+      const body = [];
+      const first = tail(node);
+      if (first) body.push(el('p', ['do'], first));
+      i += 1;
+      // A step owns everything up to the next step, part, heading or tier block.
+      while (i < children.length) {
+        const next = children[i];
+        if (next.type === 'heading') break;
+        if (next.type === 'containerDirective' && next.name !== 'prompt') break;
+        const nextLead = lead(next);
+        if (nextLead && (STEP_RE.test(nextLead) || PART_RE.test(nextLead))) break;
+        // "After you run it: ..." is the step's own check; mark it so it can be styled.
+        if (next.type === 'paragraph' && /^after you run it\b/i.test(toString(next).trim())) {
+          next.data = { ...next.data, hProperties: { ...next.data?.hProperties, className: ['after-run'] } };
+        }
+        body.push(next);
+        i += 1;
+      }
+      out.push(el('section', ['stepcard'], [
+        el('div', ['stephead'], [
+          el('span', ['num'], [{ type: 'text', value: step[1] }]),
+          { type: 'heading', depth: 4, children: [{ type: 'text', value: step[2].replace(/\.\s*$/, '') }] },
+        ]),
+        ...body,
+      ]));
+      continue;
+    }
+
+    out.push(node);
+    i += 1;
+  }
+  return found ? out : children;
+}
+
 export default function remarkScenario() {
   return (tree, file) => {
     const fm = file.data?.astro?.frontmatter;
@@ -57,20 +141,42 @@ export default function remarkScenario() {
       tree.children.splice(at, 0, ...metaNodes(fm));
       if (fm.tiers) tree.children.splice(at + 5, 0, tierTable(fm.tiers));
     }
+    // Structure the Steps section only: everything from "## Steps" to the next H2.
+    const stepsAt = tree.children.findIndex((n) => n.type === 'heading' && n.depth === 2 && toString(n).trim() === 'Steps');
+    if (stepsAt >= 0) {
+      let end = tree.children.findIndex((n, i) => i > stepsAt && n.type === 'heading' && n.depth === 2);
+      if (end < 0) end = tree.children.length;
+      tree.children.splice(stepsAt + 1, end - stepsAt - 1, ...wrapSteps(tree.children.slice(stepsAt + 1, end)));
+    }
     visit(tree, (node, index, parent) => {
       if (node.type === 'containerDirective' && node.name === 'prompt') {
-        const lines = toString(node, { includeHtml: false }).split(/\r?\n/);
         const byLang = {};
+        let about = '';
         let cur = null;
-        for (const line of lines) {
-          const m = line.match(/^(EN|ID|BM):\s*(.*)$/);
-          if (m) { cur = m[1]; byLang[cur] = m[2]; } else if (cur && line.trim()) byLang[cur] += ' ' + line.trim();
+        for (const line of toString(node, { includeHtml: false }).split(/\r?\n/)) {
+          const caption = line.match(/^ABOUT:\s*(.*)$/);
+          if (caption) { cur = 'ABOUT'; about = caption[1].trim(); continue; }
+          const marker = line.match(/^(EN|ID|BM):\s*(.*)$/);
+          if (marker) { cur = marker[1]; byLang[cur] = marker[2].trim() ? [marker[2].trim()] : []; continue; }
+          if (!line.trim()) continue;
+          if (cur === 'ABOUT') about += ' ' + line.trim();
+          else if (cur) byLang[cur].push(line.trim());
         }
-        const missing = LANGS.filter(([k]) => !byLang[k]).map(([k]) => k);
+        const missing = LANGS.filter(([k]) => !byLang[k]?.length).map(([k]) => k);
         if (missing.length) file.fail(`:::prompt is missing ${missing.join(', ')}`, node);
-        const inner = LANGS.map(([k, code]) =>
-          `<div class="prompt" data-lang="${code}"><span class="lang">${k}</span><p>${esc(byLang[k])}</p>` +
-          `<button class="copy" type="button">Copy</button></div>`).join('');
+        const caption = about ? `<p class="pabout">${esc(about)}</p>` : '';
+        const inner = LANGS.map(([k, code]) => {
+          const lines = byLang[k];
+          // One authored line stays a paragraph; several become a scannable list.
+          const body = lines.length > 1
+            ? `<ul class="plines" tabindex="0" role="group" aria-label="Prompt text in ${k}, ${lines.length} instructions. Scrollable.">` +
+              lines.map((l) => `<li>${esc(l)}</li>`).join('') + '</ul>'
+            : `<p class="ptext">${esc(lines[0])}</p>`;
+          const count = lines.length > 1 ? `<span class="plen">${lines.length} lines</span>` : '';
+          return `<div class="prompt" data-lang="${code}">` +
+            `<div class="phead"><span class="lang">${k}</span>${count}` +
+            `<button class="copy" type="button">Copy</button></div>${caption}${body}</div>`;
+        }).join('');
         parent.children[index] = { type: 'html', value: `<div class="prompt-set">${inner}</div>` };
         return SKIP;
       }
@@ -84,6 +190,7 @@ export default function remarkScenario() {
         const t = (fm?.tiers ?? []).find((x) => x.key === key);
         if (!t) file.fail(`::::tier{key="${key}"} has no matching entry in frontmatter tiers`, node);
         node.data = { hName: 'section', hProperties: { className: ['tier'], id: `tier-${key}`, dataTier: key } };
+        node.children = wrapSteps(node.children);
         node.children.unshift({ type: 'heading', depth: 3, children: [{ type: 'text', value: lbl('tier', key) }] },
           { type: 'html', value: `<p class="tier-meta">${esc(lbl('difficulty', t.difficulty))} · ${esc(t.runs)} · ${esc(t.effort)}</p>` });
         return;
