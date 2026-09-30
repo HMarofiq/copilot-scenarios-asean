@@ -9,7 +9,7 @@ const localized = z.object({ en: z.string().min(1), id: z.string().min(1), ms: z
 const scenarios = defineCollection({
   loader: glob({ pattern: '*.md', base: './content/scenarios' }),
   schema: z.object({
-    id: z.string().regex(/^(bfsi|gov|enr|x)-[a-z0-9-]+-\d{3}$/, 'id must look like bfsi-short-name-001'),
+    id: z.string().regex(/^(bfsi|gov|enr|tel|x)-[a-z0-9-]+-\d{3}$/, 'id must look like bfsi-short-name-001'),
     title: localized,
     summary: localized,
     industry: tags('industry'),
