@@ -1,4 +1,4 @@
-import { ROLES, FACET_KEYS, readState, writeState, rankScenario, matchesFilters } from '../lib/discovery.mjs';
+import { ROLES, FACET_KEYS, readState as parseState, writeState, rankScenario, matchesFilters, guideView } from '../lib/discovery.mjs';
 import { toolIconUrl } from '../lib/tool-icons.mjs';
 
 const root = document.getElementById('discovery');
@@ -11,6 +11,7 @@ const cards = [...root.querySelectorAll('.scenario-card')];
 const fields = [...root.querySelectorAll('[data-facet]')];
 const input = document.getElementById('q');
 const searchNote = document.getElementById('search-note');
+const readState = (search, opts) => { const s = parseState(search, opts); s.view = guideView(s.view); return s; };
 let state = readState(location.search, choices);
 let searchModule;
 let searchLoading;
@@ -34,7 +35,7 @@ function saveUrl(push = false) {
 
 function navigate(view, step = state.step) {
   clearTimeout(searchTimer);
-  state.view = view;
+  state.view = guideView(view);
   state.step = step;
   saveUrl(true);
   render(true);
