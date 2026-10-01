@@ -6,7 +6,7 @@ export const INBOX = [
     importance: 'high',
     body: `Carlos,
 
-Saya butuh bantuan kamu untuk melengkapi pack Direksi hari ini. Meeting operasi dengan Direksi tetap jam 14.00, tetapi pre-read harus saya kirimkan ke Sekretariat Direksi setelah makan siang, jadi mohon kirim input IT ke saya paling lambat 12.00.
+Saya butuh bantuan kamu untuk melengkapi pack Direksi besok, {{d:0:id}}. Meeting operasi dengan Direksi tetap jam 14.00, tetapi pre-read harus saya kirimkan ke Sekretariat Direksi setelah makan siang, jadi mohon kirim input IT ke saya paling lambat 12.00.
 
 Yang saya perlukan cukup 1 halaman executive summary, plus 1 backup table kalau nanti ditanya detail. Tolong fokus pada tiga hal berikut:
 
@@ -65,7 +65,7 @@ Sent from Outlook for iOS`,
     importance: 'normal',
     body: `Kian,
 
-Saya sudah review runbook v3, hasil mock cutover 2, dan checklist infra sampai update terakhir tadi malam. Secara keseluruhan posisi infra mendukung rekomendasi proceed, dengan catatan change freeze harus benar-benar dikunci mulai {{d:+2:id}} 18:00 dan tidak ada deployment Portal Mitra di luar daftar yang sudah Serena approve.
+Saya sudah review runbook v3, hasil mock cutover 2, dan checklist infra sampai update terakhir tadi malam. Secara keseluruhan posisi infra mendukung rekomendasi proceed, dengan catatan change freeze harus benar-benar dikunci mulai {{w:+2:id}} 18:00 dan tidak ada deployment Portal Mitra di luar daftar yang sudah Serena approve.
 
 Ringkasan readiness infra:
 
@@ -88,7 +88,7 @@ Backup dan restore timing yang sudah saya ukur:
 - Restore sample 2 TB ke isolated volume: 2 jam 42 menit, checksum match.
 - Restore application configuration gateway + connector: 21 menit.
 
-Rollback point yang saya rekomendasikan tetap seperti runbook v3: final business checkpoint pada {{d:+3:id}} 11.30, setelah master data validation dan sebelum delta transaction load dimulai. Jika ada defect severity 1 sebelum checkpoint itu, rollback ke SAP ECC masih realistis di bawah 4 jam. Setelah delta transaction load berjalan, rollback menjadi business decision karena reconciliation manual akan besar; di fase itu opsi yang lebih aman adalah pause, fix-forward, dan extend hypercare.
+Rollback point yang saya rekomendasikan tetap seperti runbook v3: final business checkpoint pada {{w:+3:id}} 11.30, setelah master data validation dan sebelum delta transaction load dimulai. Jika ada defect severity 1 sebelum checkpoint itu, rollback ke SAP ECC masih realistis di bawah 4 jam. Setelah delta transaction load berjalan, rollback menjadi business decision karena reconciliation manual akan besar; di fase itu opsi yang lebih aman adalah pause, fix-forward, dan extend hypercare.
 
 DR dan failover: latihan DR terbatas sudah dilakukan kemarin untuk komponen infra yang relevan, bukan full business DR. Hasilnya: secondary gateway bisa menerima traffic synthetic dalam 7 menit setelah DNS switch; database standby terbaca di reporting node; dan alerting ke on-call SRE masuk ke Teams serta SMS. Gap yang masih tersisa adalah failover otomatis untuk satu interface lama ke WMS Surabaya, karena dependency-nya masih hard-coded. Ticket CHG-2026-1182 mencatat mitigasi manual: Sarah dan tim WMS akan stand by dengan script route override.
 
@@ -106,9 +106,9 @@ Rencana coverage infra saya:
 - Sabtu 18.00 sampai Minggu 18.00: rotating coverage, dengan Proseware membantu monitoring dan execution checklist.
 - Senin pagi: hypercare war room 08.00-10.00.
 
-Kesimpulan saya: infra siap untuk proceed, dengan status Green/Amber seperti di atas. Tidak ada blocker teknis yang memaksa penundaan. Yang saya butuhkan hari ini adalah keputusan resource supaya jadwal Sabtu tidak berjalan dengan coverage minimum.
+Kesimpulan saya: infra siap untuk proceed, dengan status Green/Amber seperti di atas. Tidak ada blocker teknis yang memaksa penundaan. Yang saya butuhkan besok pagi adalah keputusan resource supaya jadwal Sabtu tidak berjalan dengan coverage minimum.
 
-Pak Carlos, mohon approve overtime Sabtu untuk 9 internal staff dan 12 contractor PT Proseware Tenaga Ahli. Biaya contractor adalah 12 x IDR 3,200,000 per person per day = IDR 38,400,000. Saya perlu approval dari Pak Carlos paling lambat 15.00 hari ini, karena Proseware minta konfirmasi tertulis sebelum 16.00 untuk lock nama engineer dan akses DC.
+Pak Carlos, mohon approve overtime Sabtu untuk 9 internal staff dan 12 contractor PT Proseware Tenaga Ahli. Biaya contractor adalah 12 x IDR 3,200,000 per person per day = IDR 38,400,000. Saya perlu approval dari Pak Carlos paling lambat besok ({{d:0:id}}) pukul 15.00, karena Proseware minta konfirmasi tertulis sebelum 16.00 untuk lock nama engineer dan akses DC.
 
 Salam,
 
@@ -128,11 +128,11 @@ Bu Lydia,
 Saya kirim ringkasan rencana cutover Proyek Nusa untuk review infra sebelum kita finalkan di go/no-go call. Runbook terbaru ada di SharePoint dengan nama Cutover runbook v3.xlsx. Mock cutover 2 pada {{d:-4:id-short}} selesai 31 jam dibanding window 36 jam, dengan 7 defect tersisa dan tidak ada critical defect.
 
 Timeline besar:
-- {{d:+2:day-id}} 18.00: change freeze mulai.
-- {{d:+3:day-id}} 06.00: start cutover, shutdown interface non-critical, pre-cut snapshot.
-- {{d:+3:day-id}} siang: migration load dan validation master data.
-- {{d:+4:day-id}} pagi: Portal Mitra regression, WMS smoke test, finance validation.
-- {{d:+4:day-id}} 18.00: target handover ke hypercare.
+- {{w:+2:day-id}} 18.00: change freeze mulai.
+- {{w:+3:day-id}} 06.00: start cutover, shutdown interface non-critical, pre-cut snapshot.
+- {{w:+3:day-id}} siang: migration load dan validation master data.
+- {{w:+4:day-id}} pagi: Portal Mitra regression, WMS smoke test, finance validation.
+- {{w:+4:day-id}} 18.00: target handover ke hypercare.
 
 Role: saya lead command center, Serena pegang Portal Mitra regression, Sarah service desk readiness, Elvia data reconciliation. Dari sisi infra saya butuh Bu Lydia confirm backup window, rollback point yang paling aman, status DR terbatas, dan apakah ada risiko jaringan Johor yang perlu kita sebut di go/no-go.
 
@@ -161,7 +161,7 @@ Company code: CNID
 Purchasing organization: IT Procurement
 Requester: Lydia Bauer
 Created on: {{d:-1:en}} 15:44 WIB
-Expires: today 17:00 WIB
+Expires: {{d:0:en}} 17:00 WIB
 
 Net value: 486,500,000
 Currency: IDR
@@ -227,11 +227,11 @@ T +62 21 5550 7788`,
   },
   {
     id: 'A5',
-    subject: 'Q4 re-forecast: IT input required by tomorrow 10:00',
+    subject: 'Q4 re-forecast: IT input required by {{d:+1:day-en}} 10:00',
     importance: 'high',
     body: `Carlos,
 
-Finance is starting the Q4 re-forecast cycle and I need the Technology Division input by tomorrow 10:00. Babak will consolidate division submissions in the afternoon, so please treat the deadline as firm even if the numbers are not yet final to the rupiah.
+Finance is starting the Q4 re-forecast cycle and I need the Technology Division input by {{d:+1:en}}, 10:00 WIB. Babak will consolidate division submissions in the afternoon, so please treat the deadline as firm even if the numbers are not yet final to the rupiah.
 
 Please use the shared workbook Q4_Reforecast_Template_IT.xlsx in the Finance SharePoint folder. Do not send a separate spreadsheet, because Babak's consolidation model reads the template structure directly.
 
@@ -342,7 +342,7 @@ T +60 7 555 0142`,
     importance: 'normal',
     body: `HR Performance Portal Notification
 
-The mid-year performance review window closes {{d:+2:en}} at 17:00 local time.
+The mid-year performance review window closes {{w:+2:en}} at 17:00 local time.
 
 Your self-assessment status: Not started
 Manager review status for your direct reports:
@@ -402,7 +402,7 @@ Proyek Nusa - Cutover Lead`,
     importance: 'normal',
     body: `Carlos,
 
-The quarterly user access review for IT systems is due {{d:+2:en}} at 17:00. Your review pack is open in the Security Governance portal.
+The quarterly user access review for IT systems is due {{w:+2:en}} at 17:00. Your review pack is open in the Security Governance portal.
 
 Scope assigned to you:
 
@@ -604,9 +604,9 @@ Below is the September closing timetable. Please cascade only to teams that own 
 
 Activity                                      Owner              Due
 --------------------------------------------  -----------------  ----------------------
-Accrual submissions                           Divisions          {{d:+2:en}} 17:00
-Open PO review above IDR 100 million          Divisions          {{d:+2:en}} 17:00
-Finance validation of accruals                Finance            {{d:+3:en}} 12:00
+Accrual submissions                           Divisions          {{w:+2:en}} 17:00
+Open PO review above IDR 100 million          Divisions          {{w:+2:en}} 17:00
+Finance validation of accruals                Finance            {{w:+3:en}} 12:00
 Controller review                             Finance            {{d:+5:en}} 15:00
 Final September numbers issued                Finance            {{d:+7:en}} 18:00
 
@@ -702,7 +702,7 @@ Compliance Manager`,
     importance: 'normal',
     body: `Dear Kian,
 
-This is to confirm that shipment MY-2211 departed Port Klang yesterday evening and is now in transit to Tanjung Priok. Current ETA is {{d:+2:en-short}}, subject to customs clearance.
+This is to confirm that shipment MY-2211 departed Port Klang yesterday evening and is now in transit to Tanjung Priok. Current ETA is {{w:+2:en-short}}, subject to customs clearance.
 
 Packing list summary:
 
@@ -1100,7 +1100,7 @@ Tasks due this week:
 
 3. Publish hypercare contact list
    Assigned to: Kian Lambert
-   Due: {{d:+2:en}}
+   Due: {{w:+2:en}}
    Status: Not started
 
 Open plan:

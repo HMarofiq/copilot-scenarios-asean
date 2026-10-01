@@ -33,7 +33,7 @@ export const CHATS = [
       { from: 'lydia', at: { d: -4, t: '19:18' }, text: 'Inventory delta mitigation masuk runbook: health check sebelum batch dan clear restart step. Tidak perlu code change.' },
       { from: 'carlos', at: { d: -4, t: '19:27' }, text: 'Recommendation?' },
       { from: 'kian', at: { d: -4, t: '19:31' }, text: 'Proceed, dengan criteria: regression clear, backup/restore sample valid, dan Saturday resource confirmed.' },
-      { from: 'kian', at: { d: -3, t: '08:20' }, text: 'Freeze tetap {{d:+2:id}} 18:00. Go/no-go call {{d:+2:day-id}} 16:00. Cutover mulai {{d:+3:id}} 06:00.' },
+      { from: 'kian', at: { d: -3, t: '08:20' }, text: 'Freeze tetap {{w:+2:id}} 18:00. Go/no-go call {{w:+2:day-id}} 16:00. Cutover mulai {{w:+3:id}} 06:00.' },
       { from: 'lydia', at: { d: -3, t: '08:29' }, text: 'Backup final akan start setelah freeze. Rollback point utama sebelum migration wave 1.' },
       { from: 'serena', at: { d: -2, t: '13:42' }, text: 'Regression re-run passed untuk tax code. Partner inactive validation message masih cosmetic, not blocking.' },
       { from: 'kian', at: { d: -2, t: '16:25' }, text: 'Saya kirim email plan ke Lydia, cc Pak Carlos dan Serena. Resource gap Sabtu saya tulis jelas.' },

@@ -45,13 +45,13 @@ export const HISTORY = [
     importance: 'normal',
     body: `Halo Lydia, Pak Carlos, Serena,
 
-Saya kirim rencana cutover Proyek Nusa versi kerja untuk akhir pekan ini supaya infra readiness bisa dikunci sebelum kita masuk freeze. Targetnya tetap change freeze mulai {{d:+2:id}} pukul 18:00, cutover dimulai {{d:+3:id}} pukul 06:00, dan window selesai maksimal {{d:+4:id}} pukul 18:00. Runbook yang dipakai adalah Cutover runbook v3.xlsx; saya update langkah aplikasi, sequencing batch, dan checkpoint rollback setelah hasil mock cutover 2.
+Saya kirim rencana cutover Proyek Nusa versi kerja untuk akhir pekan ini supaya infra readiness bisa dikunci sebelum kita masuk freeze. Targetnya tetap change freeze mulai {{w:+2:id}} pukul 18:00, cutover dimulai {{w:+3:id}} pukul 06:00, dan window selesai maksimal {{w:+4:id}} pukul 18:00. Runbook yang dipakai adalah Cutover runbook v3.xlsx; saya update langkah aplikasi, sequencing batch, dan checkpoint rollback setelah hasil mock cutover 2.
 
 Ringkas timeline: Jumat malam freeze dan final backup; Sabtu pagi export master data, konfigurasi delta, lalu migration wave 1; Sabtu sore integrasi Portal Mitra dan pricing; Minggu pagi reconciliation, regression smoke test, lalu business validation. Rollback point utama ada setelah backup final sebelum migration wave 1, dan satu decision point lagi setelah reconciliation sebelum Portal Mitra dibuka untuk partner.
 
 Peran saat ini: saya cutover lead, Lydia owner infrastructure dan backup/restore, Serena owner regression Portal Mitra, Sarah koordinasi service desk, dan Elvia standby untuk data warehouse feed. Gap terbesar masih hari Sabtu: kita butuh 9 internal staff overtime dan 12 contractor Proseware untuk data validation serta batch monitoring. Biaya contractor sesuai rate Proseware adalah IDR 38.400.000 untuk satu hari, dan mereka minta konfirmasi tertulis paling lambat {{d:0:day-id}} pukul 16.00.
 
-Lydia, boleh bantu review infra readiness: backup timing, DR status, kapasitas connector, monitoring, dan risiko shared certificate setelah pelajaran dari insiden Portal Mitra. Kalau ada blocker, saya ingin masukkan ke materi go/no-go call {{d:+2:day-id}} pukul 16.00.
+Lydia, boleh bantu review infra readiness: backup timing, DR status, kapasitas connector, monitoring, dan risiko shared certificate setelah pelajaran dari insiden Portal Mitra. Kalau ada blocker, saya ingin masukkan ke materi go/no-go call {{w:+2:day-id}} pukul 16.00.
 
 Terima kasih,
 Kian
@@ -163,7 +163,7 @@ Calendar:
 | {{d:-3:day-en}} | Finance office hours for questions on accruals and phasing. |
 | {{d:+1:day-en}} 10:00 | Division submissions due. |
 | {{d:+1:day-en}} 14:00-16:00 | Consolidation working session. |
-| {{d:+2:day-en}} | CFO review and challenge questions issued. |
+| {{w:+2:day-en}} | CFO review and challenge questions issued. |
 
 For IT, please split Oct-Dec across licences, cloud, and staff & contractors. The YTD sheet already shows the 6% overspend trend, mainly cloud consumption. Please call out any mitigation, including the reserved-instance renewal in November if Technology plans to proceed.
 
@@ -186,7 +186,7 @@ Ringkasan defect: total 7 defect, 0 critical, 2 high, 3 medium, 2 low. High defe
 
 Rekomendasi saya: proceed dengan syarat tiga go/no-go criteria dipenuhi. Satu, regression Portal Mitra clear untuk tax code dan inactive partner. Dua, backup final dan restore sample tervalidasi sebelum migration wave 1. Tiga, resource Sabtu dikunci, termasuk 9 internal staff overtime dan 12 contractor Proseware. Tanpa resource tambahan, buffer 5 jam bisa habis hanya untuk manual reconciliation.
 
-Saya sudah update Cutover runbook v3.xlsx dengan defect actions, rollback point, dan owner per fase. Kalau ada concern, mohon kirim sebelum call {{d:+2:day-id}} pukul 16.00 supaya tidak dibahas pertama kali saat go/no-go.
+Saya sudah update Cutover runbook v3.xlsx dengan defect actions, rollback point, dan owner per fase. Kalau ada concern, mohon kirim sebelum call {{w:+2:day-id}} pukul 16.00 supaya tidak dibahas pertama kali saat go/no-go.
 
 Terima kasih,
 Kian
