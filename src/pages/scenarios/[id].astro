@@ -40,12 +40,6 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
           <div><b>You get</b><p>{d.card.output}</p></div>
           <div><b>Time</b><p>{d.impact.baseline} → {d.impact.target}<br /><span class={`chip ev-${d.impact.evidence}`}>{label('evidence', d.impact.evidence)}</span></p></div>
         </div>
-        <p class="meta60">
-          <span><b>Licence</b> {d.licence.map((x) => label('licence', x)).join(' · ')}</span>
-          <span><b>Apps</b> {d.surface.map((x) => label('surface', x)).join(' · ')}</span>
-          {d.run_time && <span><b>Run time</b> {d.run_time}</span>}
-          <span class="data60">Your data: {d.data.sensitivity} · sign-off: {d.data.signoff.split(/[;,]/)[0]}</span>
-        </p>
       </section>
 
       <div class="quick-start">
@@ -77,8 +71,9 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
       </nav>
       <div class="box datarules">
         <div class="k">Data rules</div>
-        <p><strong>{d.data.sensitivity}</strong> · personal data: {d.data.customer_pii ? 'Yes' : 'No'}</p>
-        <p>Sign-off: {d.data.signoff}</p>
+        <p><strong>Sensitivity:</strong> {d.data.sensitivity}</p>
+        <p><strong>Personal data:</strong> {d.data.customer_pii ? 'Yes' : 'No'}</p>
+        <p><strong>Approval before use:</strong> {d.data.signoff}</p>
         <p class="tenant">Work account only. Never a consumer AI tool.</p>
       </div>
     </aside>
@@ -171,9 +166,6 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
   .prose :global(pre) { max-width:100%; overflow:auto }
   .prose :global(h2), .prose :global(h3), .prose :global(h4) { scroll-margin-top:104px }
   .prose :global(.stepcard) { scroll-margin-top:104px }
-  /* In 60 seconds: one line with what it takes to run. */
-  .meta60 { display:flex; flex-wrap:wrap; gap:6px 18px; margin:12px 0 0; padding-top:10px; border-top:1px solid var(--cp-border); font-size:13px; color:var(--ink2) }
-  .meta60 b { color:var(--ink); margin-right:4px } .data60 { color:var(--warnline); font-weight:600 }
   .presenting { margin-left:auto; display:inline-flex; align-items:center; gap:8px; color:var(--cp-text-muted); cursor:pointer }
   .sources { margin-top:28px; padding-top:12px; border-top:1px solid var(--line); font-size:12.5px; color:var(--cp-text-muted) } .sources a { color:inherit }
   /* Objective and situation */
@@ -181,10 +173,11 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
   .prose :global(.objective-k) { font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--brand) }
   .prose :global(.objective p) { margin:4px 0 0; font-size:16.5px; font-weight:600 }
   /* Before you start */
-  .prose :global(.start-grid) { display:grid; grid-template-columns:1.1fr 1fr; gap:14px; align-items:stretch; margin:12px 0 16px }
+  .prose :global(.start-grid) { display:grid; grid-template-columns:minmax(0, 1fr); gap:14px; margin:12px 0 16px }
   .prose :global(.start-grid > *) { margin:0; max-width:none }
   .prose :global(.needs) { border:1.5px solid var(--brand); border-radius:10px; padding:12px 16px; background:var(--cp-surface) }
   .prose :global(.needs-k) { font-weight:700; color:var(--brand); margin-bottom:6px }
+  .prose :global(.app-icon) { width:24px; height:24px; flex:0 0 24px; object-fit:contain }
   .prose :global(.needs dl) { margin:0; display:grid; gap:6px }
   .prose :global(.need) { display:grid; grid-template-columns:80px 1fr; gap:10px; align-items:baseline }
   .prose :global(.need dt) { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--ink2) } .prose :global(.need dd) { margin:0 }
@@ -214,7 +207,6 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
   .prose :global(.fixes) { list-style:none; padding:0 } .prose :global(.fixes li) { padding:8px 0; border-bottom:1px solid var(--line); scroll-margin-top:104px }
   .prose :global(.fixes li:target) { background:var(--brand-soft) }
   .prose :global(.steptag) { display:inline-block; font-size:11px; font-weight:700; color:var(--brand); background:var(--brand-soft); border-radius:5px; padding:1px 6px; vertical-align:1px }
-  @media(max-width:900px) { .prose :global(.start-grid) { grid-template-columns:1fr } }
   @media(max-width:640px) { .prose :global(.routes) { grid-template-columns:1fr } .presenting { margin-left:0 } }  @media print {
     .quick-start, .side, .crumb, .done, .presenting { display:none }
     .page { display:block } article { border:0; padding:0 }

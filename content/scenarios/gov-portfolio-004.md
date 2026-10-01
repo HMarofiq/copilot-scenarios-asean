@@ -33,7 +33,7 @@ validation_note: "Run end to end as a Cowork task in a demo tenant with the kit:
 
 ## Situation
 
-A holding company's strategy office (PMO) consolidates monthly reports from its subsidiaries. Formats differ, KPIs are named differently and a few always arrive late.
+The PMO consolidates monthly subsidiary reports despite different formats, inconsistent KPI names and late submissions.
 
 ## Steps
 

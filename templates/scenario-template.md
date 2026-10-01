@@ -39,7 +39,7 @@ status: draft                    # draft | partly-validated | validated
 
 ## Situation
 
-Who does this, how often, what they produce, and how they do it today. Two or three sentences. No customer names.
+Keep the situation to 40-90 words: who needs the result, the deadline, the inputs and the main complication. Use short paragraphs with bold leads for longer cases. Leave detailed rules and traps in Steps and Check it. No customer names.
 
 <!-- Inputs, Data and controls, and Know the limits are generated from the frontmatter here. -->
 

@@ -34,7 +34,7 @@ validation_note: "Run end to end in a demo tenant with the kit: all 12 timeline 
 
 ## Situation
 
-After an incident on site, the HSE officer collects statements, the permit to work and the JSA, and drafts an investigation report for the investigation team. The root cause is the team's call; the draft saves them from starting at a blank page.
+After a site incident, turn statements, the permit to work and the JSA into an investigation draft. The investigation team determines the root cause.
 
 ## Steps
 

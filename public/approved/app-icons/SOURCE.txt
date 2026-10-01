@@ -1,0 +1,20 @@
+Microsoft product icons
+
+Source: Microsoft Brand Central, Microsoft 365 and Office product icon kit
+Toolkit: M365 Icon Toolkit.zip (asset last updated 19 August 2026)
+Retrieved: 1 October 2026
+Asset path: /content/dam/source/microsoft-products-services/microsoft-365/icon/m365_and_office_product_icon_kit
+
+word.svg, excel.svg, powerpoint.svg, outlook.svg and teams.svg are unmodified
+copies from the toolkit's "M365 app icon SVG's.zip".
+copilot.svg is the unmodified "Copilot-icon-filled-gradient-rgb.svg".
+Filenames are normalised; artwork, colours, viewBox and proportions are unchanged.
+
+Use only to identify the corresponding Microsoft product in the Apps row.
+Cowork uses the Copilot app icon because it is a feature of that app, not a
+separately branded app. Surfaces without a sourced product icon retain the
+existing generic Fluent UI symbol.
+
+These are Microsoft brand assets, not MIT-licensed Fluent UI system icons.
+Microsoft retains the artwork and trademark rights. Do not use these as the
+library's logo or imply Microsoft endorsement of this community library.

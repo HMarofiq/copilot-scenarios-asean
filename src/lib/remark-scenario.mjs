@@ -24,6 +24,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { parse } from 'yaml';
 import { toolIconUrl } from './tool-icons.mjs';
+import { appIconUrl } from './app-icons.mjs';
 
 const TAX = parse(readFileSync(join(process.cwd(), 'taxonomy', 'taxonomy.yml'), 'utf8'));
 const lbl = (facet, v) => TAX[facet]?.[String(v)]?.en ?? String(v);
@@ -35,7 +36,11 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 function beforeYouStart(fm, base) {
   const d = fm.data ?? {};
   const pii = d.customer_pii ? "Yes. Remove identifiers you don't need." : 'No';
-  const icon = (x) => `<span class="tool-icon" aria-hidden="true" style="--tool-icon: url('${toolIconUrl(base, x)}')"></span>`;
+  const icon = (x) => {
+    const app = appIconUrl(base, x);
+    return app ? `<img class="app-icon" src="${app}" alt="" width="24" height="24">` :
+      `<span class="tool-icon" aria-hidden="true" style="--tool-icon: url('${toolIconUrl(base, x)}')"></span>`;
+  };
   const row = (k, v) => `<div class="need"><dt>${k}</dt><dd>${v}</dd></div>`;
   const needs = '<div class="needs"><div class="needs-k">What you need to run this</div><dl>' +
     row('Licence', fm.licence.map((x) => `<span class="chip lic">${esc(lbl('licence', x))}</span>`).join('')) +
@@ -43,7 +48,9 @@ function beforeYouStart(fm, base) {
     (fm.needs?.length ? row('Also', fm.needs.map((n) => `<span class="also">${esc(n)}</span>`).join('')) : '') +
     (fm.run_time ? row('Time', esc(fm.run_time)) : '') + '</dl></div>';
   const rules = '<div class="callout warn rules"><strong class="rules-k">Data rules: read before you paste anything</strong>' +
-    `<p><strong>Sensitivity:</strong> ${esc(d.sensitivity)} · <strong>Personal data:</strong> ${pii} · <strong>Approval before use:</strong> ${esc(d.signoff)}</p>` +
+    `<p><strong>Sensitivity:</strong> ${esc(d.sensitivity)}</p>` +
+    `<p><strong>Personal data:</strong> ${pii}</p>` +
+    `<p><strong>Approval before use:</strong> ${esc(d.signoff)}</p>` +
     "<p>Use Copilot signed in with your work account, in your organisation's Microsoft 365 tenant. Never paste this content into consumer AI tools.</p></div>";
   const files = '<ul class="files">' + fm.inputs.map((i) => {
     const m = i.name.match(/^(.*?)(?::\s+|\s+\()(.*?)\)?$/);

@@ -34,7 +34,7 @@ validation_note: "Run end to end in a demo tenant on a Confidential (encrypted) 
 
 ## Situation
 
-Branch operations reconciles the general ledger against teller cash and ATM settlement every week. Breaks come from timing differences, reversed transactions and the occasional genuine shortage. Today this is VLOOKUP by hand across three files.
+Branch operations matches the ledger, teller cash and ATM settlement each week. Replace manual VLOOKUPs across three files with a reconciliation that separates timing, reversals and genuine shortages.
 
 ## Steps
 

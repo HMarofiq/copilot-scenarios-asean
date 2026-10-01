@@ -43,13 +43,11 @@ validation_note: "Run end to end in a demo tenant with the kit (MSA with schedul
 
 ## Situation
 
-**The deal.** Monday 28 September, 09:05. You are Legal Counsel at PT Contoso Niaga Nusantara Tbk, a listed distributor with a Malaysian subsidiary. Procurement agreed a three-year cloud deal with Tailspin Cloud Services in Singapore: USD 1,080,000 a year for Indonesia and USD 144,000 for Malaysia. The partner ordering portal went down in September, so IT wants to move on 1 November.
+**The deal.** Contoso Niaga needs Legal's review of a three-year cloud deal covering Indonesia and Malaysia. After a portal outage, IT wants to move on 1 November.
 
-**What the vendor sent.** Their standard contract: a 22-clause agreement, a service-level schedule, a data processing addendum, two order forms and a link to online terms. Their lawyer says it is "largely non-negotiable". Procurement is proud of two wins in the order forms: hosting in Jakarta and a price freeze.
+**The inputs.** The vendor sent an agreement, schedules, order forms and online terms. Procurement negotiated Jakarta hosting and a price freeze.
 
-**What you must deliver by Thursday.** A review against your 19-issue playbook, a reply to the vendor, and a memo for the General Counsel.
-
-**Where the traps are.** Your negotiated terms rank last. A "notwithstanding" at the end cuts the data-breach cap. The breach clock starts only when the vendor "confirms". And the right to train AI on your data is not in the contract at all, but in the online terms.
+**The risks.** Hidden overrides weaken those wins, breach protections and notice timing; online terms allow AI training on your data. By Thursday, deliver the 19-issue review, vendor reply and escalation memo.
 
 ## Steps
 

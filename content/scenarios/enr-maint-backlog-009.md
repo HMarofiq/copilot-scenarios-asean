@@ -30,7 +30,7 @@ validation_note: "Run in Copilot in Excel in a demo tenant with the kit: 6 dupli
 
 ## Situation
 
-A maintenance planner at a mine or mill exports the open work orders from SAP PM every week for the backlog meeting. The export mixes open and technically completed orders, dates come out as text, and extracts are sometimes run twice. Cleaning it by hand takes half a day.
+A maintenance planner prepares the weekly backlog from SAP PM exports. Remove completed and duplicate orders, fix text dates and prioritise the remaining work instead of spending half a day cleaning it.
 
 ## Steps
 
