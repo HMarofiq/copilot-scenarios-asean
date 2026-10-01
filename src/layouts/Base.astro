@@ -1,6 +1,6 @@
 ---
-interface Props { title: string }
-const { title } = Astro.props;
+interface Props { title: string; scenario?: boolean }
+const { title, scenario = false } = Astro.props;
 const base = import.meta.env.BASE_URL;
 ---
 <!doctype html>
@@ -23,7 +23,7 @@ const base = import.meta.env.BASE_URL;
     try { document.documentElement.dataset.lang = localStorage.getItem('sl:v1:lang') || 'en'; } catch {}
   </script>
 </head>
-<body>
+<body class:list={{ 'scenario-page': scenario }}>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="top">
     <a class="brand" href={base}>
@@ -192,6 +192,8 @@ const base = import.meta.env.BASE_URL;
   .theme-switch svg { width:16px; height:16px; flex-shrink:0 }
   .visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0 }
   main { max-width:1280px; min-height:calc(100vh - 166px); margin:0 auto; padding:32px 28px 64px }
+  .scenario-page { background:var(--cp-surface) }
+  .scenario-page main { max-width:1180px; padding-top:36px }
   .foot { text-align:center; color:var(--ink2); font-size:12px; padding:20px; border-top:1px solid var(--line) }
   .chip { display:inline-block; font-size:12px; padding:3px 8px; border-radius:6px; background:var(--cp-surface-soft); color:var(--ink2); margin:0 4px 4px 0; overflow-wrap:anywhere }
   .chip.lvl { background:var(--brand-soft); color:var(--brand); font-weight:600 }

@@ -35,6 +35,23 @@ test('the summary card has no duplicated requirements and Before you start is al
   assert.match(page, /\.start-grid\)[^\n]+grid-template-columns:minmax\(0, 1fr\)/);
 });
 
+test('scenario pages use an open reading layout while important action boxes remain distinct', () => {
+  const page = readFileSync(new URL('../src/pages/scenarios/[id].astro', import.meta.url), 'utf8');
+  assert.match(page, /<Base title=\{d\.title\.en\} scenario>/);
+  for (const selector of ['article', '.card60', '.quick-start', '.objective', '.stepcard', '.onthispage']) {
+    const rule = page.split('\n').find((line) => line.includes(`${selector}${selector.startsWith('.') && ['.objective', '.stepcard'].includes(selector) ? ')' : ' '}`) && line.includes('background:transparent'));
+    assert.ok(rule, `${selector} must not introduce another filled container`);
+    assert.match(rule, /border:0/);
+  }
+  assert.match(page, /\.needs\)[^\n]+border:1px solid var\(--line\)/);
+  assert.match(page, /\.rules\)[^\n]+border-left-width:3px/);
+  assert.match(page, /\.route\)[^\n]+border:1px solid var\(--line\)/);
+  assert.match(page, /new ResizeObserver\(updateAnchorOffset\)\.observe\(header\)/);
+  assert.match(page, /scroll-margin-top:var\(--scenario-anchor-offset, 104px\)/);
+  const layout = readFileSync(new URL('../src/layouts/Base.astro', import.meta.url), 'utf8');
+  assert.match(layout, /\.prompt \{[^\n]+background:var\(--cp-surface-soft\)/);
+});
+
 test('scenario situations stay short enough to scan', () => {
   const dir = new URL('../content/scenarios/', import.meta.url);
   for (const file of readdirSync(dir).filter((name) => name.endsWith('.md'))) {
