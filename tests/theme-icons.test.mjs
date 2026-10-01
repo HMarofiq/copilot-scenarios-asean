@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import { parse } from 'yaml';
 import { toolIconUrl } from '../src/lib/tool-icons.mjs';
+import { appIconUrl } from '../src/lib/app-icons.mjs';
 
 const layout = readFileSync(new URL('../src/layouts/Base.astro', import.meta.url), 'utf8');
 const bootstrap = layout.match(/<script is:inline>([\s\S]*?)<\/script>/)[1];
@@ -71,4 +72,23 @@ test('every tool has a local static SVG and the original MIT attribution', () =>
   assert.match(license, /Copyright \(c\) 2020 Microsoft Corporation/);
   assert.match(license, /Permission is hereby granted/);
   assert.equal(toolIconUrl('/library/', '../../unsafe'), '/library/approved/icons/document_text.svg');
+});
+
+test('branded app icons use local full-colour Brand Central assets without changing generic tool icons', () => {
+  for (const app of ['word', 'excel', 'powerpoint', 'outlook', 'teams', 'copilot-chat', 'cowork']) {
+    const path = appIconUrl('/', app);
+    assert.match(path, /^\/approved\/app-icons\/[a-z]+\.svg$/);
+    const svg = readFileSync(new URL(`../public${path}`, import.meta.url), 'utf8');
+    assert.match(svg, /<svg\b/);
+    assert.match(svg, /Gradient|fill="#/);
+    assert.doesNotMatch(svg, /<script\b|<foreignObject\b|\bon\w+=|(?:href|src)=["'](?:https?:|data:)/i);
+  }
+  assert.equal(appIconUrl('/library/', 'word'), '/library/approved/app-icons/word.svg');
+  assert.equal(appIconUrl('/', 'cowork'), appIconUrl('/', 'copilot-chat'));
+  assert.equal(appIconUrl('/', 'agent'), null);
+  assert.equal(appIconUrl('/', 'scout'), null);
+  assert.equal(appIconUrl('/', '../../unsafe'), null);
+  const source = readFileSync(new URL('../public/approved/app-icons/SOURCE.txt', import.meta.url), 'utf8');
+  assert.match(source, /Microsoft Brand Central/);
+  assert.match(source, /not MIT-licensed/);
 });

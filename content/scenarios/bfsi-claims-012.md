@@ -33,7 +33,7 @@ validation_note: "Run in a demo tenant with the kit: the missing driving licence
 
 ## Situation
 
-A motor claims handler at a general insurer opens a new own-damage claim: claim form, police report, workshop estimate, photos and registration. Before the assessor visits, the handler checks the file against the checklist, reads the policy schedule for drivers, excess and exclusions, and writes to the policyholder for anything missing.
+Before a motor-claim assessment, check the claim form, police report, estimate, photos and registration against the policy and checklist. Identify missing evidence, driver restrictions, excess and exclusions, then draft the policyholder's follow-up.
 
 ## Steps
 

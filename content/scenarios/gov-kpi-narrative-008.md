@@ -30,7 +30,7 @@ validation_note: "Run in a demo tenant with the kit: all 12 statuses correct inc
 
 ## Situation
 
-The strategy office (PMO) of a holding company sends a KPI narrative to the Direksi each month: which KPIs met target, what moved since last month, and the biggest concerns. The pack mixes KPIs where higher is better (revenue) with KPIs where lower is better (cost ratios, safety rates, collection days), and some figures are restated after audit.
+The PMO reports monthly KPI results, changes and concerns to the Direksi. Apply each KPI's direction correctly (higher or lower is better) and account for audit restatements before writing the narrative.
 
 ## Steps
 

@@ -30,7 +30,7 @@ validation_note: "Run in a demo tenant with the kit: 10 slides, every current va
 
 ## Situation
 
-Every mine and plantation site inducts new contractors before they enter the site. The HSE officer keeps an induction deck, but when the site rules change it is rebuilt by hand, and old numbers survive on some slides. Contractors need the rules in Bahasa and in English.
+The HSE officer must update contractor induction slides when site rules change. Remove outdated figures and prepare the deck in Bahasa and English before contractors enter the site.
 
 ## Steps
 

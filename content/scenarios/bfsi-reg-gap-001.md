@@ -35,7 +35,7 @@ validation_note: "Run end to end in a demo tenant with the kit: all 12 keyed obl
 
 ## Situation
 
-A regulator issues a new circular. Compliance has roughly 30 days to show the board which SOPs are affected, where the gaps are and who owns each fix. Today one officer reads the circular clause by clause against 15 to 40 SOPs and builds the tracker by hand.
+A new circular gives Compliance about 30 days to report gaps to the board. Compare it with 15 to 40 SOPs and identify each affected procedure, gap and owner without building the tracker by hand.
 
 ## Steps
 

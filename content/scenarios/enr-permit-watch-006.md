@@ -31,7 +31,7 @@ validation_note: "Run as a Scout automation on a Monday against the demo kit: al
 
 ## Situation
 
-Mining and plantation sites hold dozens of permits: IUP, environmental approval (AMDAL, persetujuan lingkungan), PROPER rating, and in Malaysia DOE EIA approvals and water abstraction licences. The register exists; nobody reads it daily.
+Mining and plantation sites track Indonesian and Malaysian permits, environmental approvals and ratings in a register. A daily check should flag upcoming renewals before they are missed.
 
 ## Steps
 

@@ -11,7 +11,7 @@ Thank you for helping. The library is only useful if every scenario works as wri
 5. **Public sources only.** Every capability claim needs a public link in `source_refs`. No preview, roadmap or NDA information.
 6. **No customer anything, and nothing that points to one.** No names, logos, people, tenant URLs or engagement details. Use composites such as "a Tier 1 Indonesian retail bank". A composite must fit **at least three real organisations**. Avoid superlatives ("the largest", "the only"), unique combinations of size, sector and location, and events a reader could date to one company. If in doubt, make it more generic.
 7. **Fictional demo data only.** Mark files FICTIONAL. Never imitate OJK, BI, BNM or other regulator letterhead, numbering or logos.
-8. **Images** only from the demo tenant, saved in `public/approved/`.
+8. **Images** only from the demo tenant or official product-brand assets, saved in `public/approved/`. Brand assets need a source and usage note, must identify the correct product, and must not be used as the library's logo.
 9. **Three languages.** Every `:::prompt` has EN, ID and BM lines, reviewed by native speakers.
 
 ## Workflow

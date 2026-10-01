@@ -1,6 +1,8 @@
 // Astro logs Markdown render failures as [ERROR] but still exits 0, which would ship
 // a broken scenario page with a green CI tick. This wrapper makes any [ERROR] fatal.
 import { spawn } from 'node:child_process';
+import { rmSync } from 'node:fs';
+import { join } from 'node:path';
 
 const run = (cmd, args) => new Promise((resolve) => {
   let failed = false;
@@ -18,6 +20,8 @@ if (await run('node', ['scripts/build-kits.mjs'])) {
   console.error('\nBuild failed: a demo kit could not be generated.');
   process.exit(1);
 }
+// Folder trees depend on freshly generated kit manifests, not just Markdown changes.
+rmSync(join('node_modules', '.astro', 'data-store.json'), { force: true });
 if (await run('npx', ['astro', 'build'])) {
   console.error('\nBuild failed: Astro reported errors above.');
   process.exit(1);

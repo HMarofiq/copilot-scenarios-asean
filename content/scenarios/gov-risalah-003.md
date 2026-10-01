@@ -33,7 +33,7 @@ validation_note: "Steps 2 and 3 run in a demo tenant on a Teams-style transcript
 
 ## Situation
 
-The Corporate Secretary (Sekretaris Perusahaan) owes signed minutes after every Direksi or Board meeting. The draft is the legal record's starting point, so structure and accuracy matter more than prose.
+The Corporate Secretary drafts minutes after each Direksi or Board meeting. This becomes the legal record, so structure and accuracy come before polished prose.
 
 ## Steps
 

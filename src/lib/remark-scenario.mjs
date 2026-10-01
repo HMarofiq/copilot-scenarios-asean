@@ -20,22 +20,51 @@
 //   ::::
 import { visit, SKIP } from 'unist-util-visit';
 import { toString } from 'mdast-util-to-string';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { parse } from 'yaml';
 import { toolIconUrl } from './tool-icons.mjs';
+import { appIconUrl } from './app-icons.mjs';
+import { formatKitTree } from './kit-tree.mjs';
 
 const TAX = parse(readFileSync(join(process.cwd(), 'taxonomy', 'taxonomy.yml'), 'utf8'));
 const lbl = (facet, v) => TAX[facet]?.[String(v)]?.en ?? String(v);
 
 const LANGS = [['EN', 'en'], ['ID', 'id'], ['BM', 'ms']];
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const inputParts = (name) => {
+  const match = name.match(/^(.*?)(?::\s+|\s+\()(.*?)\)?$/);
+  return match ? [match[1], match[2]] : [name, ''];
+};
+
+function kitFolderLayout(fm) {
+  if (!fm.id || !existsSync(join(process.cwd(), 'public', 'kits', `${fm.id}.zip`))) return [];
+  const path = join(process.cwd(), 'public', 'kits', `${fm.id}.manifest.json`);
+  if (!existsSync(path)) throw new Error(`Missing demo kit manifest for ${fm.id}. Run npm run kits first.`);
+  const manifest = JSON.parse(readFileSync(path, 'utf8'));
+  const descriptions = new Map();
+  for (const input of fm.inputs) {
+    for (const name of input.kit ?? []) descriptions.set(name, inputParts(input.name)[0]);
+  }
+  if (manifest.entries.includes('README.txt')) descriptions.set('README.txt', 'Setup notes and answer key');
+  const tree = formatKitTree(manifest, descriptions);
+  const count = manifest.entries.filter((entry) => !entry.endsWith('/')).length;
+  return [
+    { type: 'heading', depth: 4, data: { hProperties: { className: ['kit-tree-heading'] } }, children: [{ type: 'text', value: 'Demo kit folder layout' }] },
+    { type: 'html', value: `<p class="kit-tree-note">After extracting <code>${esc(fm.id)}.zip</code>, check all ${count} files against this list.</p>` +
+      `<pre class="kit-tree" tabindex="0" role="region" aria-label="Demo kit folder structure"><code>${esc(tree)}</code></pre>` },
+  ];
+}
 
 // "Before you start": what you need, data rules, files, heads-up. Rendered from frontmatter so it can't drift from the tags.
 function beforeYouStart(fm, base) {
   const d = fm.data ?? {};
   const pii = d.customer_pii ? "Yes. Remove identifiers you don't need." : 'No';
-  const icon = (x) => `<span class="tool-icon" aria-hidden="true" style="--tool-icon: url('${toolIconUrl(base, x)}')"></span>`;
+  const icon = (x) => {
+    const app = appIconUrl(base, x);
+    return app ? `<img class="app-icon" src="${app}" alt="" width="24" height="24">` :
+      `<span class="tool-icon" aria-hidden="true" style="--tool-icon: url('${toolIconUrl(base, x)}')"></span>`;
+  };
   const row = (k, v) => `<div class="need"><dt>${k}</dt><dd>${v}</dd></div>`;
   const needs = '<div class="needs"><div class="needs-k">What you need to run this</div><dl>' +
     row('Licence', fm.licence.map((x) => `<span class="chip lic">${esc(lbl('licence', x))}</span>`).join('')) +
@@ -43,11 +72,12 @@ function beforeYouStart(fm, base) {
     (fm.needs?.length ? row('Also', fm.needs.map((n) => `<span class="also">${esc(n)}</span>`).join('')) : '') +
     (fm.run_time ? row('Time', esc(fm.run_time)) : '') + '</dl></div>';
   const rules = '<div class="callout warn rules"><strong class="rules-k">Data rules: read before you paste anything</strong>' +
-    `<p><strong>Sensitivity:</strong> ${esc(d.sensitivity)} · <strong>Personal data:</strong> ${pii} · <strong>Approval before use:</strong> ${esc(d.signoff)}</p>` +
+    `<p><strong>Sensitivity:</strong> ${esc(d.sensitivity)}</p>` +
+    `<p><strong>Personal data:</strong> ${pii}</p>` +
+    `<p><strong>Approval before use:</strong> ${esc(d.signoff)}</p>` +
     "<p>Use Copilot signed in with your work account, in your organisation's Microsoft 365 tenant. Never paste this content into consumer AI tools.</p></div>";
   const files = '<ul class="files">' + fm.inputs.map((i) => {
-    const m = i.name.match(/^(.*?)(?::\s+|\s+\()(.*?)\)?$/);
-    const [title, detail] = m ? [m[1], m[2]] : [i.name, ''];
+    const [title, detail] = inputParts(i.name);
     const extra = [detail && esc(detail), i.kit?.length && `Kit: ${i.kit.map((k) => `<code>${esc(k)}</code>`).join(', ')}`,
       i.steps?.length && `used in <a href="#step-${i.steps[0]}">step${i.steps.length > 1 ? 's' : ''} ${i.steps.join(', ')}</a>`].filter(Boolean).join(' · ');
     return `<li><strong>${esc(title)}</strong> <span class="fmeta">${i.count ? `×${esc(i.count)} · ` : ''}${esc(i.format)} · ${esc(i.where)}</span>` +
@@ -64,6 +94,7 @@ function beforeYouStart(fm, base) {
     { type: 'html', value: `<div class="start-grid">${needs}${rules}</div>` },
     h(3, 'Files'),
     { type: 'html', value: files },
+    ...kitFolderLayout(fm),
     h(3, 'Heads-up'),
     { type: 'html', value: heads },
   ];

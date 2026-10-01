@@ -39,11 +39,11 @@ validation_note: "Run end to end in a demo tenant with the kit in Word for the w
 
 ## Situation
 
-**The deadline.** Monday 5 October 2026. You work in the Corporate Secretary office of PT Fabrikam Logistik Tbk, a listed subsidiary of a state-owned logistics holding. The Direksi meets on Wednesday at 09.00 to decide on Proyek Kutub: buying 60% of a cold-chain logistics company. Your Corporate Secretary wants the draft by Tuesday 10.00.
+**The deadline.** Fabrikam Logistik's Direksi meets on Wednesday to decide on Proyek Kutub, a 60% acquisition. As Corporate Secretary, you need the draft by Tuesday 10.00.
 
-**What you have.** Five inputs in five styles: Strategy's rationale, Finance's valuation and funding, Legal and Tax due diligence, Operations' integration plan and Risk's register. Human Capital promised theirs "Tuesday afternoon". The template names the owner of every section.
+**The inputs.** Five divisions sent inputs; Human Capital's will arrive too late. The template names each section's owner.
 
-**Where it goes wrong.** Strategy writes "about Rp1.9 trillion" without saying it is the value of the whole company. Finance and Operations give different EBITDA figures. Risk still uses the old letter-of-intent price, which makes the deal look too small to need an appraiser. Operations says the competition authority must approve before signing; Legal says otherwise. And one independent commissioner sits on the seller's investment committee.
+**The risks.** Figures use different bases, EBITDA conflicts and Risk's price is stale. Legal and Operations disagree on approvals, and a commissioner has a conflict of interest.
 
 ## Steps
 

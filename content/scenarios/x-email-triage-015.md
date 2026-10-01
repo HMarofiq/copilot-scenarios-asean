@@ -45,11 +45,11 @@ validation_note: "Run in a demo tenant on a seeded inbox of 43 unread emails fro
 
 ## Situation
 
-**The morning.** A CTO at an Indonesian distributor opens Outlook at 07:30 to 40 unread emails in Bahasa Indonesia, English and Bahasa Melayu.
+**The morning.** A CTO opens 40 unread emails in Bahasa Indonesia, English and Bahasa Melayu.
 
-**What is buried in there.** The President Director needs IT input for a board meeting by 12.00. The largest retail customer escalates an outage complaint that must be answered by 17.00. A purchase order waits in SAP. An architect asks for overtime approval in the last paragraph of a long thread where the CTO is only in CC. A Malaysian vendor asks in Bahasa Melayu to confirm maintenance windows by tomorrow.
+**The requests.** Board input is due at 12.00, a customer escalation at 17.00. SAP needs approval, a CC thread hides an overtime ask, and a Malaysian vendor needs confirmation.
 
-**Where it goes wrong.** Around them sit FYIs, newsletters, notifications, out-of-office replies, marketing marked URGENT and a convincing fake password-expiry email from a lookalike domain. Write your rules down once, then let Copilot apply them. The higher the tier, the more of the routine runs without you. Every tier stops before anything is sent or deleted.
+**The risks.** Noise and a fake password email bury the real work. Use your rules to find it; higher tiers automate more, but never send or delete.
 
 ## Steps
 

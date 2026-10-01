@@ -40,11 +40,11 @@ validation_note: "Run end to end in a demo tenant with the kit: Excel built the 
 
 ## Situation
 
-It is Tuesday 6 October, the second working day after the September close. You are the FP&A lead at a distribution group with an Indonesian parent and a Malaysian subsidiary. The CFO wants the September year-to-date commentary for the Direksi by Wednesday 12:00.
+**The deadline.** After September close, the CFO needs the Direksi's year-to-date commentary by Wednesday 12.00.
 
-You have two trial balances: 65 accounts in full rupiah from the parent, 34 accounts in full ringgit from the Johor Bahru hub. The group close pack holds the mapping, rates, budget and three post-closing journals Finance posted this morning. You also have notes from seven budget holders, some written before the journals, and one from Legal that never came.
+**The inputs.** Indonesian and Malaysian trial balances, the close pack and budget-holder notes. Three late journals change the figures; some notes are stale and Legal's is missing.
 
-Last month the draft called two cost underspends unfavourable and missed an intercompany difference. This month you let Copilot in Excel do the mechanical part and check it, then let Copilot in Word draft the words while you judge them.
+**The risks.** Last month's draft reversed cost variances and missed an intercompany gap. Check the Excel calculations before drafting the Word commentary.
 
 ## Steps
 

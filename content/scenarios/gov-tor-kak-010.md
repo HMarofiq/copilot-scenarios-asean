@@ -43,13 +43,11 @@ validation_note: "Run end to end in a demo tenant with the kit. Word drafted the
 
 ## Situation
 
-**The request.** Tuesday 1 September 2026. You are a procurement officer at PT Fabrikam Nusantara (Persero), a state-owned logistics holding with 20 subsidiaries. Group Asset Management wants one maintenance system for 18,400 assets at 63 sites, as a 3-year cloud subscription. Their memo is enthusiastic and messy.
+**The request.** Fabrikam Nusantara needs a three-year cloud maintenance system for 18,400 assets at 63 sites. You must turn the department's memo into a vendor-neutral KAK.
 
-**What is wrong with the memo.** It says "about 400 users" but its own table adds up to 460. It names the product they saw in a demo. It says hosting in Singapore is fine, which the group's cloud standard forbids. And it quotes the owner's estimate (HPS), which must never appear in a KAK.
+**The memo's problems.** User counts disagree, a favourite product is named, offshore hosting breaks policy, and the confidential HPS must stay out of the KAK.
 
-**What happens next.** The KAK goes out, the aanwijzing raises the user count to 500 and makes an Indonesian disaster-recovery site mandatory, and four bids arrive on 21 September. Each looks reasonable on its own. Side by side they are not comparable: prices with and without VAT, one in US dollars, a sum error, a 7% yearly increase in the notes, and the two cheapest offers both break a rule.
-
-**What you must deliver.** A KAK the committee can issue, then a pass/fail check and a price comparison the committee can defend, without picking the winner yourself.
+**Then evaluate.** The final requirements cover 500 users and Indonesian disaster recovery. Four bids mix VAT, currencies, sum errors and yearly increases; the cheapest break the rules. Give the committee a checked comparison, not a winner.
 
 ## Steps
 

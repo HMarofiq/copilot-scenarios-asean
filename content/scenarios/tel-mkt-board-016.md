@@ -47,11 +47,11 @@ validation_note: "Run end to end in a demo tenant with the kit, both prompts exa
 
 ## Situation
 
-**The deadline.** Monday 5 October 2026. You are the Marketing Performance Manager at PT Relecloud Nusantara Tbk, a telco group with a mobile and home-fibre business in Indonesia and a 5G subsidiary in Malaysia. The Direksi meets on Wednesday at 09.00. Your CMO wants the September campaign pack by Tuesday 12.00.
+**The deadline.** Relecloud's CMO needs the September campaign pack by Tuesday 12.00 for Wednesday's Direksi meeting. You report on three campaigns across Indonesia and Malaysia.
 
-**What you have.** Three campaigns ran in September: Rumah Terhubung (home fibre, July to December), Merdeka Unlimited (prepaid data with a refer-a-friend bonus) and Hari Malaysia 5G. You have the Meta, Google and TikTok exports, a BI extract of real orders, installs and activations, the agency's invoice with its own recap, the Malaysian team's email, notes from fraud management, legal and field operations, and a tracker with the reporting rules.
+**The inputs.** Ad exports, backend results, the agency invoice and local-team notes feed a tracker with the group's reporting rules.
 
-**Where it goes wrong.** The agency adds up every platform's conversions and reports a cost per acquisition 40% below target. Malaysia reports spend with tax at the spot rate and counts upgrades as new customers. Fraud management flagged almost one in five prepaid activations. The TikTok export was pulled before the day closed, a Google credit belongs to August, and last month's deck showed a 5-year CAGR that the President Director did not believe.
+**The risks.** Platform conversions overlap, Malaysia mixes tax, currency and upgrades, and prepaid adds include fraud flags. An early export, an August credit and last month's wrong CAGR also need correcting.
 
 ## Steps
 
