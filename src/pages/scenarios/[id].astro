@@ -138,7 +138,7 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
   .tags .chip { display:inline-flex; align-items:center; min-height:26px; margin:0; padding:0; border-radius:0; background:transparent; font-size:12.5px }
   .tags .chip.lvl { padding:2px 7px; border-radius:4px; background:var(--brand-soft); color:var(--brand) }
   .tags a.chip { text-decoration:none } .tags a.chip:hover { color:var(--cp-accent); text-decoration:underline }
-  .card60 { margin:30px 0 24px; background:transparent; border:0; border-radius:0; padding:0 }
+  .card60 { margin:30px 0 24px; background:var(--cp-bg-elevated); border:1px solid var(--line); border-radius:8px; padding:18px 22px }
   .grid60 { display:grid; grid-template-columns:1fr 1.3fr .9fr; gap:24px } .grid60 p { margin:5px 0 0; font-size:14px; line-height:1.55; color:var(--ink2) }
   .grid60 b { font-size:14px; font-weight:600 }
   .grid60 .chip { margin-top:7px; font-size:11px }
@@ -148,7 +148,7 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
   /* Keep running text at a readable measure; cards and tables use the full column. */
   .prose :global(p), .prose :global(ul), .prose :global(ol), .prose :global(.callout) { max-width:72ch }
   .prose :global(.prompt .plines), .prose :global(.prompt .ptext), .prose :global(.prompt .pabout) { max-width:none }
-  .prose :global(.stepcard) { max-width:none; border:0; border-radius:0; background:transparent; padding:0; margin:28px 0 36px }
+  .prose :global(.stepcard) { max-width:none; border:1px solid var(--line); border-radius:8px; background:var(--cp-surface); padding:18px 20px; margin:20px 0 28px }
   .prose :global(.stephead) { display:flex; align-items:flex-start; gap:10px; margin-bottom:12px }
   .prose :global(.stephead .num) { flex:none; width:28px; height:28px; border-radius:6px; background:var(--brand-soft); color:var(--brand); font-weight:600; font-size:14px; line-height:28px; text-align:center }
   .prose :global(.do) { margin:0 0 12px }
@@ -156,12 +156,13 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
   .prose :global(.after-run) { background:transparent; border-left:2px solid var(--cp-success); border-radius:0; padding:0 0 0 12px; margin:16px 0 0; font-size:14px; color:var(--ink2) }
   .prose :global(h3.part) { padding-top:20px; border-top:1px solid var(--line); color:var(--ink) }
   .prose :global(.part-note) { margin-top:-4px; color:var(--cp-text-muted) }
-  .side { position:sticky; top:var(--scenario-anchor-offset, 104px); display:flex; flex-direction:column; gap:24px; padding:4px 0 0 20px; border-left:1px solid var(--line) }
+  .side { position:sticky; top:var(--scenario-anchor-offset, 104px); display:flex; flex-direction:column; gap:24px; padding:18px; border:1px solid var(--line); border-radius:8px; background:var(--cp-bg-elevated); max-height:calc(100dvh - var(--scenario-anchor-offset, 104px) - 16px); overflow-y:auto; scrollbar-width:thin }
+  .side > * { flex-shrink:0 }
   .box { background:transparent; border:0; border-radius:0; padding:0 }
   .datarules { padding-top:20px; border-top:1px solid var(--line) } .datarules .tenant { margin-top:10px; font-weight:600; font-size:12.5px }
   .onthispage { background:transparent; border:0; border-radius:0; padding:0; min-height:0 }
-  /* The list scrolls, not the whole rail, so the data rules stay pinned next to the prompts. */
-  .onthispage ul { list-style:none; margin:0; padding:0; font-size:13.5px; max-height:min(46vh, 420px); overflow:auto; scrollbar-width:thin }
+  /* Long navigation stays inside the sidebar box without a second scrollbar. */
+  .onthispage ul { list-style:none; margin:0; padding:0; font-size:13.5px }
   .onthispage li { padding:4px 0 } .onthispage a { text-decoration:none; color:var(--cp-text-muted) }
   .onthispage a:hover { color:var(--cp-accent); text-decoration:underline }
   .onthispage .d2 > a { font-weight:600; color:var(--ink) } .onthispage .d3 { padding-left:10px } .onthispage .d4 { padding-left:20px; font-size:13px }
@@ -232,7 +233,6 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
     .prose :global(.stepcard) { break-inside:avoid; border-color:#999 }
   }
   @media(max-width:960px) { .page { grid-template-columns:minmax(0, 1fr) 196px; gap:28px } .grid60 { grid-template-columns:1fr 1fr } .grid60 > :last-child { grid-column:1 / -1 } }
-  @media(min-width:851px) and (max-height:740px) { .side { max-height:calc(100dvh - var(--scenario-anchor-offset, 104px) - 16px); overflow-y:auto; padding-right:8px } .onthispage ul { max-height:none; overflow:visible } }
-  @media(max-width:850px) { .page { grid-template-columns:minmax(0, 1fr) } .side { position:static; grid-row:2; max-height:none; overflow:visible; border-left:0; border-top:1px solid var(--line); padding:24px 0 0; margin-top:32px } }
-  @media(max-width:640px) { h1 { font-size:29px } .crumb { margin-bottom:20px } .grid60 { grid-template-columns:1fr; gap:16px } .prose :global(.needs), .prose :global(.rules) { padding:14px 16px } .prose :global(.need) { grid-template-columns:68px minmax(0, 1fr); gap:8px } }
+  @media(max-width:850px) { .page { grid-template-columns:minmax(0, 1fr) } .side { position:static; grid-row:2; max-height:none; overflow:visible; margin-top:32px } }
+  @media(max-width:640px) { h1 { font-size:29px } .crumb { margin-bottom:20px } .card60 { padding:16px 18px } .grid60 { grid-template-columns:1fr; gap:16px } .prose :global(.stepcard) { padding:14px 16px } .prose :global(.needs), .prose :global(.rules) { padding:14px 16px } .prose :global(.need) { grid-template-columns:68px minmax(0, 1fr); gap:8px } }
 </style>

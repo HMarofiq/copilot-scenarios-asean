@@ -35,14 +35,17 @@ test('the summary card has no duplicated requirements and Before you start is al
   assert.match(page, /\.start-grid\)[^\n]+grid-template-columns:minmax\(0, 1fr\)/);
 });
 
-test('scenario pages use an open reading layout while important action boxes remain distinct', () => {
+test('scenario pages keep an open article with boxed summaries, steps and sidebar', () => {
   const page = readFileSync(new URL('../src/pages/scenarios/[id].astro', import.meta.url), 'utf8');
   assert.match(page, /<Base title=\{d\.title\.en\} scenario>/);
-  for (const selector of ['article', '.card60', '.quick-start', '.objective', '.stepcard', '.onthispage']) {
-    const rule = page.split('\n').find((line) => line.includes(`${selector}${selector.startsWith('.') && ['.objective', '.stepcard'].includes(selector) ? ')' : ' '}`) && line.includes('background:transparent'));
+  for (const selector of ['article', '.quick-start', '.objective', '.onthispage']) {
+    const rule = page.split('\n').find((line) => line.includes(`${selector}${selector === '.objective' ? ')' : ' '}`) && line.includes('background:transparent'));
     assert.ok(rule, `${selector} must not introduce another filled container`);
     assert.match(rule, /border:0/);
   }
+  assert.match(page, /\.card60 \{[^\n]+border:1px solid var\(--line\)/);
+  assert.match(page, /\.stepcard\) \{[^\n]+border:1px solid var\(--line\)/);
+  assert.match(page, /\.side \{[^\n]+border:1px solid var\(--line\)/);
   assert.match(page, /\.needs\)[^\n]+border:1px solid var\(--line\)/);
   assert.match(page, /\.rules\)[^\n]+border-left-width:3px/);
   assert.match(page, /\.route\)[^\n]+border:1px solid var\(--line\)/);
