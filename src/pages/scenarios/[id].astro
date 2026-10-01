@@ -205,6 +205,10 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
   .prose :global(.files .fmeta) { color:var(--cp-text-muted); font-size:14px }
   .prose :global(.files small) { display:block; font-size:12.5px; color:var(--cp-text-muted); margin-top:2px }
   .prose :global(.files code) { font-size:11.5px; background:var(--cp-surface-soft); padding:1px 4px; border-radius:4px }
+  .prose :global(.kit-tree-heading) { margin:24px 0 8px }
+  .prose :global(.kit-tree-note) { margin:0 0 10px; font-size:14px; color:var(--ink2) }
+  .prose :global(.kit-tree) { margin:0 0 24px; padding:16px 18px; max-width:100%; max-height:28rem; overflow:auto; overscroll-behavior:contain; border:1px solid var(--line); border-radius:8px; background:var(--cp-surface-soft); color:var(--ink); font:13px/1.7 Consolas,"Courier New",monospace; white-space:pre; scrollbar-width:thin }
+  .prose :global(.kit-tree code) { padding:0; border-radius:0; background:transparent; font:inherit; white-space:pre; overflow-wrap:normal }
   .prose :global(.headsup li) { margin:8px 0 }
   .prose :global(.prompt) { border-radius:8px }
   .prose :global(details.presenter) { border-style:solid; border-color:var(--line) }

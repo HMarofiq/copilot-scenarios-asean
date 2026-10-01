@@ -1,7 +1,7 @@
 // Builds every demo kit: kits/<scenario-id>/build.mjs -> public/kits/<scenario-id>.zip
 // Runs before `astro build` so the zips ship with the site. Outputs are gitignored.
-import { existsSync, readdirSync, readFileSync, rmSync, mkdirSync, createWriteStream, statSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { existsSync, readdirSync, readFileSync, rmSync, mkdirSync, createWriteStream, statSync, writeFileSync } from 'node:fs';
+import { join, resolve, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { ZipArchive } from 'archiver';
 
@@ -13,7 +13,7 @@ const today = new Date(`${p.year}-${p.month}-${p.day}T00:00:00Z`);
 
 rmSync(TMP, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
-for (const z of readdirSync(OUT).filter((n) => n.endsWith('.zip'))) rmSync(join(OUT, z));
+for (const z of readdirSync(OUT).filter((n) => n.endsWith('.zip') || n.endsWith('.manifest.json'))) rmSync(join(OUT, z));
 const ids = readdirSync(KITS).filter((d) => existsSync(join(KITS, d, 'build.mjs')));
 // Only ship kits for scenarios the site publishes (see src/lib/publish.ts).
 const statusOf = (id) => (readFileSync(join('content', 'scenarios', `${id}.md`), 'utf8').match(/^status:\s*(\S+)/m) || [])[1];
@@ -35,7 +35,9 @@ for (const id of ids) {
       z.on('error', rej); out.on('close', res);
       z.pipe(out); z.directory(dir + '/', `FICTIONAL_${id}`); z.finalize();
     });
-    const files = readdirSync(dir, { recursive: true }).filter((f) => statSync(join(dir, f)).isFile()).length;
+    const entries = readdirSync(dir, { recursive: true }).map((f) => f.split(sep).join('/') + (statSync(join(dir, f)).isDirectory() ? '/' : '')).sort();
+    const files = entries.filter((entry) => !entry.endsWith('/')).length;
+    writeFileSync(join(OUT, `${id}.manifest.json`), JSON.stringify({ root: `FICTIONAL_${id}`, entries }, null, 2) + '\n', 'utf8');
     console.log(`✓ kit ${id}: ${files} files, ${(statSync(zip).size / 1024).toFixed(0)} KB`);
   } catch (e) { console.error(`✗ kit ${id}: ${e.stack ?? e}`); failed = true; }
 }

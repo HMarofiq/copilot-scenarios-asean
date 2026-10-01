@@ -7,3 +7,4 @@ dist/
 # Demo kits are generated from kits/ at build time.
 .kits-tmp/
 public/kits/*.zip
+public/kits/*.manifest.json
