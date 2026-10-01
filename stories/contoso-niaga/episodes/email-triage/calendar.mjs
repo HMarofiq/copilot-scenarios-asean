@@ -11,12 +11,12 @@ export const EVENTS = [
   },
   {
     key: 'erp-cutover', organizer: 'kian', subject: 'Proyek Nusa ERP cutover execution window', attendees: ['lydia', 'serena'], optional: ['carlos'],
-    start: { d: 3, t: '08:00' }, end: { d: 3, t: '17:00' }, location: 'Teams bridge / Cutover room', online: true, showAs: 'tentative', categories: ['Triage'],
+    start: { w: 3, t: '08:00' }, end: { w: 3, t: '17:00' }, location: 'Teams bridge / Cutover room', online: true, showAs: 'tentative', categories: ['Triage'],
     body: `Execution window placeholder for Proyek Nusa cutover activities. The detailed runbook starts earlier with freeze and backup tasks, but this calendar block marks the core Saturday working window for migration, connector validation, regression testing, and reconciliation. Lydia owns infrastructure readiness, Serena owns Portal Mitra regression, and Kian coordinates workstream owners and Proseware contractors. Carlos is optional but should join for decision checkpoints if rollback, partner-impact, or resource escalation is required.`
   },
   {
     key: 'go-nogo-call', organizer: 'kian', subject: 'Go/no-go call - Proyek Nusa cutover', attendees: ['carlos', 'lydia', 'serena'], optional: [],
-    start: { d: 2, t: '16:00' }, end: { d: 2, t: '16:45' }, location: 'Teams', online: true, categories: ['Triage'],
+    start: { w: 2, t: '16:00' }, end: { w: 2, t: '16:45' }, location: 'Teams', online: true, categories: ['Triage'],
     body: `Decision call for Proyek Nusa weekend cutover. Agenda: confirm mock cutover 2 results, review 7 defects and remaining mitigations, validate regression results, confirm backup and restore approach, and decide whether resource coverage is sufficient. Go/no-go criteria: regression Portal Mitra clear for tax-code and inactive-partner cases, backup final and restore sample ready, and Saturday coverage confirmed including 9 internal staff overtime plus 12 Proseware contractors. Decision owner: Carlos; recommendation owner: Kian.`
   },
   {

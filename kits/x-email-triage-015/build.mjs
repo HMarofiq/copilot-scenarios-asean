@@ -76,21 +76,19 @@ export default async function build({ dir }) {
   INBOX.forEach((m, i) => writeText(join(dir, 'Inbox', `${pad(i + 1)}-${m.id}.eml`), eml(m)));
   await writeDocx(join(dir, 'FICTIONAL_My_Triage_Rules.docx'), RULES, { title: 'My email triage rules' });
   writeText(join(dir, 'Cowork', 'email-triage', 'SKILL.md'), SKILL);
-  writeText(join(dir, 'Scout_Automation_Prompt.txt'), SCOUT);
   const n = (g) => INBOX.filter((m) => m.group === g).length;
   writeReadme(dir, {
-    title: 'Demo kit: Morning email triage in four tiers', scenario: 'x-email-triage-015',
+    title: 'Demo kit: Morning email triage in three tiers', scenario: 'x-email-triage-015',
     contents: [
       `Inbox/*.eml: the ${INBOX.length} unread morning emails of Carlos Slattery, CTO of PT Contoso Niaga Nusantara (fictional), in Bahasa Indonesia, English and Bahasa Melayu`,
-      'FICTIONAL_My_Triage_Rules.docx: the rules the Premium prompt attaches',
-      'Cowork/email-triage/SKILL.md: upload in Cowork > Customize > Skills > Upload skill',
-      'Scout_Automation_Prompt.txt: paste into Microsoft Scout',
+      'FICTIONAL_My_Triage_Rules.docx: example rules; copy the names into the prompts and paste the rules into the Cowork skill prompt',
+      'Cowork/email-triage/SKILL.md: the same rules as a ready skill file (optional; the page creates the skill from pasted rules)',
       'The full story (history emails, Teams chats, files, calendar) lives in the repo under stories/contoso-niaga; a seeder writes it into a demo tenant as the real people.',
     ],
     setup: [
       'Best: seed a demo tenant from the story library, so colleagues own their side of every email, chat and file.',
       'Quick: import the .eml files into the demo user\'s Inbox (classic Outlook: drag into the Inbox, then mark unread).',
-      'Upload FICTIONAL_My_Triage_Rules.docx to OneDrive and open it once in Word for the web.',
+      'Date the seed for the morning you present: the prompts look at the last 24 hours.',
     ],
     spoilers: [
       `Groups: Act today ${n('act')} emails but 6 requests (A7 is a reminder of A1), This week ${n('week')}, FYI ${n('fyi')}, Noise ${n('noise')}, Suspicious ${n('suspicious')}. Total ${INBOX.length}.`,

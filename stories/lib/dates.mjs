@@ -44,17 +44,23 @@ export function fmt(d, f) {
 }
 
 const TOKEN = /\{\{d:([+-]?\d+):([a-z-]+)\}\}/g;
+// Weekday-anchored offsets: the story canon assumes D0 is a Wednesday. {{w:N:FORMAT}} (and {w:N} in times) means
+// 'the weekday that is N days after a Wednesday D0, in the same week', so Friday stays Friday when D0 is another weekday.
+const TOKEN_W = /\{\{w:([+-]?\d+):([a-z-]+)\}\}/g;
+export const CANON_WEEKDAY = 3;
+export const wshift = (d0) => CANON_WEEKDAY - d0.getUTCDay();
 
 // Replace every {{d:N:FORMAT}} in a string (or every string inside an object/array).
 export function expand(value, d0) {
-  if (typeof value === 'string') return value.replace(TOKEN, (_, n, f) => fmt(addDays(d0, Number(n)), f));
+  if (typeof value === 'string') return value.replace(TOKEN, (_, n, f) => fmt(addDays(d0, Number(n)), f)).replace(TOKEN_W, (_, n, f) => fmt(addDays(d0, Number(n) + wshift(d0)), f));
   if (Array.isArray(value)) return value.map((v) => expand(v, d0));
   if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, expand(v, d0)]));
   return value;
 }
 
 // {d:-1, t:'21:40'} in the story's time zone -> ISO UTC string.
-export function at({ d, t }, d0, utcOffsetHours = 7) {
+export function at({ d, w, t }, d0, utcOffsetHours = 7) {
+  if (w !== undefined) d = w + wshift(d0);
   const [hh, mm] = t.split(':').map(Number);
   const day = addDays(d0, d);
   return new Date(Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate(), hh - utcOffsetHours, mm)).toISOString();
@@ -63,6 +69,6 @@ export function at({ d, t }, d0, utcOffsetHours = 7) {
 // Throws if a string still contains something that looks like a hard-coded date (a month name next to a number).
 export function assertNoHardDates(s, where) {
   const months = [...MONTHS.id, ...MONTHS.en, ...MONTHS.ms, ...SHORT.en, ...SHORT.id].join('|');
-  const hit = s.replace(TOKEN, '').match(new RegExp(`\\b\\d{1,2}\\s+(${months})\\b`));
+  const hit = s.replace(TOKEN, '').replace(TOKEN_W, '').match(new RegExp(`\\b\\d{1,2}\\s+(${months})\\b`));
   if (hit) throw new Error(`${where}: hard-coded date "${hit[0]}"; use a {{d:N:FORMAT}} token`);
 }
