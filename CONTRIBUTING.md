@@ -4,7 +4,7 @@ Thank you for helping. The library is only useful if every scenario works as wri
 
 ## The rules
 
-1. **Run it before you call it validated.** New scenarios can be published as `status: draft`, clearly labelled on the site. Only set `partly-validated` or `validated`, with `validated_on`, after running the steps end to end in a demo tenant.
+1. **Run it before you call it validated.** Drafts are hidden by default. With maintainer approval, set `publish_draft: true` and add a `validation_note` to publish a clearly labelled draft. Only set `partly-validated` or `validated`, with `validated_on`, after running the steps end to end in a demo tenant.
 2. **Real work, not hypotheticals.** Name the exact inputs (file type, where it lives, how many). Describe a task someone actually does every week or month.
 3. **State the limits you saw.** If Copilot missed documents in a big batch, say so and give the batch size that worked.
 4. **Be honest about impact.** Use `evidence: estimated` unless you measured it.
@@ -57,4 +57,16 @@ BM: ...
 ::::
 ```
 
-The site builds the comparison table from the frontmatter. The checks fail if a tier block is missing, out of order, outside Steps or without a prompt.
+The site builds large workflow buttons from the frontmatter. The first workflow is selected by default. Only its steps, requirements and supporting sections are visible. Optional `title` and `needs` fields give each workflow a short button label and accurate prerequisites.
+
+Under `## Check it` and `## When it goes wrong`, add matching blocks with `section="checks"` and `section="fixes"`:
+
+```
+::::tier{key="basic" section="checks"}
+- **Coverage:** compare the reviewed messages with the same date range in Outlook.
+::::
+```
+
+Use a fixes block the same way under When it goes wrong. Step numbers restart per workflow; the renderer namespaces anchors and completion state. If either supporting section uses workflow blocks, provide one for every workflow in frontmatter order. The checks fail if a Steps block is missing, out of order or without a prompt.
+
+For workflows using the customer's existing mailbox or other live work data, set `demo_kit: false`. No download or folder tree is shown, and the input section is labelled Your inputs. Keep fictional validation fixtures in the repository if useful; they are not customer prerequisites.

@@ -7,7 +7,7 @@ import { ROLES, GUIDE_ENABLED } from '../lib/discovery.mjs';
 import ToolIcon from '../components/ToolIcon.astro';
 
 const base = import.meta.env.BASE_URL;
-const items = (await getCollection('scenarios', (s) => isPublished(s.data.status))).sort((a, b) => a.data.id.localeCompare(b.data.id));
+const items = (await getCollection('scenarios', (s) => isPublished(s.data.status, s.data.publish_draft))).sort((a, b) => a.data.id.localeCompare(b.data.id));
 const valuesOf = (s: (typeof items)[number], f: typeof FACETS[number]): string[] => {
   if (f === 'evidence') return [s.data.impact.evidence];
   if (f === 'difficulty') return [String(s.data.difficulty)];
@@ -121,6 +121,7 @@ const data = items.map(s => ({
               return <a class="scenario-card" href={`${base}scenarios/${d.id}/`} data-id={d.id}>
                 <div class="card-top"><span class="chip lvl">{label('difficulty', d.difficulty)}</span><span class="card-industry">{label('industry', d.industry[0])}</span></div>
                 <h2><span data-l="en">{d.title.en}</span><span data-l="id">{d.title.id}</span><span data-l="ms">{d.title.ms}</span></h2>
+                {d.status === 'draft' && <span class="draft-label">Draft · tenant validation pending</span>}
                 <p class="card-summary"><span data-l="en">{d.summary.en}</span><span data-l="id">{d.summary.id}</span><span data-l="ms">{d.summary.ms}</span></p>
                 <div class="card-output"><span>YOU GET</span><p>{d.card.output}</p></div>
                 <p class="match-reason" hidden></p>
@@ -207,6 +208,7 @@ const data = items.map(s => ({
   .scenario-card:hover { border-color:var(--cp-accent) } .card-top { display:flex; align-items:flex-start; gap:8px; justify-content:space-between } .card-industry { color:var(--cp-text-muted); font-size:11px; text-align:right } .card-top .chip { flex-shrink:0; font-size:11px; margin:0 }
   .scenario-card h2 { font-size:20px; letter-spacing:-.02em; line-height:1.35; margin:0; font-weight:600 } .card-summary { color:var(--cp-text-muted); font-size:14px; margin:0 }
   .card-output { background:var(--cp-bg-elevated); border-radius:8px; padding:12px } .card-output > span { font-size:10px; font-weight:700; letter-spacing:.1em; color:var(--cp-text-muted) } .card-output p { margin:4px 0 0; font-size:13px }
+  .draft-label { font-size:12px; color:var(--cp-text-muted); font-weight:600 }
   .match-reason { margin:0; font-size:12px; color:var(--cp-accent); font-weight:500 }
   .card-tools { margin-top:auto } .card-licence { margin:0; font-size:12px; color:var(--cp-text-muted) } .card-licence strong { font-weight:600 }
   .card-bottom { display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--cp-border); padding-top:14px; color:var(--cp-accent); font-size:13px; font-weight:600 } .card-bottom > span:last-child { font-size:20px; line-height:1 }
