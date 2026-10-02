@@ -33,7 +33,7 @@ const kit = d.demo_kit && existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip
         {d.market.map((x) => <span class="chip">{label('market', x)}</span>)}
       </div>
       {d.status === 'draft' && (
-        <p class="validation-note"><strong>Draft · tenant validation pending.</strong> {d.validation_note}</p>
+        <p class="validation-note"><strong>Draft · not fully validated.</strong> {d.validation_note}</p>
       )}
 
       <section class="card60">

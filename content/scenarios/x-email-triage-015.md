@@ -28,7 +28,9 @@ card:
   output: "Four priority quadrants for the last seven days, with the action, deadline, reason and source email for each item."
 limits:
   - "A Microsoft 365 work mailbox is required. A desktop-only Office licence or personal mailbox is not enough; your organisation must enable the relevant Copilot feature."
-  - "Email retrieval can be incomplete. In our earlier Outlook run, Copilot reviewed about 25 recent emails. A seven-day request is not a guarantee that it reads every message."
+  - "Email retrieval can be incomplete. In the seven-day pilot, Copilot in Outlook reviewed 25 of 35 matching emails. The Copilot app reached all 35 through a background task in two runs, but returned only 25 in another."
+  - "Chat can misclassify priorities. Required HR and access reviews were sometimes placed in the wrong urgency or importance group. Check the source deadline yourself."
+  - "A displayed subject can disagree with its citation. We saw a Planner item labelled with an HR subject; verify the linked source before acting."
   - "Unread is the starting scope. Read emails that still need action and requests older than seven days are outside this check."
   - "Urgency comes from the deadline and impact, not the subject line. You remain responsible for priorities and anything agreed outside email."
 source_refs:
@@ -37,7 +39,7 @@ source_refs:
   - "https://support.microsoft.com/en-us/microsoft-365-copilot/schedule-your-most-used-copilot-prompts"
   - "https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/use-cowork"
 status: draft
-validation_note: "The revised seven-day prompts have not yet been rerun in the demo tenant. Earlier one-day tests do not validate this version. Review priorities and coverage before relying on the output."
+validation_note: "Tested in English on 2 October 2026 against 35 unread emails. Cowork gave the strongest review and proposal-only results. Chat runs still showed coverage, priority and subject errors after retries, so this remains a draft. Review source emails before acting."
 ---
 
 ## Situation
@@ -212,12 +214,14 @@ Hanya tunjukkan cadangan di sini. Jangan simpan draf, alihkan, tandakan dibaca, 
 - **Seven-day scope:** the response states the date range and unread inbox scope. Compare a few emails near both ends with Outlook.
 - **Four quadrants:** an important request due today is **Do now**; important work due later is **Plan**; a minor time-sensitive task is **Handle quickly**; a routine update is **Read later**.
 - **Hidden requests:** check one CC thread and one system approval manually. Copilot in Outlook can miss messages.
+- **Today's deadlines:** an important HR or access review due today belongs in **Do now**, even if Copilot puts it in **Plan** or **Handle quickly**.
 - **Safety:** suspected phishing is separate, with no links opened. No mailbox changes occurred.
 ::::
 
 ::::tier{key="premium" section="checks"}
 - **Coverage:** compare the reviewed message count with Outlook's unread results for the same seven-day period, not its total inbox badge. A merged reminder reduces requests, not messages.
 - **Priorities:** open one source from each populated quadrant and check its reason and deadline. Empty quadrants are fine.
+- **Do not equate coverage with accuracy:** a full message count does not prove the urgency or action description is right.
 - **Unknowns:** unclear deadlines say **to confirm**. An email's "tomorrow" is interpreted from when it was sent, not today's date.
 - **Repeatability:** if scheduled, check the weekdays, time and end date. The prompt only reports; nothing should be moved or sent.
 ::::
@@ -235,12 +239,16 @@ Hanya tunjukkan cadangan di sini. Jangan simpan draf, alihkan, tandakan dibaca, 
 - **Emails are missing.** Search in Outlook yourself to compare the same seven-day unread window. Start a new chat for a smaller date range; a matching count in Copilot alone does not prove coverage. (step 1)
 - **Copilot is unavailable.** Check that you are in a Microsoft 365 work mailbox and your organisation has enabled Copilot Chat in Outlook. An Office desktop licence alone does not provide it. (step 1)
 - **An urgent subject gets top priority.** Check the actual deadline and consequence, not the subject. Correct its quadrant before acting. (step 2)
+- **An important task due today is in Plan.** This happened with HR and access reviews. Use the source deadline to correct it; do not rely on the quadrant alone. (step 2)
+- **The subject and link do not match.** Open the citation to check what was actually asked; disregard the mismatched label. (step 2)
 ::::
 
 ::::tier{key="premium" section="fixes"}
 - **Copilot reads only part of the inbox.** Keep the "keep going" instruction. If it still reports a gap, check that period in Outlook rather than assuming it is complete. (step 1)
 - **Already-read requests are absent.** This prompt checks unread mail only. Run a separate review including read messages if they still need action. (step 1)
 - **A scheduled review stops.** Check its end date under **Scheduled prompts**. Extend it deliberately; do not assume it runs forever. (step 2)
+- **The task read every email but assigned wrong priorities.** Background retrieval improves coverage, not necessarily classification. Check due dates and consequences manually. (step 2)
+- **Copilot substitutes a location-based time zone.** In one run it used Pacific time instead of the mailbox's Singapore setting. Retain sender-stated times and confirm the mailbox setting yourself. (step 1)
 ::::
 
 ::::tier{key="cowork" section="fixes"}
