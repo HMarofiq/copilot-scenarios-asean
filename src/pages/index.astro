@@ -121,7 +121,7 @@ const data = items.map(s => ({
               return <a class="scenario-card" href={`${base}scenarios/${d.id}/`} data-id={d.id}>
                 <div class="card-top"><span class="chip lvl">{label('difficulty', d.difficulty)}</span><span class="card-industry">{label('industry', d.industry[0])}</span></div>
                 <h2><span data-l="en">{d.title.en}</span><span data-l="id">{d.title.id}</span><span data-l="ms">{d.title.ms}</span></h2>
-                {d.status === 'draft' && <span class="draft-label">Draft · tenant validation pending</span>}
+                {d.status === 'draft' && <span class="draft-label">Draft · not fully validated</span>}
                 <p class="card-summary"><span data-l="en">{d.summary.en}</span><span data-l="id">{d.summary.id}</span><span data-l="ms">{d.summary.ms}</span></p>
                 <div class="card-output"><span>YOU GET</span><p>{d.card.output}</p></div>
                 <p class="match-reason" hidden></p>
