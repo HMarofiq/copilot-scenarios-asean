@@ -26,6 +26,7 @@ const scenarios = defineCollection({
     needs: z.array(z.string()).optional(),
     run_time: z.string().optional(),
     demo_kit: z.boolean().default(true),
+    publish_draft: z.boolean().default(false),
     data: z.object({ sensitivity: z.enum(keys('sensitivity')), customer_pii: z.boolean(), signoff: z.string().min(1) }),
     impact: z.object({ baseline: z.string(), target: z.string(), evidence: z.enum(keys('evidence')) }),
     card: z.object({ problem: z.string().min(1), output: z.string().min(1) }),
@@ -59,6 +60,7 @@ const scenarios = defineCollection({
       if (d.difficulty !== min) ctx.addIssue({ code: 'custom', path: ['difficulty'], message: `difficulty must be the entry tier level (${min})` });
     }
     if (d.status === 'draft' && d.validated_on) ctx.addIssue({ code: 'custom', path: ['validated_on'], message: 'draft scenarios have not been validated; remove validated_on' });
+    if (d.publish_draft && d.status === 'draft' && !d.validation_note) ctx.addIssue({ code: 'custom', path: ['validation_note'], message: 'published drafts must disclose what is not validated' });
     if (d.status !== 'draft' && !d.validated_on) ctx.addIssue({ code: 'custom', path: ['validated_on'], message: `status ${d.status} needs validated_on` });
     if (d.status === 'partly-validated' && !d.validation_note) ctx.addIssue({ code: 'custom', path: ['validation_note'], message: 'say which steps were not exercised' });
     if (d.impact.evidence !== 'estimated' && d.status === 'draft') ctx.addIssue({ code: 'custom', path: ['impact', 'evidence'], message: 'a draft cannot have measured evidence' });

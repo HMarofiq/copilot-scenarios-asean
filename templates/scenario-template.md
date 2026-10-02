@@ -34,6 +34,7 @@ limits:                          # limits you OBSERVED while running it
 source_refs:                     # public learn.microsoft.com (or similar) links backing every capability claim
   - "https://learn.microsoft.com/"
 status: draft                    # draft | partly-validated | validated
+publish_draft: false              # explicit maintainer approval; published drafts need a validation_note
 # validated_on: 2026-01-01       # required once status is not draft: the day you last ran every step
 # validation_note: ""            # required for partly-validated: which steps were not exercised
 ---

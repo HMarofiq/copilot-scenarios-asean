@@ -5,6 +5,7 @@ import { join, resolve, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { ZipArchive } from 'archiver';
 import { parse } from 'yaml';
+import { isPublished } from '../src/lib/publication.mjs';
 
 const KITS = 'kits', TMP = '.kits-tmp', OUT = join('public', 'kits');
 // Build date in Jakarta time, so date-relative kits (permit expiries) are correct for ID/MY users.
@@ -24,7 +25,7 @@ for (const id of ids) {
   if (!existsSync(join('content', 'scenarios', `${id}.md`))) { console.error(`✗ kits/${id}: no matching scenario content/scenarios/${id}.md`); failed = true; continue; }
   const fm = metadata(id);
   if (fm.demo_kit === false) { console.log(`- kit ${id}: no download needed`); continue; }
-  if (process.env.PUBLISH_ALL !== '1' && fm.status !== 'validated') { console.log(`- kit ${id}: skipped (not published)`); continue; }
+  if (!isPublished(fm.status, fm.publish_draft)) { console.log(`- kit ${id}: skipped (not published)`); continue; }
   const dir = join(TMP, id);
   mkdirSync(dir, { recursive: true });
   try {

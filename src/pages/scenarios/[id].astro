@@ -8,7 +8,7 @@ import { join } from 'node:path';
 import ToolIcon from '../../components/ToolIcon.astro';
 
 export async function getStaticPaths() {
-  const items = await getCollection('scenarios', (s) => isPublished(s.data.status));
+  const items = await getCollection('scenarios', (s) => isPublished(s.data.status, s.data.publish_draft));
   return items.map((s) => ({ params: { id: s.data.id }, props: { s } }));
 }
 const { s } = Astro.props;
@@ -32,6 +32,9 @@ const kit = d.demo_kit && existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip
         {d.surface.map((x) => <a class="chip tool-chip" href={`${base}?surface=${x}`}><ToolIcon tool={x}/>{label('surface', x)}</a>)}
         {d.market.map((x) => <span class="chip">{label('market', x)}</span>)}
       </div>
+      {d.status === 'draft' && (
+        <p class="validation-note"><strong>Draft · tenant validation pending.</strong> {d.validation_note}</p>
+      )}
 
       <section class="card60">
         <div class="k">At a glance</div>
@@ -189,6 +192,7 @@ const kit = d.demo_kit && existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip
   .tags .chip { display:inline-flex; align-items:center; min-height:26px; margin:0; padding:0; border-radius:0; background:transparent; font-size:12.5px }
   .tags .chip.lvl { padding:2px 7px; border-radius:4px; background:var(--brand-soft); color:var(--brand) }
   .tags a.chip { text-decoration:none } .tags a.chip:hover { color:var(--cp-accent); text-decoration:underline }
+  .validation-note { margin:20px 0; padding:12px 16px; border-left:3px solid var(--warnline); background:var(--cp-bg-elevated); font-size:13px; color:var(--ink2) }
   .card60 { margin:30px 0 24px; background:var(--cp-bg-elevated); border:1px solid var(--line); border-radius:8px; padding:18px 22px }
   .grid60 { display:grid; grid-template-columns:1fr 1.3fr .9fr; gap:24px } .grid60 p { margin:5px 0 0; font-size:14px; line-height:1.55; color:var(--ink2) }
   .grid60 b { font-size:14px; font-weight:600 }

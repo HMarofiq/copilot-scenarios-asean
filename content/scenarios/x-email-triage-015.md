@@ -13,6 +13,7 @@ difficulty: 1
 surface: [outlook, copilot-chat, cowork]
 licence: [copilot-chat, m365-copilot, cowork]
 demo_kit: false
+publish_draft: true
 tiers:
   - { key: basic, title: "Copilot Chat", licence: copilot-chat, difficulty: 1, surface: [outlook], runs: "A quick review inside Outlook. No Copilot add-on needed.", effort: "About 10 min", needs: ["An active Exchange Online inbox and Copilot Chat enabled by your organisation"] }
   - { key: premium, title: "Microsoft 365 Copilot", licence: m365-copilot, difficulty: 2, surface: [copilot-chat, outlook], runs: "A broader review in the Copilot app, with optional scheduling.", effort: "About 10 min", needs: ["An active Exchange Online inbox and work-data access enabled"] }
@@ -36,7 +37,7 @@ source_refs:
   - "https://support.microsoft.com/en-us/microsoft-365-copilot/schedule-your-most-used-copilot-prompts"
   - "https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/use-cowork"
 status: draft
-validation_note: "This seven-day, four-quadrant rewrite is awaiting tenant execution. Earlier one-day triage runs do not validate these revised prompts."
+validation_note: "The revised seven-day prompts have not yet been rerun in the demo tenant. Earlier one-day tests do not validate this version. Review priorities and coverage before relying on the output."
 ---
 
 ## Situation
