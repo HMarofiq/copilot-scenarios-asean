@@ -2,9 +2,9 @@
 id: x-email-triage-015
 title: { en: "Organise your inbox by importance and urgency", id: "Atur inbox berdasarkan kepentingan dan urgensi", ms: "Susun peti masuk mengikut kepentingan dan kesegeraan" }
 summary:
-  en: "Review your own inbox from the last seven days in four priority quadrants. Choose Copilot Chat, Microsoft 365 Copilot or Cowork. No demo files or uploads."
-  id: "Tinjau inbox Anda sendiri dari tujuh hari terakhir dalam empat kuadran prioritas. Pilih Copilot Chat, Microsoft 365 Copilot atau Cowork. Tanpa file demo atau upload."
-  ms: "Semak peti masuk anda sendiri daripada tujuh hari lepas dalam empat kuadran keutamaan. Pilih Copilot Chat, Microsoft 365 Copilot atau Cowork. Tiada fail demo atau muat naik."
+  en: "Get a suggested seven-day priority list from your own work inbox. Use chat for a quick first pass or Cowork for a broader review. Check source emails before acting. No uploads needed."
+  id: "Susun usulan prioritas tujuh hari dari inbox kerja Anda. Chat untuk tinjauan awal, Cowork untuk cakupan lebih luas. Cek email sumber sebelum bertindak. Tanpa upload."
+  ms: "Dapatkan cadangan keutamaan tujuh hari daripada peti masuk kerja anda. Chat untuk semakan awal, Cowork untuk semakan lebih luas. Semak e-mel sumber sebelum bertindak. Tiada muat naik."
 industry: [cross-industry]
 department: [all-departments]
 persona: [knowledge-worker, people-manager]
@@ -15,17 +15,17 @@ licence: [copilot-chat, m365-copilot, cowork]
 demo_kit: false
 publish_draft: true
 tiers:
-  - { key: basic, title: "Copilot Chat", licence: copilot-chat, difficulty: 1, surface: [outlook], runs: "A quick review inside Outlook. No Copilot add-on needed.", effort: "About 10 min", needs: ["An active Exchange Online inbox and Copilot Chat enabled by your organisation"] }
-  - { key: premium, title: "Microsoft 365 Copilot", licence: m365-copilot, difficulty: 2, surface: [copilot-chat, outlook], runs: "A broader review in the Copilot app, with optional scheduling.", effort: "About 10 min", needs: ["An active Exchange Online inbox and work-data access enabled"] }
-  - { key: cowork, title: "Copilot Cowork", licence: cowork, difficulty: 2, surface: [cowork, outlook], runs: "Review the inbox, then prepare drafts and proposed moves.", effort: "About 15 min", needs: ["An active Exchange Online inbox; Cowork and usage billing enabled by your organisation"] }
+  - { key: basic, title: "Copilot Chat", licence: copilot-chat, difficulty: 1, surface: [outlook], runs: "Quick first pass in Outlook. Check missed emails and suggested priorities.", effort: "About 10 min including review", needs: ["An active Exchange Online inbox and Copilot Chat enabled by your organisation; no Copilot add-on needed"] }
+  - { key: premium, title: "Microsoft 365 Copilot", licence: m365-copilot, difficulty: 2, surface: [copilot-chat, outlook], runs: "Broader review in the Copilot app. Check dates and priorities yourself.", effort: "About 10 min including review", needs: ["An active Exchange Online inbox and work-data access enabled"] }
+  - { key: cowork, title: "Copilot Cowork", licence: cowork, difficulty: 2, surface: [cowork, outlook], runs: "Mailbox-based review, then proposed replies and moves. Review before approval.", effort: "About 15 min including review", needs: ["An active Exchange Online inbox; Cowork and usage billing enabled by your organisation"] }
 inputs:
   - { name: "Your own unread inbox", format: "Email", where: "Outlook (Exchange Online)", count: "Received in the last 7 days" }
-objective: "Know what to do now, plan, handle quickly or read later, using the email already in your inbox. Nothing is sent, moved or deleted without your review."
-data: { sensitivity: "Confidential", customer_pii: true, signoff: "You review priorities and any draft before acting. Your organisation controls Copilot availability." }
+objective: "Build a suggested priority list from your existing inbox, then verify deadlines and importance before acting. This is a review aid, not an authoritative task tracker."
+data: { sensitivity: "Confidential", customer_pii: true, signoff: "You review priorities, proposed replies and any requested mailbox action. Your organisation controls Copilot availability." }
 impact: { baseline: "20-30 minutes checking email manually", target: "About 10 minutes to review the priority list", evidence: estimated }
 card:
   problem: "Recent requests, deadlines and routine messages are mixed together. A loud subject can distract you from a genuinely important task."
-  output: "Four priority quadrants for the last seven days, with the action, deadline, reason and source email for each item."
+  output: "A suggested four-quadrant list with source links and coverage gaps to check. Cowork can also propose replies and moves without applying them."
 limits:
   - "A Microsoft 365 work mailbox is required. A desktop-only Office licence or personal mailbox is not enough; your organisation must enable the relevant Copilot feature."
   - "Email retrieval can be incomplete. In the seven-day pilot, Copilot in Outlook reviewed 25 of 35 matching emails. The Copilot app reached all 35 through a background task in two runs, but returned only 25 in another."
@@ -47,6 +47,8 @@ validation_note: "Tested in English on 2 October 2026 against 35 unread emails. 
 **Your inbox.** You have an active work mailbox, with recent requests mixed among updates and notifications. Some need a reply today; others matter but can wait.
 
 **Your goal.** Review the last seven days in four priority quadrants. Start with Copilot Chat, or choose the option your organisation provides. Use your own inbox: no demo content, files or uploads are needed.
+
+**Before acting.** Treat the groups as suggestions. The source email and your judgement decide the final priority.
 
 ## Steps
 
@@ -98,9 +100,9 @@ Nyatakan julat masa dan berapa mesej yang anda semak. Jika hasil tidak lengkap, 
 Hanya laporkan di sini. Jangan tandakan e-mel dibaca, tandakan flag, alihkan, padam, hantar, majukan atau cipta peraturan.
 :::
 
-**After you run it:** four priority groups, source links and a coverage note. Treat this as a first pass; check Outlook for anything not covered.
+**After you run it:** suggested groups, source links and a coverage note. In our pilot Outlook reviewed 25 of 35 matching emails. Check missing mail, deadlines and subject/link pairs yourself; a polished list is not proof of accuracy.
 
-**2. Act on the list.** Open the source emails in **Do now**, confirm their deadlines and flag the ones you will handle. Put **Plan** items into your own task list, and decide whether to handle or delegate the small urgent tasks. Read the rest later. Copilot has not changed the mailbox.
+**2. Correct the list, then act.** Check source emails in both **Do now** and **Plan**: an important task due today may be in the wrong group. Correct priorities, then flag the messages you will handle and plan the rest. You make these changes yourself.
 ::::
 
 ::::tier{key="premium"}
@@ -143,9 +145,9 @@ Nyatakan julat masa dan berapa mesej yang disemak. Bezakan bilangan mesej daripa
 Hanya laporkan di sini. Jangan tandakan e-mel dibaca, tandakan flag, alihkan, padam, hantar, majukan atau cipta peraturan.
 :::
 
-**After you run it:** four quadrants with source links. Copilot may start a background task to retrieve more emails. If it reports a gap, check the missing period in Outlook before relying on the list.
+**After you run it:** suggested quadrants with source links. A background task reached all 35 matching emails in our pilot, but classification errors still occurred. If coverage is incomplete, check missing mail in Outlook; even with full coverage, verify priorities yourself.
 
-**2. Review and make it repeatable.** Verify the **Do now** items in Outlook before acting. If the review helps, hover over the prompt and choose **Schedule this prompt**. Set your weekdays, time, **Until** date and notification preference, then **Save**. A scheduled review reports priorities; it does not move or send email.
+**2. Verify before making it repeatable.** Check important deadlines in **Do now** and **Plan**, uncertain items, and source links in Outlook. Only if this review is useful should you choose **Schedule this prompt**. Set weekdays, time, **Until** and notifications, then **Save**. Scheduling repeats the review, not a guarantee of correct priorities.
 ::::
 
 ::::tier{key="cowork"}
@@ -185,7 +187,7 @@ Nyatakan julat masa dan berapa mesej yang disemak. Bezakan bilangan mesej daripa
 Hanya laporkan di sini. Jangan tandakan e-mel dibaca, tandakan flag, alihkan, padam, hantar, majukan, cipta draf atau cipta peraturan.
 :::
 
-**After you run it:** four quadrants and a coverage note. The mailbox remains unchanged. Verify the priorities before asking Cowork to act.
+**After you run it:** suggested quadrants and a coverage note. Cowork had the strongest coverage in our pilot: 35 unread emails reviewed, with uncertain completion and impact flagged. This prompt requests no mailbox actions. Check the priorities before continuing.
 
 **2. Prepare the next actions.** Optional: ask Cowork to propose moves and reply text. This prompt does not apply them.
 
@@ -205,7 +207,7 @@ Tulis balasan dalam bahasa setiap pengirim. Gunakan [perlu pengesahan] bagi fakt
 Hanya tunjukkan cadangan di sini. Jangan simpan draf, alihkan, tandakan dibaca, tandakan flag, padam, hantar, majukan atau cipta peraturan sehingga saya meluluskan tindakan individu secara jelas.
 :::
 
-**After you run it:** a proposed move list and reply text, not mailbox changes. Edit the text, then approve only actions you actually want. Send any final reply yourself.
+**After you run it:** a proposed move list and reply text, not saved drafts or applied moves. Our pilot produced five move proposals and four reply texts. Review every item, including general announcements that may matter to your role; approve only specific actions you want. Send final replies yourself.
 ::::
 
 ## Check it
@@ -215,7 +217,7 @@ Hanya tunjukkan cadangan di sini. Jangan simpan draf, alihkan, tandakan dibaca, 
 - **Four quadrants:** an important request due today is **Do now**; important work due later is **Plan**; a minor time-sensitive task is **Handle quickly**; a routine update is **Read later**.
 - **Hidden requests:** check one CC thread and one system approval manually. Copilot in Outlook can miss messages.
 - **Today's deadlines:** an important HR or access review due today belongs in **Do now**, even if Copilot puts it in **Plan** or **Handle quickly**.
-- **Safety:** suspected phishing is separate, with no links opened. No mailbox changes occurred.
+- **Safety:** suspected phishing stays separate. Confirm nothing was sent, moved, deleted, flagged or marked read by the prompt.
 ::::
 
 ::::tier{key="premium" section="checks"}

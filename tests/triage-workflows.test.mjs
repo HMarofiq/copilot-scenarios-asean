@@ -68,6 +68,9 @@ test('triage uses the existing inbox, seven days and four quadrants with separat
   assert.equal(fm.demo_kit, false);
   assert.deepEqual(fm.tiers.map((t) => t.key), ['basic', 'premium', 'cowork']);
   assert.ok(fm.inputs.every((i) => !i.kit));
+  assert.match(fm.objective, /review aid, not an authoritative task tracker/i);
+  assert.equal(fm.status, 'draft');
+  assert.match(fm.validation_note, /errors after retries/);
   assert.doesNotMatch(text, /FICTIONAL_|Adelia|Carlos|Wingtip|Create a skill|upload all files/i);
   for (const key of ['basic', 'premium', 'cowork']) {
     const block = text.match(new RegExp(`::::tier\\{key="${key}"\\}\\n([\\s\\S]*?)\\n::::`))[1];
