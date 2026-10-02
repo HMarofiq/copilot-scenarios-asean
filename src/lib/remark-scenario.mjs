@@ -38,7 +38,7 @@ const inputParts = (name) => {
 };
 
 function kitFolderLayout(fm) {
-  if (!fm.id || !existsSync(join(process.cwd(), 'public', 'kits', `${fm.id}.zip`))) return [];
+  if (fm.demo_kit === false || !fm.id || !existsSync(join(process.cwd(), 'public', 'kits', `${fm.id}.zip`))) return [];
   const path = join(process.cwd(), 'public', 'kits', `${fm.id}.manifest.json`);
   if (!existsSync(path)) throw new Error(`Missing demo kit manifest for ${fm.id}. Run npm run kits first.`);
   const manifest = JSON.parse(readFileSync(path, 'utf8'));
@@ -66,11 +66,15 @@ function beforeYouStart(fm, base) {
       `<span class="tool-icon" aria-hidden="true" style="--tool-icon: url('${toolIconUrl(base, x)}')"></span>`;
   };
   const row = (k, v) => `<div class="need"><dt>${k}</dt><dd>${v}</dd></div>`;
-  const needs = '<div class="needs"><div class="needs-k">What you need to run this</div><dl>' +
-    row('Licence', fm.licence.map((x) => `<span class="chip lic">${esc(lbl('licence', x))}</span>`).join('')) +
-    row('Apps', fm.surface.map((x) => `<span class="chip tool-chip">${icon(x)}${esc(lbl('surface', x))}</span>`).join('')) +
-    (fm.needs?.length ? row('Also', fm.needs.map((n) => `<span class="also">${esc(n)}</span>`).join('')) : '') +
-    (fm.run_time ? row('Time', esc(fm.run_time)) : '') + '</dl></div>';
+  const requirements = (licence, surface, extra, time) => '<dl>' +
+    row('Licence', licence.map((x) => `<span class="chip lic">${esc(lbl('licence', x))}</span>`).join('')) +
+    row('Apps', surface.map((x) => `<span class="chip tool-chip">${icon(x)}${esc(lbl('surface', x))}</span>`).join('')) +
+    (extra?.length ? row('Also', extra.map((n) => `<span class="also">${esc(n)}</span>`).join('')) : '') +
+    (time ? row('Time', esc(time)) : '') + '</dl>';
+  const needs = '<div class="needs"><div class="needs-k">What you need to run this</div>' +
+    (fm.tiers ? fm.tiers.map((t, i) => `<div data-tier-content="${esc(t.key)}"${i ? ' hidden' : ''}>` +
+      requirements([t.licence], t.surface, t.needs ?? fm.needs, t.effort) + '</div>').join('') :
+      requirements(fm.licence, fm.surface, fm.needs, fm.run_time)) + '</div>';
   const rules = '<div class="callout warn rules"><strong class="rules-k">Data rules: read before you paste anything</strong>' +
     `<p><strong>Sensitivity:</strong> ${esc(d.sensitivity)}</p>` +
     `<p><strong>Personal data:</strong> ${pii}</p>` +
@@ -92,7 +96,7 @@ function beforeYouStart(fm, base) {
   return [
     h(2, 'Before you start', 'before-you-start'),
     { type: 'html', value: `<div class="start-grid">${needs}${rules}</div>` },
-    h(3, 'Files'),
+    h(3, fm.demo_kit === false ? 'Your inputs' : 'Files'),
     { type: 'html', value: files },
     ...kitFolderLayout(fm),
     h(3, 'Heads-up'),
@@ -102,19 +106,12 @@ function beforeYouStart(fm, base) {
 
 // "When it goes wrong": each fix gets an anchor, and a trailing "(step N)" becomes a tag
 // plus a "Trouble with this step?" link inside that step's card.
-function collectFixes(tree) {
+function markFixes(list, prefix = '') {
   const fixes = {};
-  const at = tree.children.findIndex((n) => n.type === 'heading' && n.depth === 2 && toString(n).trim() === 'When it goes wrong');
-  let list = null;
-  for (let i = at + 1; at >= 0 && i < tree.children.length; i++) {
-    const n = tree.children[i];
-    if (n.type === 'heading' && n.depth <= 2) break;
-    if (n.type === 'list') { list = n; break; }
-  }
   if (!list) return fixes;
   list.data = { ...list.data, hProperties: { className: ['fixes'] } };
   list.children.forEach((li, k) => {
-    const id = `fix-${k + 1}`;
+    const id = `fix-${prefix}${k + 1}`;
     li.data = { ...li.data, hProperties: { id } };
     const para = li.children?.[0];
     if (para?.type !== 'paragraph') return;
@@ -130,11 +127,19 @@ function collectFixes(tree) {
   });
   return fixes;
 }
+function collectFixes(tree) {
+  const at = tree.children.findIndex((n) => n.type === 'heading' && n.depth === 2 && toString(n).trim() === 'When it goes wrong');
+  let list = null;
+  for (let i = at + 1; at >= 0 && i < tree.children.length; i++) {
+    const n = tree.children[i];
+    if (n.type === 'heading' && n.depth <= 2) break;
+    if (n.type === 'list') { list = n; break; }
+  }
+  return markFixes(list);
+}
 
 // "Check it" is the answer key: render it as a checklist the reader ticks off.
-function checklist(tree) {
-  const at = tree.children.findIndex((n) => n.type === 'heading' && n.depth === 2 && toString(n).trim() === 'Check it');
-  const list = at >= 0 ? tree.children[at + 1] : null;
+function markChecklist(list) {
   if (list?.type !== 'list') return;
   list.data = { ...list.data, hProperties: { className: ['checklist'] } };
   for (const li of list.children) {
@@ -142,11 +147,19 @@ function checklist(tree) {
     if (para?.type === 'paragraph') para.children.unshift({ type: 'html', value: '<input type="checkbox" class="chk" aria-label="Checked">' });
   }
 }
-// "Pick your tier" comparison, rendered from frontmatter so it can't drift from the tier blocks.
-function tierTable(tiers) {
-  const rows = tiers.map((t) => `<tr data-tier="${esc(t.key)}"><td><a href="#tier-${esc(t.key)}">${esc(lbl('tier', t.key))}</a></td>` +
-    `<td>${esc(lbl('difficulty', t.difficulty))}</td><td>${esc(t.runs)}</td><td>${esc(t.effort)}</td></tr>`).join('');
-  return { type: 'html', value: `<table class="tier-table"><thead><tr><th>Tier</th><th>Level</th><th>How it runs</th><th>Your time</th></tr></thead><tbody>${rows}</tbody></table>` };
+function checklist(tree) {
+  const at = tree.children.findIndex((n) => n.type === 'heading' && n.depth === 2 && toString(n).trim() === 'Check it');
+  markChecklist(at >= 0 ? tree.children[at + 1] : null);
+}
+// Workflow buttons are generated from frontmatter and control steps, checks and fixes.
+function tierSelector(tiers, sections) {
+  const buttons = tiers.map((t, i) => {
+    const ids = [...sections.get(t.key)].map((section) => section === 'steps' ? `tier-${t.key}` : `tier-${t.key}-${section}`).join(' ');
+    return `<button type="button" role="tab" id="tier-tab-${esc(t.key)}" data-select-tier="${esc(t.key)}" aria-selected="${!i}" tabindex="${i ? -1 : 0}" aria-controls="${esc(ids)}">` +
+      `<strong>${esc(t.title ?? lbl('tier', t.key))}</strong><span>${esc(t.runs)}</span><small>${esc(t.effort)}</small></button>`;
+  }).join('');
+  return html(`<div class="tier-selector" role="tablist" aria-label="Choose how to organise your inbox">${buttons}</div>` +
+    '<noscript><p>Enable JavaScript to switch workflows. The first workflow is shown below.</p></noscript>');
 }
 
 // --- Steps: turn the "**N. Title.**" authoring convention into real structure ---
@@ -174,7 +187,7 @@ const el = (hName, className, children, extra = {}) => ({ type: 'scenarioBlock',
 const html = (value) => ({ type: 'html', value });
 const firstSentence = (nodes) => { const s = nodes ? nodes.map((n) => toString(n)).join('').trim() : ''; const m = s.match(/^(.+?[.!?])(\s|$)/); return m ? m[1] : s; };
 
-function wrapSteps(children, fixes = {}) {
+function wrapSteps(children, fixes = {}, prefix = '') {
   const out = [];
   const parts = [];
   let found = false;
@@ -188,7 +201,7 @@ function wrapSteps(children, fixes = {}) {
     if (part) {
       found = true;
       const note = tail(node);
-      const id = `part-${part[1].split(/\s+/)[1].toLowerCase()}`;
+      const id = `part-${prefix}${part[1].split(/\s+/)[1].toLowerCase()}`;
       const [, name, mins] = part[2].replace(/\.\s*$/, '').match(/^(.*?)\s*(?:\((about [^)]+)\))?$/) ?? [null, part[2], null];
       const title = `${part[1]}: ${name}${mins ? ` · ${mins.replace(/minutes?/, 'min')}` : ''}`;
       parts.push({ id, label: part[1], name, mins, note: firstSentence(note), steps: [], at: out.length });
@@ -227,11 +240,11 @@ function wrapSteps(children, fixes = {}) {
         el('div', ['stephead'], [
           el('span', ['num'], [{ type: 'text', value: step[1] }]),
           { type: 'heading', depth: 4, children: [{ type: 'text', value: step[2].replace(/\.\s*$/, '') }] },
-          html(`<button type="button" class="done" data-step="${n}" aria-pressed="false">Done</button>`),
+          html(`<button type="button" class="done" data-step="${prefix}${n}" aria-pressed="false">Done</button>`),
         ]),
         ...body,
         ...trouble,
-      ], { id: `step-${n}` }));
+      ], { id: `step-${prefix}${n}` }));
       continue;
     }
 
@@ -251,12 +264,33 @@ function wrapSteps(children, fixes = {}) {
 export default function remarkScenario({ base = '/' } = {}) {
   return (tree, file) => {
     const fm = file.data?.astro?.frontmatter;
+    const tierSections = new Map();
+    const tierFixes = new Map();
+    let currentSection = '';
+    for (const node of tree.children) {
+      if (node.type === 'heading' && node.depth === 2) currentSection = toString(node).trim();
+      if (node.type !== 'containerDirective' || node.name !== 'tier') continue;
+      const key = node.attributes?.key;
+      if (!fm?.tiers?.some((t) => t.key === key)) file.fail(`Unknown workflow ${key}`, node);
+      const section = node.attributes?.section ?? 'steps';
+      const expected = { steps: 'Steps', checks: 'Check it', fixes: 'When it goes wrong' }[section];
+      if (!expected || currentSection !== expected) file.fail(`Workflow ${key} section ${section} must sit under ${expected ?? 'a supported section'}`, node);
+      const sections = tierSections.get(key) ?? new Set();
+      if (sections.has(section)) file.fail(`Duplicate workflow ${key} section ${section}`, node);
+      sections.add(section);
+      tierSections.set(key, sections);
+      if (section === 'fixes') tierFixes.set(key, markFixes(node.children.find((n) => n.type === 'list'), `${key}-`));
+      if (section === 'checks') markChecklist(node.children.find((n) => n.type === 'list'));
+    }
+    for (const tier of fm?.tiers ?? []) {
+      if (!tierSections.get(tier.key)?.has('steps')) file.fail(`Workflow ${tier.key} needs a Steps block`, tree);
+    }
     if (fm?.inputs) {
       const at = tree.children.findIndex((n) => n.type === 'heading' && n.depth === 2 && toString(n).trim() === 'Steps');
       if (at < 0) file.fail('Scenario must have a "## Steps" section', tree);
       const meta = beforeYouStart(fm, base);
       tree.children.splice(at, 0, ...meta);
-      if (fm.tiers) tree.children.splice(at + meta.length + 1, 0, tierTable(fm.tiers));
+      if (fm.tiers) tree.children.splice(at + meta.length + 1, 0, tierSelector(fm.tiers, tierSections));
       // Situation opens with the objective: the end goal first, then the story.
       const sit = tree.children.findIndex((n) => n.type === 'heading' && n.depth === 2 && toString(n).trim() === 'Situation');
       if (sit >= 0) {
@@ -314,10 +348,16 @@ export default function remarkScenario({ base = '/' } = {}) {
         const key = node.attributes?.key;
         const t = (fm?.tiers ?? []).find((x) => x.key === key);
         if (!t) file.fail(`::::tier{key="${key}"} has no matching entry in frontmatter tiers`, node);
-        node.data = { hName: 'section', hProperties: { className: ['tier'], id: `tier-${key}`, dataTier: key } };
-        node.children = wrapSteps(node.children, fixes);
-        node.children.unshift({ type: 'heading', depth: 3, children: [{ type: 'text', value: lbl('tier', key) }] },
-          { type: 'html', value: `<p class="tier-meta">${esc(lbl('difficulty', t.difficulty))} · ${esc(t.runs)} · ${esc(t.effort)}</p>` });
+        const section = node.attributes?.section ?? 'steps';
+        const id = section === 'steps' ? `tier-${key}` : `tier-${key}-${section}`;
+        node.data = { hName: 'section', hProperties: {
+          className: ['tier'], id, dataTierContent: key, dataTierSection: section,
+          role: 'tabpanel', ariaLabelledBy: `tier-tab-${key}`, hidden: fm.tiers[0].key !== key,
+        } };
+        if (section === 'steps') {
+          node.children = wrapSteps(node.children, tierFixes.get(key) ?? fixes, `${key}-`);
+          node.children.unshift({ type: 'heading', depth: 3, data: { hProperties: { id: `workflow-${key}` } }, children: [{ type: 'text', value: t.title ?? lbl('tier', key) }] });
+        }
         return;
       }
       if (node.type === 'containerDirective') file.fail(`Unknown block :::${node.name}. Use :::prompt, :::presenter or ::::tier.`, node);

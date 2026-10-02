@@ -17,6 +17,7 @@ inputs:                          # the exact files: be specific enough to reprod
 objective: ""                    # optional: the end goal in 1-2 plain sentences (opens the page; falls back to card.output)
 needs: []                        # optional: extra tools beyond licence and apps, e.g. "Word desktop for step 8"
 run_time: ""                     # optional: e.g. "Part A about 20 min, Part B about 30 min"
+demo_kit: true                   # false for live-data routines that need no downloaded files
 data:
   sensitivity: Confidential      # Public | Internal | Confidential | Highly Confidential
   customer_pii: false

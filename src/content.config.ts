@@ -25,6 +25,7 @@ const scenarios = defineCollection({
     objective: z.string().optional(),
     needs: z.array(z.string()).optional(),
     run_time: z.string().optional(),
+    demo_kit: z.boolean().default(true),
     data: z.object({ sensitivity: z.enum(keys('sensitivity')), customer_pii: z.boolean(), signoff: z.string().min(1) }),
     impact: z.object({ baseline: z.string(), target: z.string(), evidence: z.enum(keys('evidence')) }),
     card: z.object({ problem: z.string().min(1), output: z.string().min(1) }),
@@ -41,6 +42,8 @@ const scenarios = defineCollection({
       surface: tags('surface'),
       runs: z.string().min(1),
       effort: z.string().min(1),
+      title: z.string().min(1).optional(),
+      needs: z.array(z.string()).optional(),
     })).min(2).optional(),
   }).superRefine((d, ctx) => {
     if (d.tiers) {

@@ -17,7 +17,7 @@ const { Content, headings } = await render(s);
 const stepsId = headings.find(heading => heading.text.toLowerCase() === 'steps')?.slug ?? 'scenario-steps';
 const base = import.meta.env.BASE_URL;
 const kitPath = join(process.cwd(), 'public', 'kits', `${d.id}.zip`);
-const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.round(statSync(kitPath).size / 1024) } : null;
+const kit = d.demo_kit && existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.round(statSync(kitPath).size / 1024) } : null;
 ---
 <Base title={d.title.en} scenario>
   <p class="crumb"><a id="back-to-results" href={`${base}?view=all`} data-base={base}>&larr; All scenarios</a> / {label('industry', d.industry[0])}</p>
@@ -50,7 +50,7 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
       <div class="prose" id="scenario-steps"><Content /></div>
       <footer class="sources">
         <b>Sources:</b> {d.source_refs.map((u, i) => <>{i > 0 && ' · '}<a href={u}>{new URL(u).hostname}</a></>)}
-        {d.validated_on && <span> · Validated {d.validated_on.toISOString().slice(0, 7)} · fictional data</span>}
+        {d.validated_on && <span> · Validated {d.validated_on.toISOString().slice(0, 7)} · {d.demo_kit ? 'fictional data' : 'tested in a demo tenant'}</span>}
       </footer>
     </article>
 
@@ -95,12 +95,63 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
     back.textContent = params.get('view') === 'recommended' ? '\u2190 Back to your suggestions' : '\u2190 Back to results';
   }
   const start = document.getElementById('start-step1');
-  if (start instanceof HTMLAnchorElement && document.getElementById('step-1')) start.href = '#step-1';
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>('[data-select-tier]')];
+  const panels = [...document.querySelectorAll<HTMLElement>('[data-tier-content]')];
+  const updateStart = () => {
+    const step = document.querySelector<HTMLElement>('[data-tier-section="steps"]:not([hidden]) .stepcard') ?? document.getElementById('step-1');
+    if (start instanceof HTMLAnchorElement && step) start.href = `#${step.id}`;
+  };
+  const selectTier = (key: string) => {
+    if (!tabs.some((tab) => tab.dataset.selectTier === key)) return;
+    panels.forEach((panel) => { panel.hidden = panel.dataset.tierContent !== key; });
+    tabs.forEach((tab) => {
+      const selected = tab.dataset.selectTier === key;
+      tab.setAttribute('aria-selected', String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+    });
+    document.querySelectorAll<HTMLAnchorElement>('.onthispage a').forEach((link) => {
+      const target = document.getElementById(link.hash.slice(1));
+      const panel = target?.closest<HTMLElement>('[data-tier-content]');
+      const item = link.closest('li');
+      if (item) item.hidden = Boolean(panel?.hidden);
+    });
+    updateStart();
+  };
+  const selectFromHash = () => {
+    const target = document.getElementById(location.hash.slice(1));
+    const panel = target?.closest<HTMLElement>('[data-tier-content]');
+    const key = panel?.dataset.tierContent;
+    if (key) {
+      selectTier(key);
+      requestAnimationFrame(() => target?.scrollIntoView({ block: 'start' }));
+    }
+  };
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => {
+      selectTier(tab.dataset.selectTier!);
+      if (location.hash) history.replaceState(history.state, '', `${location.pathname}${location.search}`);
+    });
+    tab.addEventListener('keydown', (event) => {
+      const indices: Record<string, number> = {
+        ArrowRight: (index + 1) % tabs.length, ArrowLeft: (index + tabs.length - 1) % tabs.length,
+        Home: 0, End: tabs.length - 1,
+      };
+      if (!(event.key in indices)) return;
+      event.preventDefault();
+      tabs[indices[event.key]].click();
+      tabs[indices[event.key]].focus();
+    });
+  });
+  if (tabs.length) {
+    selectTier(tabs[0].dataset.selectTier!);
+    selectFromHash();
+    window.addEventListener('hashchange', selectFromHash);
+  } else updateStart();
   // Step "Done" toggles and the Check-it ticks are remembered per scenario in this browser only.
   const page = location.pathname;
   const load = (k: string): unknown[] => { try { return JSON.parse(localStorage.getItem(k) || '[]'); } catch { return []; } };
   const save = (k: string, v: unknown[]) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
-  const doneKey = `sl:v1:done:${page}`;
+  const doneKey = `sl:${tabs.length ? 'v2' : 'v1'}:done:${page}`;
   const done = new Set(load(doneKey) as string[]);
   const tick = (n: string) => {
     const on = done.has(n);
@@ -111,7 +162,7 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
     const n = b.dataset.step ?? ''; tick(n);
     b.addEventListener('click', () => { if (done.has(n)) done.delete(n); else done.add(n); save(doneKey, [...done]); tick(n); });
   });
-  const checkKey = `sl:v1:check:${page}`;
+  const checkKey = `sl:${tabs.length ? 'v2' : 'v1'}:check:${page}`;
   const checks = load(checkKey) as number[];
   const boxes = [...document.querySelectorAll<HTMLInputElement>('.checklist .chk')];
   boxes.forEach((c, i) => {
@@ -213,6 +264,17 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
   .prose :global(.prompt) { border-radius:8px }
   .prose :global(details.presenter) { border-style:solid; border-color:var(--line) }
   .prose :global(.tier-meta) { font-size:14px; color:var(--ink2) }
+  .prose :global(.tier-selector) { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:12px; margin:16px 0 24px }
+  .prose :global(.tier-selector button) { text-align:left; display:flex; flex-direction:column; gap:6px; padding:16px; border:1px solid var(--line); border-radius:8px; background:var(--cp-surface); color:var(--ink); cursor:pointer; min-height:136px }
+  .prose :global(.tier-selector button strong) { font-size:16px }
+  .prose :global(.tier-selector button span) { font-size:13px; line-height:1.5; color:var(--ink2) }
+  .prose :global(.tier-selector button small) { font-size:12px; color:var(--ink2); margin-top:auto }
+  .prose :global(.tier-selector button[aria-selected="true"]) { border-color:var(--brand); box-shadow:inset 0 0 0 1px var(--brand); background:var(--brand-soft) }
+  .prose :global(.tier-selector button:hover) { border-color:var(--brand) }
+  .prose :global(.priority-grid) { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px; margin:16px 0 24px }
+  .prose :global(.priority-grid > div) { padding:14px 16px; border:1px solid var(--line); border-radius:8px }
+  .prose :global(.priority-grid strong), .prose :global(.priority-grid span) { display:block }
+  .prose :global(.priority-grid span) { font-size:14px; color:var(--ink2); margin-top:4px }
   /* Steps */
   .prose :global(.stephead h4) { flex:1 }
   .prose :global(.done) { flex:none; border:1px solid var(--line); background:var(--cp-surface); color:var(--cp-text-muted); border-radius:6px; font-size:12px; padding:4px 10px; min-height:30px; cursor:pointer }
@@ -229,7 +291,7 @@ const kit = existsSync(kitPath) ? { href: `${base}kits/${d.id}.zip`, kb: Math.ro
   .prose :global(.fixes) { list-style:none; padding:0 } .prose :global(.fixes li) { padding:10px 0; border:0; scroll-margin-top:var(--scenario-anchor-offset, 104px) }
   .prose :global(.fixes li:target) { background:var(--brand-soft) }
   .prose :global(.steptag) { display:inline-block; font-size:11px; font-weight:700; color:var(--brand); background:var(--brand-soft); border-radius:5px; padding:1px 6px; vertical-align:1px }
-  @media(max-width:640px) { .prose :global(.routes) { grid-template-columns:1fr } .presenting { width:100% } }  @media print {
+  @media(max-width:640px) { .prose :global(.routes), .prose :global(.tier-selector), .prose :global(.priority-grid) { grid-template-columns:1fr } .prose :global(.tier-selector button) { min-height:0 } .presenting { width:100% } }  @media print {
     .quick-start, .side, .crumb, .done, .presenting { display:none }
     .page { display:block } article { border:0; padding:0 }
     /* A printed prompt must show every line, not a scroll window. */

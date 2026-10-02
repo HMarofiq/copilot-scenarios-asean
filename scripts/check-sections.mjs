@@ -21,14 +21,25 @@ for (const f of readdirSync(DIR).filter((x) => x.endsWith('.md'))) {
 
   // Tiered scenarios: every frontmatter tier has exactly one ::::tier block inside Steps, each with a prompt.
   const fmKeys = [...text.split(/^---$/m)[1].matchAll(/^\s*- \{ key: (\w+)/gm)].map((m) => m[1]);
-  const blocks = [...body.matchAll(/^::::tier\{key="(\w+)"\}\n([\s\S]*?)^::::$/gm)];
+  const blocks = [...body.matchAll(/^::::tier\{key="(\w+)"(?: section="(\w+)")?\}\n([\s\S]*?)^::::$/gm)];
   if (fmKeys.length || blocks.length) {
     const steps = body.slice(body.indexOf('## Steps'), body.indexOf('## Check it'));
-    const bk = blocks.map((m) => m[1]);
+    const stepBlocks = blocks.filter((m) => !m[2] || m[2] === 'steps');
+    const bk = stepBlocks.map((m) => m[1]);
     if (fmKeys.join() !== bk.join()) fail(`tier blocks [${bk}] must match frontmatter tiers [${fmKeys}] in the same order`);
-    for (const m of blocks) {
+    for (const m of stepBlocks) {
       if (!steps.includes(m[0])) fail(`tier ${m[1]} must sit inside ## Steps`);
-      if (!/^:::prompt$/m.test(m[2])) fail(`tier ${m[1]} needs at least one :::prompt`);
+      if (!/^:::prompt$/m.test(m[3])) fail(`tier ${m[1]} needs at least one :::prompt`);
+    }
+    for (const section of ['checks', 'fixes']) {
+      const group = blocks.filter((m) => m[2] === section);
+      if (!group.length) continue;
+      if (group.map((m) => m[1]).join() !== fmKeys.join()) fail(`every tier needs one ${section} block in frontmatter order`);
+      const title = section === 'checks' ? 'Check it' : 'When it goes wrong';
+      const start = body.indexOf(`## ${title}`);
+      const end = body.indexOf('\n## ', start + 1);
+      const content = body.slice(start, end < 0 ? body.length : end);
+      for (const m of group) if (!content.includes(m[0])) fail(`tier ${m[1]} ${section} block must sit inside ## ${title}`);
     }
   }
 }
