@@ -20,7 +20,7 @@ inputs:
   - { name: "Agency invoice with the agency's own performance recap", format: ".pdf", where: "Finance / email", count: "1", kit: ["07_WideWorld_Invoice_Recap_Sep2026.pdf"], steps: [3] }
   - { name: "The Malaysian subsidiary's monthly update", format: ".docx or email", where: "Email", count: "1", kit: ["08_Email_Malaysia_5G_Sep2026.docx"], steps: [3, 5] }
   - { name: "Notes from fraud management, legal and field operations", format: ".docx", where: "Email / Teams", count: "1", kit: ["09_Notes_RAFM_Legal_FieldOps_Sep2026.docx"], steps: [3, 5] }
-  - { name: "Board deck template", format: ".pptx", where: "Corporate template library", count: "1", kit: ["10_Relecloud_Board_Template.pptx"], steps: [4, 5] }
+  - { name: "Board deck template", format: ".pptx", where: "Corporate template library", count: "1", kit: ["10_Zava_Connect_Board_Template.pptx"], steps: [4, 5] }
 objective: "Give the Direksi one trustworthy view of the campaigns running this month: spend, results and cost against target on the company's own rules, growth measured correctly, and the concerns and decisions that follow, in about 50 minutes instead of two days."
 run_time: "Part A about 20 min, Part B about 25 min"
 data: { sensitivity: "Confidential", customer_pii: false, signoff: "CMO before the deck goes to the Corporate Secretary; Finance for spend and currency" }
@@ -47,7 +47,7 @@ validation_note: "Run end to end in a demo tenant with the kit, both prompts exa
 
 ## Situation
 
-**The deadline.** Relecloud's CMO needs the September campaign pack by Tuesday 12.00 for Wednesday's Direksi meeting. You report on three campaigns across Indonesia and Malaysia.
+**The deadline.** The CMO needs the September campaign pack by Tuesday 12.00 for Wednesday's Direksi meeting. You report on three campaigns across Indonesia and Malaysia.
 
 **The inputs.** Ad exports, backend results, the agency invoice and local-team notes feed a tracker with the group's reporting rules.
 
@@ -118,7 +118,7 @@ Akhiri dengan ringkasan pendek di sini dalam sembang: tiga lampu keseluruhan, ju
 
 **Part B: the board deck (about 25 minutes).** Do this when the scorecard is right. PowerPoint builds the deck from the tracker and the notes.
 
-**4. Start the deck from the template.** Make a copy of *10_Relecloud_Board_Template.pptx*, name it *Board_Pack_Marketing_Sep2026.pptx*, open it in PowerPoint for the web and select **Copilot**.
+**4. Start the deck from the template.** Make a copy of *10_Zava_Connect_Board_Template.pptx*, name it *Board_Pack_Marketing_Sep2026.pptx*, open it in PowerPoint for the web and select **Copilot**.
 
 1. Add a sensitivity label if your organisation asks for one.
 2. Check the mode says **Allow editing**.

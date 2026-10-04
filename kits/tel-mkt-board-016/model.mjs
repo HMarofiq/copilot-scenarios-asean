@@ -2,14 +2,21 @@
 // Every number lives here once. build.mjs renders the kit files from it; tests assert answerKey().
 // Amounts in full IDR (or MYR for the Malaysian opco). The board reports in IDR million, 1 decimal.
 
+// Every company and person name comes from canon/zava.mjs (Zava Connect).
+import { entity, person, ARMS, EXTERNAL, GROUP } from '../../canon/zava.mjs';
+
+const ID = entity('zseluler'), MYCO = entity('zconnectmy');
+const mail = (name) => `${name.toLowerCase().replace(/ /g, '.')}@${GROUP.parent.domain}`;
+const who = (name, title) => ({ name, title: title ?? person(name).title.replace(/, PT Zava Seluler Indonesia$/, ''), email: mail(name) });
+
 export const WORLD = {
-  group: 'PT Relecloud Nusantara Tbk',
-  groupShort: 'Relecloud',
-  opcoID: 'PT Relecloud Seluler Indonesia',
-  opcoMY: 'Relecloud Malaysia Sdn Bhd',
-  ftthBrand: 'Relecloud Home',
-  agency: 'PT Wide World Digital Indonesia',
-  domain: 'relecloud.example',
+  group: ID.legal,
+  groupShort: ARMS.connect.name,
+  opcoID: ID.legal,
+  opcoMY: MYCO.legal,
+  ftthBrand: 'Zava Home',
+  agency: EXTERNAL.wideworld.name,
+  domain: GROUP.parent.domain,
   month: 'September 2026',
   closeDate: '2026-10-02',
   requestDate: 'Friday 2 October 2026',
@@ -18,13 +25,15 @@ export const WORLD = {
 };
 
 export const PEOPLE = {
-  user: { name: 'Nadia Rahman', title: 'Marketing Performance Manager, Group Marketing', email: 'nadia.rahman@relecloud.example' },
-  cmo: { name: 'Dewi Kartika', title: 'Chief Marketing Officer', email: 'dewi.kartika@relecloud.example' },
-  my: { name: 'Farah Aziz', title: 'Head of Marketing, Relecloud Malaysia', email: 'farah.aziz@relecloud-my.example' },
-  rafm: { name: 'Budi Hartono', title: 'Head of Revenue Assurance & Fraud Management', email: 'budi.hartono@relecloud.example' },
-  legal: { name: 'Sinta Wulandari', title: 'Senior Counsel, Legal & Regulatory', email: 'sinta.wulandari@relecloud.example' },
-  agency: { name: 'Kevin Tan', title: 'Account Director', email: 'kevin.tan@wideworld-digital.example' },
-  bi: { name: 'Elvia Atkins', title: 'BI & Data Platform Lead', email: 'elvia.atkins@relecloud.example' },
+  user: who('Anisa Putri'),
+  cmo: who('Dewi Kartika'),
+  my: who('Aisyah Kamal'),
+  rafm: who('Budi Hartono'),
+  legal: who('Sinta Wulandari'),
+  agency: { name: 'Kevin Tan', title: 'Account Director', email: `kevin.tan@${EXTERNAL.wideworld.domain}` },
+  bi: who('Rizky Ananda'),
+  ceo: who('Wulan Sasmita'),
+  fd: who('Bonar Simanjuntak'),
 };
 
 // Reporting rules (the tracker's Rules sheet). The answer key applies exactly these.
@@ -44,7 +53,7 @@ export const RULES = {
 // Three campaigns running in September 2026.
 export const CAMPAIGNS = {
   RH: {
-    code: 'RH-2607', name: 'Rumah Terhubung', market: 'ID', product: 'Relecloud Home FTTH (free installation + 50% off the first bill)',
+    code: 'RH-2607', name: 'Rumah Terhubung', market: 'ID', product: 'Zava Home FTTH (free installation + 50% off the first bill)',
     start: '2026-07-01', end: '2026-12-31', daysTotal: 184, daysToDate: 92,
     budgetTotal: 18_000_000_000,
     budgetByMonth: { Jul: 2_600_000_000, Aug: 3_000_000_000, Sep: 3_400_000_000, Oct: 3_000_000_000, Nov: 3_000_000_000, Dec: 3_000_000_000 },
@@ -88,7 +97,7 @@ export const CAMPAIGNS = {
 };
 
 // Not a campaign: always-on brand spend that also sits in the Meta account and on the invoice.
-export const OTHER = { name: 'Relecloud Brand Always-On', metaMedia: 212_000_000 };
+export const OTHER = { name: 'Zava Brand Always-On', metaMedia: 212_000_000 };
 
 // Google credited invalid clicks on the September invoice, for AUGUST traffic (Merdeka Unlimited).
 export const GOOGLE_IVT_CREDIT = { amount: -38_450_000, campaign: 'MU', trafficMonth: 'August 2026' };
