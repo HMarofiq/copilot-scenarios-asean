@@ -2,6 +2,10 @@
 // Traps: one missing (late), one in millions instead of billions, one in USD, one scanned-style
 // (image only, unreadable), and KPI labels that differ by subsidiary.
 import { join } from 'node:path';
+import { entity } from '../../canon/zava.mjs';
+
+const HOLDING = entity('zid'); // PT Zava Indonesia Tbk
+const HOLD_SHORT = HOLDING.short; // Zava Indonesia
 import { rng, writeXlsx, writePptx, writeText, writeReadme, NOTICE } from '../lib.mjs';
 
 const SECTORS = ['Energy', 'Logistics', 'Agribusiness', 'Property', 'Digital'];
@@ -25,7 +29,7 @@ export function generate() {
     const actual = { rev: Math.round(target.rev * perf), ebitda: Math.round(target.ebitda * (perf - 0.03 + r.next() * 0.06)), capex: Math.round(target.capex * (0.6 + r.next() * 0.5)), hc: Math.round(target.hc * (0.95 + r.next() * 0.08)) };
     const pct = actual.rev / target.rev;
     const rag = pct < 0.9 ? 'Red' : pct <= 1 ? 'Amber' : 'Green';
-    return { id, name: `Fabrikam ${sector} ${String.fromCharCode(65 + Math.floor(i / 5))}`, sector, target, actual, rag, labels: LABELS[i % 4], format: i % 3 === 0 ? 'pptx' : 'xlsx' };
+    return { id, name: `Zava ${sector} ${String.fromCharCode(65 + Math.floor(i / 5))}`, sector, target, actual, rag, labels: LABELS[i % 4], format: i % 3 === 0 ? 'pptx' : 'xlsx' };
   });
 }
 
@@ -36,7 +40,7 @@ export default async function build({ dir }) {
     name: 'Targets',
     columns: [c('Subsidiary ID', 'id', 13), c('Name', 'name', 28), c('Sector', 'sector', 14), c('Revenue target (IDR bn)', 'rev', 14), c('EBITDA target (IDR bn)', 'ebitda', 14), c('Capex budget (IDR bn)', 'capex', 14), c('Headcount plan', 'hc', 12)],
     rows: subs.map((s) => ({ id: s.id, name: s.name, sector: s.sector, ...s.target })),
-  }], { readme: ['Fabrikam Holding Group (fictional). September 2026 year-to-date targets.', 'All figures IDR billions unless stated. Exercise exchange rate: 1 USD = 16,000 IDR.'] });
+  }], { readme: [`${HOLDING.legal} (fictional). September 2026 year-to-date targets.`, 'All figures IDR billions unless stated. Exercise exchange rate: 1 USD = 16,000 IDR.'] });
 
   for (const s of subs) {
     const folder = join(dir, 'Portfolio Reports', `${s.id} ${s.name}`);

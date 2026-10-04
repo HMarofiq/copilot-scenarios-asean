@@ -1,6 +1,10 @@
 // Monthly KPI narrative for a holding company. Traps: KPIs where lower is better, a KPI with no
 // target, August restated after audit, and blank comments that must not be filled with invented causes.
 import { join } from 'node:path';
+import { entity } from '../../canon/zava.mjs';
+
+const HOLDING = entity('zid'); // PT Zava Indonesia Tbk
+const HOLD_SHORT = HOLDING.short; // Zava Indonesia
 import { writeXlsx, writeReadme } from '../lib.mjs';
 
 export const KPIS = [
@@ -26,17 +30,17 @@ export const topConcerns = () => KPIS.filter((k) => status(k) === 'Not met').sor
 
 export default async function build({ dir }) {
   const c = (header, key, width = 14) => ({ header, key, width });
-  await writeXlsx(join(dir, 'FICTIONAL_Fabrikam_KPI_Pack_Sep2026.xlsx'), [{
+  await writeXlsx(join(dir, 'FICTIONAL_Zava_KPI_Pack_Sep2026.xlsx'), [{
     name: 'KPIs',
     columns: [c('KPI', 'kpi', 28), c('Unit', 'unit', 18), c('Better when', 'better', 12), c('Target Sep', 'target', 11), c('Actual Aug (restated)', 'aug', 14), c('Actual Sep', 'sep', 11), c('Comment', 'comment', 48)],
     rows: KPIS.map((k) => ({ ...k, target: k.target ?? 'n/a', comment: k.comment })),
-  }], { readme: ['Fabrikam Holding Group (fictional) monthly KPI pack, September 2026 year to date.', `August revenue was restated from ${AUG_REVENUE_BEFORE_RESTATEMENT} to ${KPIS[0].aug} (IDR bn) after an audit adjustment. Use the restated figure.`, 'Better when: Higher means above target is good; Lower means below target is good.', 'A KPI with no target shows n/a in Target Sep.'] });
+  }], { readme: [`${HOLDING.legal} (fictional) monthly KPI pack, September 2026 year to date.`, `August revenue was restated from ${AUG_REVENUE_BEFORE_RESTATEMENT} to ${KPIS[0].aug} (IDR bn) after an audit adjustment. Use the restated figure.`, 'Better when: Higher means above target is good; Lower means below target is good.', 'A KPI with no target shows n/a in Target Sep.'] });
 
   const met = KPIS.filter((k) => status(k) === 'Met').map((k) => k.kpi);
   const notMet = KPIS.filter((k) => status(k) === 'Not met').map((k) => k.kpi);
   writeReadme(dir, {
     title: 'Demo kit: Monthly KPI performance narrative and deck', scenario: 'gov-kpi-narrative-008',
-    contents: ['FICTIONAL_Fabrikam_KPI_Pack_Sep2026.xlsx (12 KPIs with polarity, restated August, comments)'],
+    contents: ['FICTIONAL_Zava_KPI_Pack_Sep2026.xlsx (12 KPIs with polarity, restated August, comments)'],
     setup: ['Upload the workbook to OneDrive in the demo tenant and open it once in Excel for the web.', 'Run the scenario prompts in Copilot Chat.'],
     spoilers: [
       `Met (${met.length}): ${met.join(', ')}.`,

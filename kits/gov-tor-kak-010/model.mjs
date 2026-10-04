@@ -1,14 +1,14 @@
 // Model for gov-tor-kak-010 (v3): every number once. The documents, the price schedules, the answer key and the
 // tests are all derived from here, so they cannot drift.
-// World: Fabrikam Group (fictional state-owned logistics holding). Owner: PT Fabrikam Nusantara (Persero).
+// World: Zava Logistik Group (fictional state-owned logistics holding). Owner: PT Zava Logistik Nusantara.
 // Tender: Group Enterprise Asset Management (EAM) SaaS for 20 subsidiaries, 3-year subscription plus implementation.
 
 export const OWNER = {
-  name: 'PT Fabrikam Nusantara (Persero)', short: 'Fabrikam Nusantara', group: 'Fabrikam Group',
-  what: 'state-owned logistics holding: ports, warehousing, trucking and cold storage through 20 subsidiaries',
-  procurementRule: 'Pedoman Pengadaan Barang/Jasa, Keputusan Direksi No. KD-017/DIR/FN/2025',
-  itRule: 'Standar Keamanan dan Tata Kelola Layanan Cloud, Keputusan Direksi No. KD-022/DIR/FN/2025',
-  tender: 'Tender No. 0142/PGD-FN/VIII/2026', tenderName: 'Pengadaan Sistem Enterprise Asset Management (EAM) Grup berbasis SaaS',
+  name: 'PT Zava Logistik Nusantara', short: 'Zava Logistik Nusantara', group: 'Zava Logistik Group',
+  what: 'state-owned logistics holding: ports, warehousing, trucking and container depots through 20 subsidiaries',
+  procurementRule: 'Pedoman Pengadaan Barang/Jasa, Keputusan Direksi No. KD-017/DIR/ZLN/2025',
+  itRule: 'Standar Keamanan dan Tata Kelola Layanan Cloud, Keputusan Direksi No. KD-022/DIR/ZLN/2025',
+  tender: 'Tender No. 0142/PGD-ZLN/VIII/2026', tenderName: 'Pengadaan Sistem Enterprise Asset Management (EAM) Grup berbasis SaaS',
 };
 
 export const PEOPLE = {
@@ -42,8 +42,8 @@ export const HPS_INCL = inclVat(RULES.hpsDpp);
 // Requirement memo facts (Part A traps)
 export const MEMO = {
   userTableBySubsidiary: [
-    ['PT Fabrikam Pelabuhan Nusantara', 118], ['PT Fabrikam Gudang Logistik', 96], ['PT Fabrikam Truk Ekspres', 84],
-    ['PT Fabrikam Rantai Dingin', 52], ['Holding (Direktorat Operasi, Keuangan, TI)', 38], ['12 subsidiaries lainnya (total)', 72],
+    ['PT Zava Pelabuhan Nusantara', 118], ['PT Zava Gudang Logistik Tbk', 96], ['PT Zava Truk Ekspres', 84],
+    ['PT Zava Depo Kontainer', 52], ['Holding (Direktorat Operasi, Keuangan, TI)', 38], ['12 subsidiaries lainnya (total)', 72],
   ],
   userSaid: 400, // memo text says "sekitar 400 pengguna" but the table sums to 460
   subsidiariesSaid: 20, // the memo says 20 subsidiaries; its user table lists 4 named ones plus 12 others (16)

@@ -42,7 +42,7 @@ test('board paper: bridge, materiality, stale input, conflict and missing sectio
   assert.match(t.INPUT_FINANCE, /1,020|1\.020/);
   assert.doesNotMatch(t.INPUT_STRATEGY, /1,020|1\.020/, 'Strategy only gives the EV');
   assert.match(t.INPUT_LEGAL_TAX, /Laras Pratiwi/);
-  for (const cp of ['CDOB', 'Litware', 'Fabrikam Nusantara']) assert.match(t.INPUT_LEGAL_TAX, new RegExp(cp));
+  for (const cp of ['CDOB', 'Litware', 'Zava Logistik Nusantara']) assert.match(t.INPUT_LEGAL_TAX, new RegExp(cp));
   assert.equal(bp.SECTIONS.length, 10);
   assert.ok(!('INPUT_HC' in bp.TEXTS), 'Human Capital has not submitted');
 });

@@ -5,7 +5,7 @@ const userRows = MEMO_MODEL.userTableBySubsidiary.map(([name, count]) => [name, 
 
 export const MEMO = [
   `# NOTA DINAS`,
-  `Nomor: ND-0142/GA-FN/IX/2026`,
+  `Nomor: ND-0142/GA-ZLN/IX/2026`,
   `Tanggal: ${DATES.memo}`,
   `Kepada: ${PEOPLE.procurementHead}`,
   `Dari: ${PEOPLE.requester}`,
@@ -151,7 +151,7 @@ const functionalRows = [
 
 export const KAK_FINAL = [
   `# KERANGKA ACUAN KERJA`,
-  `Nomor: KAK-0142/PGD-FN/IX/2026`,
+  `Nomor: KAK-0142/PGD-ZLN/IX/2026`,
   `Tanggal: ${DATES.kakIssued}`,
   `Unit Pengguna: Direktorat Operasi - Group Asset Management`,
   `Nama Paket: ${OWNER.tenderName}`,
@@ -214,7 +214,7 @@ export const KAK_FINAL = [
 
 export const ADDENDUM_1 = [
   `# ADENDUM 1 DOKUMEN PEMILIHAN / KAK`,
-  `Nomor: ADD-01/0142/PGD-FN/IX/2026`,
+  `Nomor: ADD-01/0142/PGD-ZLN/IX/2026`,
   `Tanggal: ${DATES.addendum}`,
   `Paket: ${OWNER.tenderName}`,
   `Referensi: ${OWNER.tender}`,

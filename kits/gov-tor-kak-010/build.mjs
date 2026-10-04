@@ -84,7 +84,7 @@ function evalWorkbook() {
 }
 
 export default async function build({ dir }) {
-  const opt = (title) => ({ title, creator: 'Divisi Pengadaan Korporat, PT Fabrikam Nusantara (Persero)', keywords: 'KAK; tender; fictional' });
+  const opt = (title) => ({ title, creator: 'Divisi Pengadaan Korporat, PT Zava Logistik Nusantara', keywords: 'KAK; tender; fictional' });
   await writeDocx(join(dir, FILES.memo), MEMO, opt('Nota Dinas kebutuhan EAM'));
   await writeDocx(join(dir, FILES.pedoman), PEDOMAN, opt('Kutipan Pedoman Pengadaan'));
   await writeDocx(join(dir, FILES.template), TEMPLATE_KAK, opt('Template KAK'));
