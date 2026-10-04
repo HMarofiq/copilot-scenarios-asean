@@ -62,7 +62,7 @@ table{width:100%;border-collapse:collapse;background:var(--cp-surface);border:1p
 .tree{font-family:Consolas,"Courier New",monospace;font-size:13px;white-space:pre;overflow:auto}.dec b.n{display:inline-block;background:var(--cp-accent);color:var(--cp-accent-fg);border-radius:999px;width:22px;height:22px;text-align:center;line-height:22px;margin-right:6px}
 ol.rules li{margin:6px 0}.stats{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}.stat{background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:.625rem;padding:10px 14px}.stat b{display:block;font-size:22px;color:var(--cp-accent)}
 </style></head><body><main>
-<h1>Zava Group canon</h1><p class="lead">One fictional multinational for every scenario that needs a company. Proposed 4 Oct 2026, awaiting approval. Generated from <code>canon/zava.mjs</code> and a live scan of <code>content/scenarios</code>.</p>
+<h1>Zava Group canon</h1><p class="lead">One fictional multinational for every scenario that needs a company. Approved 4 Oct 2026. Generated from <code>canon/zava.mjs</code> and a live scan of <code>content/scenarios</code>.</p>
 <div class="stats"><div class="stat"><b>${Object.keys(ARMS).length}</b>business arms</div><div class="stat"><b>${Object.values(ARMS).reduce((a, x) => a + x.entities.length, 0)}</b>operating companies</div><div class="stat"><b>${PEOPLE.length}</b>named people</div><div class="stat"><b>${Object.keys(EXTERNAL).length}</b>outside parties</div><div class="stat"><b>${scan.length}</b>scenarios mapped</div><div class="stat"><b>${rerunCount}</b>need a prompt re-run</div></div>
 
 <h2>1. The group</h2>
@@ -73,7 +73,7 @@ ol.rules li{margin:6px 0}.stats{display:flex;gap:12px;flex-wrap:wrap;margin:16px
     ${Object.values(ARMS).flatMap((a) => a.entities.filter((e) => e.parent === 'zmy').map((e) => `├─ ${e.legal}   [${a.name}]`)).join('\n    ')}`)}</div>
 <p class="small">${esc(GROUP.size)} ${esc(GROUP.fiscalYear)}<br>${esc(GROUP.languages)}</p></div>
 
-<h2>2. Decisions to confirm</h2>
+<h2>2. Decisions (approved)</h2>
 <div class="grid g3">${decisions.map((d) => `<div class="card dec"><h3><b class="n">${d.n}</b>${esc(d.t)}</h3><p><b>Proposed:</b> ${esc(d.pick)}</p><p class="small"><b>Why:</b> ${esc(d.why)}</p><p class="small"><b>Alternatives:</b> ${esc(d.alt)}</p></div>`).join('')}</div>
 
 <h2>3. Rules</h2>

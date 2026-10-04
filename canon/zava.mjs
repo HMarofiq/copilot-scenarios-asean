@@ -1,6 +1,6 @@
 // ZAVA GROUP CANON: the single fictional company behind every scenario that needs a company name.
 // Kits import from here; never hard-code a Zava entity, person or external party name in a kit.
-// Status: PROPOSED (4 Oct 2026), awaiting Huda's approval. Items marked DECISION are defaults to confirm.
+// Status: APPROVED by Huda on 4 Oct 2026, including the three DECISION defaults below.
 
 export const RULES = [
   'Name the company only when the work product needs it (deck, board paper, report, contract, policy pack, tender, minutes).',
