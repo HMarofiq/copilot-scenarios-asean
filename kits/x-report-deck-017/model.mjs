@@ -24,8 +24,8 @@ export const CASE = {
   requester: who('Yusuf Hakim'),
   author: who('Dimas Pratama'),
   controller: who('Rudi Santoso'),
-  ceo: who('Rahmat Hidayat'),
-  fd: who('Lina Marlina'),
+  ceo: who('Adelia Chin'),
+  fd: who('Andre Lawson'),
   customer: EXTERNAL.wingtip.name.replace(/^PT /, '').replace(/ Nusantara$/, ''),
   carriers: [EXTERNAL.fabrikam.name, EXTERNAL.southridge.name, EXTERNAL.alpine.name],
 };

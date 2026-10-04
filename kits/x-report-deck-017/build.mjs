@@ -90,7 +90,7 @@ async function writeQ2Deck(path) {
   s.addTable([head(['Commitment', 'Owner (role)', 'Due']), ...COMMITMENTS.map((c) => [c.text, c.owner, c.id === 'C1' ? '31 Aug 2026' : '30 Sep 2026'])], { ...tbl, y: 1.3 });
   s.addNotes(`Direksi asked us to report back on all three at the Q3 QBR. Surabaya overtime baseline: ${n(Q2.surabayaOvertimeHours)} hours in Q2.`);
   s = p.addSlide({ masterName: 'CN' }); title(s, 'Questions from the Direksi');
-  s.addText([{ text: `Pak ${C.ceo.name.split(' ')[0]}: show the quarter, not the best month.`, options: { bullet: true, breakLine: true } }, { text: `Bu ${C.fd.name.split(' ')[0]}: carrier costs for 2027 before contracts expire.`, options: { bullet: true, breakLine: true } }, { text: 'Direksi: a capacity plan for Cikarang before the Q4 peak.', options: { bullet: true } }],
+  s.addText([{ text: `Bu ${C.ceo.name.split(' ')[0]}: show the quarter, not the best month.`, options: { bullet: true, breakLine: true } }, { text: `Pak ${C.fd.name.split(' ')[0]}: carrier costs for 2027 before contracts expire.`, options: { bullet: true, breakLine: true } }, { text: 'Direksi: a capacity plan for Cikarang before the Q4 peak.', options: { bullet: true } }],
     { x: 0.5, y: 1.3, w: 12.3, h: 3, fontSize: 16, color: INK, fontFace: 'Segoe UI' });
   mkdirSync(join(path, '..'), { recursive: true });
   await p.writeFile({ fileName: path });

@@ -89,20 +89,18 @@ export const ARMS = {
 // People. One name, one person. Minor background names inside a single kit (e.g. a picker list) need not be listed,
 // but must never reuse a canon name. `alias` = existing demo-tenant user (the demo tenant is already branded Zava).
 export const PEOPLE = [
-  // Group / parent
-  { name: 'Adelia Chin', title: 'Group CEO, Zava Holdings', entity: 'parent', alias: 'achin' },
-  { name: 'Andre Lawson', title: 'Group CFO, Zava Holdings', entity: 'parent', alias: 'AndreL' },
-  { name: 'Carlos Slattery', title: 'Group CTO, Zava Holdings', entity: 'parent', alias: 'CarlosS', note: 'Main demo user' },
-  { name: 'Indra Permana', title: 'Group CISO', entity: 'parent', alias: 'indrapr' },
-  { name: 'Cecil Folk', title: 'Group Chief Marketing & Communications Officer', entity: 'parent', alias: 'CecilF' },
-  { name: 'Mona Kane', title: 'Group Chief Sales Officer', entity: 'parent' },
-  // Zava Distribution
+  // Zava Distribution leadership = the demo-tenant users of the story world (stories/, /demo-story, /demo-hydrate).
+  { name: 'Adelia Chin', title: 'President Director, PT Zava Niaga Nusantara', entity: 'zniaga', alias: 'achin', scenarios: ['x-report-deck-017'] },
+  { name: 'Andre Lawson', title: 'Chief Financial Officer, PT Zava Niaga Nusantara', entity: 'zniaga', alias: 'AndreL', scenarios: ['x-report-deck-017'] },
+  { name: 'Carlos Slattery', title: 'Chief Technology Officer, PT Zava Niaga Nusantara', entity: 'zniaga', alias: 'CarlosS', note: 'Main demo user' },
+  { name: 'Indra Permana', title: 'Chief Information Security Officer, PT Zava Niaga Nusantara', entity: 'zniaga', alias: 'indrapr' },
+  { name: 'Cecil Folk', title: 'Chief Marketing & Communications Officer, PT Zava Niaga Nusantara', entity: 'zniaga', alias: 'CecilF' },
+  { name: 'Mona Kane', title: 'Chief Sales Officer, PT Zava Niaga Nusantara', entity: 'zniaga', alias: 'MonaK' },
+  { name: 'Elvia Atkins', title: 'Data Platform Lead, PT Zava Niaga Nusantara', entity: 'zniaga', alias: 'ElviaA' },
   { name: 'Babak Shammas', title: 'Head of Financial Consolidation, Zava Distribution', entity: 'zniaga', alias: 'BabakS', scenarios: ['x-mgmt-report-011'] },
   { name: 'Charlotte Waltson', title: 'VP of Procurement, Zava Distribution', entity: 'zniaga', alias: 'CharlotteW' },
   { name: 'Lydia Bauer', title: 'Head of Infrastructure & SRE, Zava Distribution', entity: 'zniaga', alias: 'LydiaB' },
   { name: 'Kian Lambert', title: 'Application Development Manager (Proyek Nusa)', entity: 'zniaga', alias: 'KianL' },
-  { name: 'Rahmat Hidayat', title: 'President Director, PT Zava Niaga Nusantara', entity: 'zniaga', scenarios: ['x-report-deck-017'] },
-  { name: 'Lina Marlina', title: 'Finance Director, PT Zava Niaga Nusantara', entity: 'zniaga', scenarios: ['x-report-deck-017'] },
   { name: 'Yusuf Hakim', title: 'Chief of Staff to the President Director, PT Zava Niaga Nusantara', entity: 'zniaga', scenarios: ['x-report-deck-017'] },
   { name: 'Putri Anggraini', title: 'Business Planning Manager, Office of the COO, PT Zava Niaga Nusantara', entity: 'zniaga', scenarios: ['x-report-deck-017'], note: 'Was Nadia Rahman in 017 (name clashed with 016).' },
   { name: 'Dimas Pratama', title: 'Head of Distribution Operations', entity: 'zniaga', scenarios: ['x-report-deck-017'] },
