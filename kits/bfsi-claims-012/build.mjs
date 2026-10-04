@@ -3,6 +3,9 @@
 // The handler must not make a coverage decision in the letter.
 import { join } from 'node:path';
 import { writeDocx, writePdf, writeXlsx, writeReadme, money } from '../lib.mjs';
+import { entity } from '../../canon/zava.mjs';
+
+const INSURER = entity('zasuransi'); // PT Zava Asuransi Umum
 
 export const CHECKLIST = ['Claim form', 'Police report', 'Workshop estimate', 'Photos of damage', 'Copy of driving licence', 'Copy of vehicle registration'];
 export const RECEIVED = ['Claim form', 'Police report', 'Workshop estimate', 'Photos of damage', 'Copy of vehicle registration'];
@@ -17,7 +20,7 @@ export const ESTIMATE = [
 
 export default async function build({ dir }) {
   await writeDocx(join(dir, 'FICTIONAL_Claim_Form_MC-2026-08817.docx'), [
-    '# Motor claim form (fictional)', '**Insurer:** Contoso General Insurance (fictional). **Claim no.:** MC-2026-08817.',
+    '# Motor claim form (fictional)', `**Insurer:** ${INSURER.legal} (fictional). **Claim no.:** MC-2026-08817.`,
     { table: [['Field', 'Value'], ['Policyholder', 'Rina Kusuma'], ['Policy no.', 'MP-1102-4471'], ['Vehicle', 'B 1234 FIC, 2022 hatchback'], ['Date and time of accident', '19 September 2026, 21:40'], ['Location', 'Jl. Contoh Raya, Jakarta Selatan'], ['Driver at the time', 'Adi Kusuma (policyholder\'s son, age 20)'], ['Description', 'Hit a road divider while avoiding a motorcycle. No injuries. No other vehicle damaged.']] },
     'I declare the above is true. Signed: Rina Kusuma, 21 September 2026.',
   ], { title: 'Claim form' });
@@ -30,7 +33,7 @@ export default async function build({ dir }) {
     { table: [['Item', 'Detail'], ['Policyholder', 'Rina Kusuma'], ['Period', '1 March 2026 to 28 February 2027'], ['Cover', 'Comprehensive'], ['Named drivers', 'Rina Kusuma; Budi Kusuma'], ['Excess', `IDR ${money(EXCESS.standard)} per claim`], ['Unnamed driver excess', `Additional IDR ${money(EXCESS.unnamedDriver)} if the driver is not a named driver`], ['Exclusion 4.3', 'Upgrades, improvements and accessories not fitted at the time of the loss (betterment) are not covered.']] },
   ], { title: 'Policy schedule' });
   const c = (header, key, width = 18, numFmt) => ({ header, key, width, numFmt });
-  await writeXlsx(join(dir, 'FICTIONAL_Workshop_Estimate_WS-5520.xlsx'), [{ name: 'Estimate', columns: [c('Item', 'item', 36), c('Amount IDR', 'amount', 16, '#,##0')], rows: ESTIMATE.map(({ item, amount }) => ({ item, amount })) }], { readme: ['Workshop estimate WS-5520 from Bengkel Contoso (fictional) for B 1234 FIC.'] });
+  await writeXlsx(join(dir, 'FICTIONAL_Workshop_Estimate_WS-5520.xlsx'), [{ name: 'Estimate', columns: [c('Item', 'item', 36), c('Amount IDR', 'amount', 16, '#,##0')], rows: ESTIMATE.map(({ item, amount }) => ({ item, amount })) }], { readme: ['Workshop estimate WS-5520 from Bengkel Maju Jaya Motor (fictional) for B 1234 FIC.'] });
   await writeDocx(join(dir, 'FICTIONAL_Photos_Note.docx'), ['# Damage photos (fictional)', 'Six photos were received by email on 21 September 2026 showing front bumper, left headlamp and bonnet damage. (Photos not included in this kit.)'], { title: 'Photos' });
   await writeDocx(join(dir, 'FICTIONAL_Vehicle_Registration_Copy.docx'), ['# Copy of vehicle registration (fictional)', 'Registration B 1234 FIC. Registered owner: Rina Kusuma.'], { title: 'Registration' });
   await writeDocx(join(dir, 'FICTIONAL_Claims_Checklist.docx'), ['# Motor own-damage claim checklist (fictional)', ...CHECKLIST.map((x) => `- ${x}`), 'The claims handler must not confirm cover or payment in writing until the assessor report is received.'], { title: 'Checklist' });

@@ -1,6 +1,9 @@
 // Weekly branch reconciliation: GL export vs teller and ATM exports, with 14 seeded breaks.
 import { join } from 'node:path';
 import { rng, writeXlsx, writeCsv, writeReadme, money } from '../lib.mjs';
+import { entity } from '../../canon/zava.mjs';
+
+const BANK = entity('zbankid'); // PT Bank Zava Indonesia
 
 export const SEEDED = { timing: 6, reversal: 4, investigate: 4 };
 
@@ -63,7 +66,7 @@ export default async function build({ dir }) {
   await writeXlsx(join(dir, 'FICTIONAL_GL_export_week38.xlsx'), [
     { name: 'GL', columns: [c('Posting Date', 'posting', 13), c('Value Date', 'value', 13), c('Reference No', 'ref', 14), c('Channel', 'channel', 10), c('Description', 'desc', 24), c('Amount IDR', 'amount', 16, '#,##0;[Red]-#,##0')], rows: gl },
     { name: 'Control', columns: [c('Item', 'k', 30), c('Value', 'v', 20, '#,##0;[Red]-#,##0')], rows: [{ k: 'GL control total (week 38)', v: control }, { k: 'Row count', v: gl.length }] },
-  ], { readme: ['Contoso Bank Indonesia, demo branch 014. Core banking GL extract, 14 to 20 September 2026.', 'Reference numbers keep leading zeros (core banking format).'] });
+  ], { readme: [`${BANK.legal}, demo branch 014. Core banking GL extract, 14 to 20 September 2026.`, 'Reference numbers keep leading zeros (core banking format).'] });
   writeCsv(join(dir, 'FICTIONAL_teller_cash_position_week38.csv'), ['Date', 'Ref', 'Teller ID', 'Txn Type', 'Amount'], teller);
   writeCsv(join(dir, 'FICTIONAL_ATM_switch_settlement_week38.csv'), ['Settlement Date', 'Terminal', 'Ref No', 'Amount'], atm);
 
