@@ -17,17 +17,17 @@ const who = (p) => `${p.name} <${p.email}>`;
 export const EMAIL_CMO = [
   ...header(who(P.cmo), who(P.user), `${who(P.rafm)}; ${who(P.my)}; ${who(P.bi)}`, `${W.requestDate} 16:48 WIB`,
     'Board pack Marketing September 2026 - due Selasa 12:00'),
-  'Nadia,',
+  `${P.user.name.split(' ')[0]},`,
   `Seperti biasa, Direksi minta update kampanye marketing bulanan di rapat Direksi ${W.boardDate}. Saya perlu draft deck di inbox saya paling lambat **${W.dueDate}** supaya sempat saya review sebelum dikirim ke Corporate Secretary jam 17:00.`,
-  'Bulan ini tiga kampanye yang masih jalan di September: Rumah Terhubung (Relecloud Home), Merdeka Unlimited (prepaid, termasuk Ajak Teman), dan Hari Malaysia 5G dari tim Farah. Brand always-on tidak perlu masuk scorecard kampanye, cukup di lampiran "other spend".',
+  `Bulan ini tiga kampanye yang masih jalan di September: Rumah Terhubung (Zava Home), Merdeka Unlimited (prepaid, termasuk Ajak Teman), dan Hari Malaysia 5G dari tim ${P.my.name.split(' ')[0]}. Brand always-on tidak perlu masuk scorecard kampanye, cukup di lampiran "other spend".`,
   '## Catatan dari rapat Direksi Agustus (tolong ditindaklanjuti di deck ini)',
-  `- **Kredibilitas angka.** Pak Hendra (Direktur Keuangan) tanya kenapa agency melaporkan konversi jauh di atas aktivasi kita. Mulai bulan ini semua volume di deck harus dari BI extract (backend), bukan dari platform. Angka platform boleh ditampilkan sebagai pembanding, tapi jangan dijumlahkan.`,
-  `- **CAGR Relecloud Home.** Bu Ratna (Direktur Utama) menanyakan kenapa slide growth kita bilang CAGR pelanggan FTTH 5 tahun cuma ${idn(K.cagr.wrongN5, 1)}%, padahal kesannya growth kita lebih tinggi. Tolong dicek ulang rumusnya dan jelaskan periodenya dengan jelas (tahun awal, tahun akhir). Angka 2026 masih year-to-date, jangan diperlakukan seperti setahun penuh.`,
+  `- **Kredibilitas angka.** Pak ${P.fd.name.split(' ')[0]} (Direktur Keuangan) tanya kenapa agency melaporkan konversi jauh di atas aktivasi kita. Mulai bulan ini semua volume di deck harus dari BI extract (backend), bukan dari platform. Angka platform boleh ditampilkan sebagai pembanding, tapi jangan dijumlahkan.`,
+  `- **CAGR Zava Home.** Bu ${P.ceo.name.split(' ')[0]} (Direktur Utama) menanyakan kenapa slide growth kita bilang CAGR pelanggan FTTH 5 tahun cuma ${idn(K.cagr.wrongN5, 1)}%, padahal kesannya growth kita lebih tinggi. Tolong dicek ulang rumusnya dan jelaskan periodenya dengan jelas (tahun awal, tahun akhir). Angka 2026 masih year-to-date, jangan diperlakukan seperti setahun penuh.`,
   '- **Kualitas akuisisi prepaid.** Direksi minta angka gross adds yang "bersih", setelah dikurangi aktivasi yang di-flag RAFM. Mas Budi sudah kirim catatannya.',
-  '- **Malaysia.** Semua angka Relecloud Malaysia dalam IDR pakai kurs budget sesuai Rules di tracker, dan tampilkan juga angka MYR-nya. Tolong pastikan definisi "new 5G customers" sama dengan target kita (new lines, bukan upgrade).',
+  `- **Malaysia.** Semua angka Zava Connect Malaysia dalam IDR pakai kurs budget sesuai Rules di tracker, dan tampilkan juga angka MYR-nya. Tolong pastikan definisi "new 5G customers" sama dengan target kita (new lines, bukan upgrade).',
   '## Yang saya butuhkan',
   '- Deck maksimal 10 slide dalam template board kita: ringkasan eksekutif satu halaman dengan traffic light per kampanye, hasil per kampanye vs target dan vs Agustus, growth (CAGR FTTH), concerns/risiko, insight dan usulan keputusan untuk Direksi.',
-  '- Workbook pendukung (tracker) sudah terisi scorecard September dan cek rekonsiliasinya, supaya kalau Pak Hendra tanya angkanya bisa langsung ditunjukkan.',
+  '- Workbook pendukung (tracker) sudah terisi scorecard September dan cek rekonsiliasinya, supaya kalau Pak ${P.fd.name.split(' ')[0]} tanya angkanya bisa langsung ditunjukkan.`,
   `- Semua spend sesuai Rules di tracker: net media ditambah agency fee, tanpa PPN/SST. Anggaran September untuk tiga kampanye totalnya Rp${bn(RH.budgetByMonth.Sep + MU.budgetByMonth.Sep + MY.budgetByMonthMYR.Sep * RULES.fxBudgetMYR)} M.`,
   '- Kalau ada yang belum jelas atau datanya bertentangan, tulis saja di deck sebagai catatan, jangan ditebak.',
   'Invoice Wide World sudah masuk tadi siang, BI extract dijadwalkan keluar Jumat pagi, dan export platform sudah ada di folder bersama. Kalau ada kendala kabari saya Senin pagi.',
@@ -39,7 +39,7 @@ export const EMAIL_CMO = [
 
 export const EMAIL_MY = [
   ...header(who(P.my), who(P.user), who(P.cmo), 'Thursday 1 October 2026 19:05 MYT', 'RE: September numbers - Hari Malaysia 5G'),
-  'Salam Nadia,',
+  `Salam ${P.user.name.split(' ')[0]},`,
   'Sorry for the late one, our finance only released the invoices this afternoon. Hari Malaysia 5G closed on 30 September and it was our best month this year. Quick summary for the board pack below; happy to jump on a call Monday.',
   '## Headline',
   `- **${en(K.my.wrongNew)} new 5G customers** in September against the 15,000 we planned (new + upgrade). Very strong Malaysia Day weekend, 16 to 20 Sept.`,
@@ -57,7 +57,7 @@ export const EMAIL_MY = [
   `August (launch week, from 25 Aug) spend was RM ${en(MY.actualPriorMYR.Aug)} net as you already have in the tracker.`,
   'One more thing: port-ins came mostly from one competitor after their network issue in Klang Valley on 12 Sept, so part of this might not repeat in October.',
   'Terima kasih dan selamat berhujung minggu,',
-  'Farah',
+  `${P.my.name.split(' ')[0]}`,
   '', `${P.my.name}`, P.my.title, W.opcoMY,
 ];
 
@@ -79,7 +79,7 @@ export const NOTES = [
   `- Keluhan pelanggan terkait FUP naik menjadi **${idn(LEGAL.fupComplaints)} di September** dari ${LEGAL.complaintsAug} di Agustus (data contact centre, kategori "kecepatan turun / tidak unlimited").`,
   '- Sampai 2 Oktober belum ada surat atau teguran dari regulator maupun lembaga konsumen. Risiko tetap ada karena klaim "unlimited" wajib menjelaskan syaratnya secara jelas.',
   '- Rekomendasi Legal: Direksi perlu diinformasikan sebagai concern; semua materi berikutnya wajib lolos checklist klaim sebelum tayang, dan kampanye lanjutan tidak memakai kata "unlimited" tanpa keterangan FUP di materi yang sama.',
-  '## 3. Field Operations: backlog instalasi Relecloud Home',
+  '## 3. Field Operations: backlog instalasi Zava Home',
   `**Dari:** Field Operations Jabodetabek | **Tanggal:** 2 Oktober 2026`,
   `- Per 2 Oktober ada **${idn(RH.backend.backlogOver14d)} order Rumah Terhubung yang menunggu instalasi lebih dari 14 hari**, terutama di Bekasi dan Depok. Penyebabnya kapasitas teknisi: mitra instalasi kedua baru mulai 15 Oktober.`,
   '- Pelanggan yang menunggu lebih dari 14 hari punya tingkat pembatalan jauh lebih tinggi. Kami sarankan permintaan baru di Bekasi dan Depok tidak didorong lebih jauh sampai kapasitas bertambah.',
@@ -112,7 +112,7 @@ export const INVOICE = (inv) => {
     row(`DPP Nilai Lain (${RULES.ppnDppNum}/${RULES.ppnDppDen} x subtotal)`, idn(inv.dpp)),
     row(`PPN ${RULES.ppnRate}% x DPP`, idn(inv.ppn)),
     row('TOTAL DUE', idn(inv.total)),
-    'Payment to Bank Contoso (fictional) a/c 000-000-0000. Please quote the invoice number.',
+    'Payment to PT Bank Woodgrove Indonesia (fictional) a/c 000-000-0000. Please quote the invoice number.',
     { pageBreak: true },
     '# September 2026 performance recap',
     `Prepared by ${P.agency.name}, ${P.agency.title}, ${W.agency}. Source: platform dashboards (Meta, Google Ads, TikTok Ads Manager), default attribution per platform.`,
@@ -130,6 +130,6 @@ export const INVOICE = (inv) => {
   ];
 };
 
-export const HISTORY_NOTE = `FTTH subscribers (Relecloud Home), thousand, year-end as published in the annual report. 2026 is year-to-date (30 Sep) and is NOT a full year.`;
+export const HISTORY_NOTE = `FTTH subscribers (Zava Home), thousand, year-end as published in the annual report. 2026 is year-to-date (30 Sep) and is NOT a full year.`;
 export const AUG_CAGR_NOTE = `As presented to the Direksi on 9 Sep 2026: "5-year CAGR FTTH subscribers 2021-2025: ${en(K.cagr.wrongN5, 1)}%". Direksi questioned this figure (see CMO email).`;
 export { HISTORY };

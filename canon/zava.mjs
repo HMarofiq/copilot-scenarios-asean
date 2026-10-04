@@ -60,7 +60,7 @@ export const ARMS = {
   connect: {
     name: 'Zava Connect', what: 'Mobile, fixed broadband (FTTH) and enterprise connectivity.',
     entities: [
-      { key: 'zseluler', legal: 'PT Zava Seluler Indonesia', parent: 'zid', brands: ['Rumah Terhubung (FTTH)', 'Merdeka Unlimited (prepaid)'] },
+      { key: 'zseluler', legal: 'PT Zava Seluler Indonesia', parent: 'zid', brands: ['Zava Home (FTTH)', 'Merdeka Unlimited (prepaid)'] },
       { key: 'zconnectmy', legal: 'Zava Connect Malaysia Sdn. Bhd.', parent: 'zmy', brands: ['Zava 5G'] },
     ],
     replaces: ['Relecloud (PT Relecloud Nusantara Tbk, PT Relecloud Seluler Indonesia, Relecloud Malaysia)'],
@@ -110,8 +110,13 @@ export const PEOPLE = [
   { name: 'Jason Lim', title: 'Estate Manager, Zava Agro Sabah', entity: 'zagromy' },
   // Zava Connect
   { name: 'Dewi Kartika', title: 'Chief Marketing Officer, PT Zava Seluler Indonesia', entity: 'zseluler', scenarios: ['tel-mkt-board-016'] },
-  { name: 'Anisa Putri', title: 'Group Marketing Performance Lead, Zava Connect', entity: 'zseluler', scenarios: ['tel-mkt-board-016'], note: 'Was Nadia Rahman in 016.' },
-  { name: 'Aisyah Kamal', title: 'Marketing Manager, Zava Connect Malaysia', entity: 'zconnectmy', scenarios: ['tel-mkt-board-016'], note: 'Was Farah Aziz in 016.' },
+  { name: 'Anisa Putri', title: 'Marketing Performance Manager, Group Marketing, PT Zava Seluler Indonesia', entity: 'zseluler', scenarios: ['tel-mkt-board-016'], note: 'Was Nadia Rahman in 016.' },
+  { name: 'Aisyah Kamal', title: 'Head of Marketing, Zava Connect Malaysia', entity: 'zconnectmy', scenarios: ['tel-mkt-board-016'], note: 'Was Farah Aziz in 016.' },
+  { name: 'Wulan Sasmita', title: 'President Director (Direktur Utama), PT Zava Seluler Indonesia', entity: 'zseluler', scenarios: ['tel-mkt-board-016'], note: 'Was "Bu Ratna" in 016.' },
+  { name: 'Bonar Simanjuntak', title: 'Finance Director, PT Zava Seluler Indonesia', entity: 'zseluler', scenarios: ['tel-mkt-board-016'], note: 'Was "Pak Hendra" in 016.' },
+  { name: 'Budi Hartono', title: 'Head of Revenue Assurance & Fraud Management, PT Zava Seluler Indonesia', entity: 'zseluler', scenarios: ['tel-mkt-board-016'] },
+  { name: 'Sinta Wulandari', title: 'Senior Counsel, Legal & Regulatory, PT Zava Seluler Indonesia', entity: 'zseluler', scenarios: ['tel-mkt-board-016'] },
+  { name: 'Rizky Ananda', title: 'BI & Data Platform Lead, PT Zava Seluler Indonesia', entity: 'zseluler', scenarios: ['tel-mkt-board-016'], note: 'Was Elvia Atkins in 016 (Elvia is a distribution demo-tenant user).' },
   // Zava Logistics & Infrastructure
   { name: 'Laras Pratiwi', title: 'Commissioner, PT Zava Logistik Nusantara', entity: 'zlogistik', scenarios: ['gov-board-paper-013'] },
   { name: 'Hendro Wibisono', title: 'Corporate Secretary, PT Zava Logistik Nusantara', entity: 'zlogistik', scenarios: ['gov-risalah-003', 'gov-board-paper-013'] },
@@ -130,7 +135,7 @@ export const EXTERNAL = {
   lucerne: { name: 'KJPP Lucerne dan Rekan', role: 'Independent valuer', domain: 'lucerne-valuation.example' },
   litware: { name: 'PT Litware Data Center', role: 'Colocation provider', domain: 'litware-dc.example' },
   northwind: { name: 'Northwind Supply Sdn. Bhd.', role: 'Network integrator (Johor)', domain: 'northwind-supply.example' },
-  wideworld: { name: 'PT Wide World Digital Indonesia', role: 'Media agency for Zava Connect', domain: 'wideworld-digital.example' },
+  wideworld: { name: 'PT Wide World Digital Indonesia', role: 'Media agency for Zava Connect (account director Kevin Tan)', domain: 'wideworld-digital.example' },
   bidders: { names: ['PT Trey Riset Solusi', 'PT Relecloud Sistem Indonesia', 'PT Adatum Teknologi Nusantara', 'PT Wide World Integrasi'], role: 'Bidders in the procurement TOR scenario' },
 };
 

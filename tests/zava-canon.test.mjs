@@ -33,7 +33,7 @@ test('zava canon: every scenario has a home', () => {
 });
 
 // Scenarios already moved to Zava. Add an id here when its migration lands.
-const MIGRATED = ['enr-hse-incident-005', 'enr-permit-watch-006', 'enr-induction-007', 'enr-maint-backlog-009', 'x-report-deck-017'];
+const MIGRATED = ['enr-hse-incident-005', 'enr-permit-watch-006', 'enr-induction-007', 'enr-maint-backlog-009', 'tel-mkt-board-016', 'x-report-deck-017'];
 // Old fictional names that used to be the scenario's own company (outside-party uses of Fabrikam, Northwind etc. stay legal).
 const OLD_OWN = /Contoso|Northwind (Nickel|Smelter|Resources|Estate|Mill|Jetty|Bulking)|northwind\.example|PT Relecloud (Nusantara|Seluler)|Relecloud Malaysia|PT Fabrikam (Logistik Tbk|Nusantara)/;
 const textOf = (id) => {

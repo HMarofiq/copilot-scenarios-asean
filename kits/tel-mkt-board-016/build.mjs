@@ -23,10 +23,10 @@ export const FILES = {
   invoice: '07_WideWorld_Invoice_Recap_Sep2026.pdf',
   my: '08_Email_Malaysia_5G_Sep2026.docx',
   notes: '09_Notes_RAFM_Legal_FieldOps_Sep2026.docx',
-  template: '10_Relecloud_Board_Template.pptx',
+  template: '10_Zava_Connect_Board_Template.pptx',
 };
 
-const C = M.CAMPAIGNS, K = M.answerKey();
+const C = M.CAMPAIGNS, K = M.answerKey(), P = M.PEOPLE;
 const R = rng(2609);
 
 /** Split total into integer parts proportional to weights; the rounding remainder goes to the largest part. */
@@ -189,36 +189,36 @@ export function biRows() {
 // ---------- 10 Board template ----------
 async function writeTemplate(path) {
   const p = new PptxGenJS();
-  p.layout = 'LAYOUT_WIDE'; p.title = 'Relecloud Direksi board pack template';
+  p.layout = 'LAYOUT_WIDE'; p.title = 'Zava Connect Direksi board pack template';
   const TEAL = '006B6B', INK = '1B2A3A', SOFT = 'EEF5F5';
-  p.defineSlideMaster({ title: 'RELECLOUD', background: { color: 'FFFFFF' }, objects: [
+  p.defineSlideMaster({ title: 'ZAVA', background: { color: 'FFFFFF' }, objects: [
     { rect: { x: 0, y: 0, w: 13.33, h: 0.18, fill: { color: TEAL } } },
-    { text: { text: 'Relecloud | Direksi board pack | RAHASIA / CONFIDENTIAL', options: { x: 0.5, y: 6.95, w: 8, h: 0.3, fontSize: 9, color: '6B7B8C' } } },
+    { text: { text: 'Zava Connect | Direksi board pack | RAHASIA / CONFIDENTIAL', options: { x: 0.5, y: 6.95, w: 8, h: 0.3, fontSize: 9, color: '6B7B8C' } } },
     { text: { text: NOTICE, options: { x: 0.5, y: 7.18, w: 12.3, h: 0.25, fontSize: 8, color: 'C00000' } } },
   ], slideNumber: { x: 12.4, y: 6.95, fontSize: 9, color: '6B7B8C' } });
   const t = (s, text) => s.addText(text, { x: 0.5, y: 0.4, w: 12.3, h: 0.7, fontSize: 26, bold: true, color: INK, fontFace: 'Segoe UI' });
-  let s = p.addSlide({ masterName: 'RELECLOUD' });
+  let s = p.addSlide({ masterName: 'ZAVA' });
   s.background = { color: TEAL };
   s.addText('[Judul laporan / Report title]', { x: 0.8, y: 2.4, w: 11.5, h: 1, fontSize: 36, bold: true, color: 'FFFFFF', fontFace: 'Segoe UI' });
   s.addText('[Rapat Direksi, tanggal] | [Nama, jabatan]', { x: 0.8, y: 3.5, w: 11.5, h: 0.5, fontSize: 16, color: 'D9F2F2' });
-  s = p.addSlide({ masterName: 'RELECLOUD' }); t(s, 'Ringkasan eksekutif (sample layout)');
+  s = p.addSlide({ masterName: 'ZAVA' }); t(s, 'Ringkasan eksekutif (sample layout)');
   s.addText([{ text: '[Pesan utama dalam satu kalimat]', options: { bold: true, breakLine: true } }, { text: '[Tiga poin pendukung, masing-masing dengan angka]' }],
     { x: 0.5, y: 1.2, w: 12.3, h: 0.9, fontSize: 16, color: INK });
   const head = ['Kampanye', 'Spend vs budget', 'Volume vs target', 'Biaya per unit vs target', 'Status'];
   const row = (st, c) => ['[Kampanye]', '[x%]', '[x%]', '[x%]', { text: st, options: { fill: { color: c }, color: 'FFFFFF', bold: true } }];
   s.addTable([head.map((h) => ({ text: h, options: { bold: true, fill: { color: SOFT } } })), row('Green', '2E8540'), row('Amber', 'D98C00'), row('Red', 'C0392B')],
     { x: 0.5, y: 2.3, w: 12.3, fontSize: 13, border: { type: 'solid', pt: 0.5, color: 'C8D3DC' } });
-  s = p.addSlide({ masterName: 'RELECLOUD' }); t(s, '[Kampanye]: hasil vs target (sample layout)');
+  s = p.addSlide({ masterName: 'ZAVA' }); t(s, '[Kampanye]: hasil vs target (sample layout)');
   s.addChart(p.charts.BAR, [{ name: 'Target', labels: ['Jul', 'Aug', 'Sep'], values: [100, 100, 100] }, { name: 'Actual', labels: ['Jul', 'Aug', 'Sep'], values: [90, 95, 102] }],
     { x: 0.5, y: 1.3, w: 7.2, h: 5.2, barDir: 'col', chartColors: ['C8D3DC', TEAL], showLegend: true, legendPos: 'b' });
   s.addText([{ text: 'Apa yang terjadi', options: { bold: true, breakLine: true } }, { text: '[2-3 poin dengan angka]', options: { breakLine: true } },
     { text: 'Kenapa', options: { bold: true, breakLine: true } }, { text: '[penyebab]', options: { breakLine: true } }, { text: 'Langkah berikut', options: { bold: true, breakLine: true } }, { text: '[aksi, pemilik, tanggal]' }],
   { x: 8, y: 1.3, w: 4.8, h: 5.2, fontSize: 14, color: INK, valign: 'top' });
-  s = p.addSlide({ masterName: 'RELECLOUD' }); t(s, 'Concerns dan usulan keputusan (sample layout)');
+  s = p.addSlide({ masterName: 'ZAVA' }); t(s, 'Concerns dan usulan keputusan (sample layout)');
   s.addTable([['Concern', 'Dampak', 'Mitigasi / keputusan yang diminta', 'Pemilik'].map((h) => ({ text: h, options: { bold: true, fill: { color: SOFT } } })),
     ['[concern]', '[angka]', '[usulan]', '[nama]'], ['[concern]', '[angka]', '[usulan]', '[nama]']],
   { x: 0.5, y: 1.3, w: 12.3, fontSize: 13, border: { type: 'solid', pt: 0.5, color: 'C8D3DC' } });
-  s = p.addSlide({ masterName: 'RELECLOUD' }); t(s, 'Lampiran: definisi dan sumber data (sample layout)');
+  s = p.addSlide({ masterName: 'ZAVA' }); t(s, 'Lampiran: definisi dan sumber data (sample layout)');
   s.addText('[Definisi KPI, basis spend, kurs, sumber data dan tanggal extract]', { x: 0.5, y: 1.3, w: 12.3, h: 1, fontSize: 14, color: INK });
   mkdirSync(join(path, '..'), { recursive: true });
   await p.writeFile({ fileName: path });
@@ -243,7 +243,7 @@ export const CHECKS = [
 
 async function writeTracker(path) {
   const wb = new ExcelJS.Workbook();
-  stampBook(wb, ['Group Marketing tracker 2026. Owner: Nadia Rahman. Update monthly after BI extract and agency invoice are in.',
+  stampBook(wb, ['Group Marketing tracker 2026. Owner: ' + P.user.name + '. Update monthly after BI extract and agency invoice are in.',
     'Sheets: Campaigns, Budget_Phasing, Rules, History_FTTH, Scorecard_Aug (as presented), Scorecard_Sep (to fill), Checks (to fill).']);
   const RH = C.RH, MU = C.MU, MY = C.MY5G;
   let ws = wb.addWorksheet('Campaigns');
@@ -255,7 +255,7 @@ async function writeTracker(path) {
   ], [
     { code: RH.code, name: RH.name, mkt: 'ID', prod: RH.product, start: RH.start, end: RH.end, dt: RH.daysTotal, cur: 'IDR', bt: RH.budgetTotal, vk: RH.volumeKpi, vt: RH.target.installs, ck: RH.costKpi, ct: RH.target.costPer, own: 'Home marketing' },
     { code: MU.code, name: MU.name, mkt: 'ID', prod: MU.product, start: MU.start, end: MU.end, dt: MU.daysTotal, cur: 'IDR', bt: MU.budgetTotal, vk: MU.volumeKpi, vt: MU.target.validAdds, ck: MU.costKpi, ct: MU.target.costPer, own: 'Prepaid marketing' },
-    { code: MY.code, name: MY.name, mkt: 'MY', prod: MY.product, start: MY.start, end: MY.end, dt: MY.daysTotal, cur: 'MYR', bt: MY.budgetTotalMYR, vk: MY.volumeKpi, vt: MY.target.newLines, ck: MY.costKpi, ct: MY.target.costPerMYR, own: 'Farah Aziz (MY)' },
+    { code: MY.code, name: MY.name, mkt: 'MY', prod: MY.product, start: MY.start, end: MY.end, dt: MY.daysTotal, cur: 'MYR', bt: MY.budgetTotalMYR, vk: MY.volumeKpi, vt: MY.target.newLines, ck: MY.costKpi, ct: MY.target.costPerMYR, own: `${M.PEOPLE.my.name} (MY)` },
   ]);
   ws = wb.addWorksheet('Budget_Phasing');
   const months = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -320,7 +320,7 @@ async function writeTracker(path) {
 }
 
 async function writeMeta(path) {
-  const wb = new ExcelJS.Workbook(); stampBook(wb, ['Export from Meta Ads Manager, ad account "Relecloud Seluler ID" (act_000000000), level: ad set, 1-30 Sep 2026, time zone Asia/Jakarta.']);
+  const wb = new ExcelJS.Workbook(); stampBook(wb, ['Export from Meta Ads Manager, ad account "Zava Seluler ID" (act_000000000), level: ad set, 1-30 Sep 2026, time zone Asia/Jakarta.']);
   const ws = wb.addWorksheet('Raw Data Report');
   const cols = [['Reporting starts', 'start'], ['Reporting ends', 'end'], ['Campaign name', 'camp'], ['Ad set name', 'set'], ['Ad set delivery', 'delivery'], ['Attribution setting', 'attr'],
     ['Results', 'results'], ['Result indicator', 'ind'], ['Reach', 'reach'], ['Impressions', 'impr'], ['Cost per results', 'cpr'], ['Amount spent (IDR)', 'spent'],
@@ -331,7 +331,7 @@ async function writeMeta(path) {
   await wb.xlsx.writeFile(path);
 }
 async function writeGoogle(path) {
-  const wb = new ExcelJS.Workbook(); stampBook(wb, ['Downloaded from Google Ads, account Relecloud Seluler ID (000-000-0000), campaign report, time zone (GMT+07:00) Jakarta.']);
+  const wb = new ExcelJS.Workbook(); stampBook(wb, ['Downloaded from Google Ads, account Zava Seluler ID (000-000-0000), campaign report, time zone (GMT+07:00) Jakarta.']);
   const ws = wb.addWorksheet('Campaign report');
   ws.addRow(['Campaign report']); ws.addRow(['1 September 2026 - 30 September 2026']);
   const cols = [['Campaign', 'name'], ['Campaign status', 'status'], ['Campaign type', 'type'], ['Currency code', 'cur'], ['Clicks', 'clicks'], ['Impr.', 'impr'], ['CTR', 'ctr'],
@@ -346,7 +346,7 @@ async function writeGoogle(path) {
   await wb.xlsx.writeFile(path);
 }
 async function writeTiktok(path) {
-  const wb = new ExcelJS.Workbook(); stampBook(wb, [`Export from TikTok Ads Manager, advertiser Relecloud Seluler ID, ad group level, 2026-09-01 to 2026-09-30, UTC+07:00. Data as of ${M.TIKTOK_EXPORT.pulledAt}.`]);
+  const wb = new ExcelJS.Workbook(); stampBook(wb, [`Export from TikTok Ads Manager, advertiser Zava Seluler ID, ad group level, 2026-09-01 to 2026-09-30, UTC+07:00. Data as of ${M.TIKTOK_EXPORT.pulledAt}.`]);
   const ws = wb.addWorksheet('Ad group data');
   const cols = [['Campaign name', 'camp'], ['Ad group name', 'group'], ['Cost', 'cost'], ['CPM', 'cpm'], ['Impressions', 'impr'], ['Clicks (destination)', 'clicks'], ['CTR (destination)', 'ctr'],
     ['Conversions', 'conv'], ['Cost per conversion', 'cpa'], ['Currency', 'cur']];
@@ -358,7 +358,7 @@ async function writeTiktok(path) {
 }
 async function writeBI(path) {
   const { rh, mu, backlog } = biRows();
-  const wb = new ExcelJS.Workbook(); stampBook(wb, ['BI extract: campaign-coded activations, September 2026. Extracted 2026-10-02 07:00 WIB from the data warehouse (source: BSS/CRM, RAFM case system). Owner: Elvia Atkins, BI & Data Platform.',
+  const wb = new ExcelJS.Workbook(); stampBook(wb, ['BI extract: campaign-coded activations, September 2026. Extracted 2026-10-02 07:00 WIB from the data warehouse (source: BSS/CRM, RAFM case system). Owner: ' + P.bi.name + ', BI & Data Platform.',
     'Definitions: order = FTTH order submitted with campaign code; install = FTTH line installed and activated; activation = prepaid SIM registered (NIK + KK) and first data session, with campaign code. flagged_rafm = activation flagged by RAFM rules (final for September).',
     'Malaysian results are not in this warehouse; see the Malaysia BSS report.']);
   let ws = wb.addWorksheet('RH_daily');
@@ -373,20 +373,20 @@ async function writeBI(path) {
 }
 
 export default async function build({ dir }) {
-  const opt = (title, creator) => ({ title, creator, keywords: 'Relecloud; board pack; fictional' });
-  await writeDocx(join(dir, FILES.email), EMAIL_CMO, opt('Email CMO board pack September 2026', 'Dewi Kartika'));
+  const opt = (title, creator) => ({ title, creator, keywords: 'Zava Connect; board pack; fictional' });
+  await writeDocx(join(dir, FILES.email), EMAIL_CMO, opt('Email CMO board pack September 2026', P.cmo.name));
   await writeTracker(join(dir, FILES.tracker));
   await writeMeta(join(dir, FILES.meta));
   await writeGoogle(join(dir, FILES.google));
   await writeTiktok(join(dir, FILES.tiktok));
   await writeBI(join(dir, FILES.bi));
   await writePdf(join(dir, FILES.invoice), INVOICE(K.invoice), { title: 'Wide World Digital invoice and recap September 2026', author: 'PT Wide World Digital Indonesia' });
-  await writeDocx(join(dir, FILES.my), EMAIL_MY, opt('Email Malaysia 5G September 2026', 'Farah Aziz'));
+  await writeDocx(join(dir, FILES.my), EMAIL_MY, opt('Email Malaysia 5G September 2026', P.my.name));
   await writeDocx(join(dir, FILES.notes), NOTES, opt('Notes RAFM Legal Field Ops September 2026', 'Group Marketing'));
   await writeTemplate(join(dir, FILES.template));
 
   writeReadme(dir, {
-    title: 'Kit: Monthly marketing campaign pack for the Direksi (Relecloud telco, September 2026)', scenario: 'tel-mkt-board-016',
+    title: 'Kit: Monthly marketing campaign pack for the Direksi (Zava Connect telco, September 2026)', scenario: 'tel-mkt-board-016',
     contents: [
       `${FILES.email}: the CMO's request, the Direksi's questions from August and the deadline`,
       `${FILES.tracker}: the tracker with Rules, budgets, FTTH history, August scorecard, and the empty Scorecard_Sep and Checks sheets (open this one in Excel)`,
