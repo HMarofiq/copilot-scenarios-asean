@@ -5,6 +5,25 @@ import remarkScenario from '../src/lib/remark-scenario.mjs';
 
 const heading = (text) => ({ type: 'heading', depth: 2, children: [{ type: 'text', value: text }] });
 
+test('prompt containers preserve clock minutes and colon-delimited references', () => {
+  const children = [
+    { type: 'text', value: 'EN: Review at 18' },
+    { type: 'textDirective', name: '00', children: [] },
+    { type: 'text', value: ' MYT and Note' },
+    { type: 'textDirective', name: 'source', children: [] },
+    { type: 'text', value: '.\nID: Tinjau pada 18' },
+    { type: 'textDirective', name: '00', children: [] },
+    { type: 'text', value: ' MYT.\nBM: Semak pada 18' },
+    { type: 'textDirective', name: '00', children: [] },
+    { type: 'text', value: ' MYT.' },
+  ];
+  const tree = { type: 'root', children: [{ type: 'containerDirective', name: 'prompt', children: [{ type: 'paragraph', children }] }] };
+  remarkScenario()(tree, { fail(message) { throw new Error(message); } });
+  const html = tree.children[0].value;
+  assert.equal(html.split('18:00 MYT').length - 1, 3);
+  assert.match(html, /Note:source/);
+});
+
 test('Before you start keeps requirements and one-line data rules together with branded app icons', () => {
   const tree = { type: 'root', children: [heading('Situation'), heading('Steps')] };
   remarkScenario({ base: '/library/' })(tree, {

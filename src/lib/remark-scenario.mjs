@@ -263,6 +263,15 @@ function wrapSteps(children, fixes = {}, prefix = '') {
 }
 export default function remarkScenario({ base = '/' } = {}) {
   return (tree, file) => {
+    // Restore literal colon text before prompt containers consume their children.
+    visit(tree, (node, index, parent) => {
+      if (node.type !== 'textDirective' && node.type !== 'leafDirective') return;
+      const text = (node.type === 'leafDirective' ? '::' : ':') + node.name + (node.children?.length ? `[${toString(node)}]` : '');
+      parent.children[index] = node.type === 'leafDirective'
+        ? { type: 'paragraph', children: [{ type: 'text', value: text }] }
+        : { type: 'text', value: text };
+      return SKIP;
+    });
     const fm = file.data?.astro?.frontmatter;
     const tierSections = new Map();
     const tierFixes = new Map();
@@ -361,14 +370,6 @@ export default function remarkScenario({ base = '/' } = {}) {
         return;
       }
       if (node.type === 'containerDirective') file.fail(`Unknown block :::${node.name}. Use :::prompt, :::presenter or ::::tier.`, node);
-      // remark-directive also parses things like ":30" or "Note:x" as directives; put them back as plain text.
-      if (node.type === 'textDirective' || node.type === 'leafDirective') {
-        const text = (node.type === 'leafDirective' ? '::' : ':') + node.name + (node.children?.length ? `[${toString(node)}]` : '');
-        parent.children[index] = node.type === 'leafDirective'
-          ? { type: 'paragraph', children: [{ type: 'text', value: text }] }
-          : { type: 'text', value: text };
-        return SKIP;
-      }
     });
   };
 }
