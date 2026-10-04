@@ -2,6 +2,10 @@
 // processing plant. Five witness statements with deliberate conflicts and evidence gaps.
 import { join } from 'node:path';
 import { writeDocx, writePdf, writeXlsx, writeReadme } from '../lib.mjs';
+import { entity } from '../../canon/zava.mjs';
+
+const [, SMELTER] = entity('ztambang').sites; // 'Zava Smelter, Sulawesi Tengah'
+const SMELTER_NAME = SMELTER.split(',')[0];
 
 export const TIMELINE = [
   { t: '07:00', event: 'Shift handover and toolbox talk. Conveyor CV-07 belt tracking fault logged.', source: 'W1, W4, Initial report' },
@@ -41,7 +45,7 @@ const S = {
     'Called at 08:27. Arrived at CV-07 at 08:33. Started first aid at 08:35: suspected fractures to two fingers of the left hand, bleeding controlled.',
     'Moved the patient to the site clinic at 08:50. Transferred to hospital at 09:40 after the doctor assessed him.',
   ],
-  'W5 Process Operator (Rahmat Hidayat)': [
+  'W5 Process Operator (Yoga Firmansyah)': [
     'I was about 20 metres away checking the chute. I heard a shout and saw the belt had moved.',
     'Agus pulled the stop cord. I think it was about 08:25, I looked at the clock in the MCC room after.',
     'I noticed the take-up weight was higher than normal that morning. I do not know if that matters.',
@@ -53,7 +57,7 @@ export default async function build({ dir }) {
     const code = who.split(' ')[0];
     await writeDocx(join(dir, 'Statements', `FICTIONAL_Statement_${code}.docx`), [
       '# Witness statement',
-      `**Incident:** INC-2026-0419, CV-07 conveyor, Northwind Smelter (fictional). **Date of incident:** 21 September 2026.`,
+      `**Incident:** INC-2026-0419, CV-07 conveyor, ${SMELTER_NAME} (fictional). **Date of incident:** 21 September 2026.`,
       `**Witness:** ${who}. **Taken by:** HSE Officer. **Date taken:** 22 September 2026.`,
       ...paras,
       '> I confirm this statement is true to the best of my knowledge.',
@@ -61,7 +65,7 @@ export default async function build({ dir }) {
   }
   await writeDocx(join(dir, 'FICTIONAL_Initial_Incident_Report_INC-2026-0419.docx'), [
     '# Initial incident report',
-    { table: [['Field', 'Value'], ['Incident no.', 'INC-2026-0419'], ['Site', 'Northwind Smelter, East Kalimantan (fictional)'], ['Date / time', '21 September 2026, approx. 08:20'], ['Area', 'Conveyor CV-07, tail pulley'], ['Classification', 'Lost-time injury (LTI)'], ['Injury', 'Suspected fractures, two fingers, left hand'], ['Injured person', 'Maintenance technician (W3)'], ['Immediate actions', 'CV-07 isolated and tagged out of service. Area barricaded. Investigation team appointed.']] },
+    { table: [['Field', 'Value'], ['Incident no.', 'INC-2026-0419'], ['Site', SMELTER + ' (fictional)'], ['Date / time', '21 September 2026, approx. 08:20'], ['Area', 'Conveyor CV-07, tail pulley'], ['Classification', 'Lost-time injury (LTI)'], ['Injury', 'Suspected fractures, two fingers, left hand'], ['Injured person', 'Maintenance technician (W3)'], ['Immediate actions', 'CV-07 isolated and tagged out of service. Area barricaded. Investigation team appointed.']] },
     '## Brief description',
     'During idler replacement under permit PTW-2026-1183, the conveyor belt moved while the technician was working near the tail pulley. His left hand was caught between the belt and an idler.',
   ], { title: 'Initial incident report INC-2026-0419' });

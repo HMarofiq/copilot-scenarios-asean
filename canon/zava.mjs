@@ -50,9 +50,9 @@ export const ARMS = {
   energy: {
     name: 'Zava Energy & Resources', what: 'Nickel mining, palm oil plantations and mills, captive power.',
     entities: [
-      { key: 'ztambang', legal: 'PT Zava Tambang Sulawesi', parent: 'zid', sites: ['Nickel mine, smelter feed stockpile and jetty, Sulawesi Tengah'] },
-      { key: 'zagro', legal: 'PT Zava Agro Lestari', parent: 'zid', sites: ['Riau estates and two palm oil mills'] },
-      { key: 'zagromy', legal: 'Zava Agro Sabah Sdn. Bhd.', parent: 'zmy', sites: ['Estates and mill on the east coast of Sabah'] },
+      { key: 'ztambang', legal: 'PT Zava Tambang Sulawesi', parent: 'zid', sites: ['Zava Nickel Mine, Sulawesi Tengah', 'Zava Smelter, Sulawesi Tengah', 'Zava Jetty and Port, Sulawesi Tengah'] },
+      { key: 'zagro', legal: 'PT Zava Agro Lestari', parent: 'zid', sites: ['Zava Estate 1, Central Kalimantan', 'Zava Estate 2, Central Kalimantan', 'Zava Mill 1, Central Kalimantan'] },
+      { key: 'zagromy', legal: 'Zava Agro Sabah Sdn. Bhd.', parent: 'zmy', sites: ['Zava Estate 3, Sabah', 'Zava Estate 5, Sabah', 'Zava Mill 3, Sabah', 'Zava Bulking Terminal, Sabah'] },
     ],
     replaces: ['Northwind (mining and plantation sites)'],
     scenarios: ['enr-hse-incident-005', 'enr-permit-watch-006', 'enr-induction-007', 'enr-maint-backlog-009'],

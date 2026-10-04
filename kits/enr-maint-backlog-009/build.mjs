@@ -2,6 +2,9 @@
 // exact duplicate rows from a double extract, and TECO/CLSD orders that are not backlog.
 import { join } from 'node:path';
 import { rng, writeXlsx, writeReadme } from '../lib.mjs';
+import { entity } from '../../canon/zava.mjs';
+
+const [MINE] = entity('ztambang').sites;
 
 export const AS_OF = '2026-09-28';
 const PG = ['M01', 'E01', 'I01'];
@@ -49,7 +52,7 @@ export default async function build({ dir }) {
     name: 'Export',
     columns: [c('Order', 'order'), c('Order Type', 'type', 10), c('Equipment', 'equipment', 20), c('Priority', 'priority', 8), c('Created On', 'created'), c('Basic Start', 'start'), c('System Status', 'status', 14), c('Planner Group', 'pg', 12), c('Est. Hours', 'hours', 10)],
     rows: all,
-  }], { readme: ['Northwind Nickel Mine (fictional) SAP PM order list, extracted 28.09.2026.', 'Dates are text in SAP format DD.MM.YYYY. The extract was run twice by mistake, so some orders are duplicated.', 'Planner groups: M01 Mechanical, E01 Electrical, I01 Instrumentation. Priority 1 = urgent, 4 = low.'] });
+  }], { readme: [`${MINE.split(',')[0]} (fictional) SAP PM order list, extracted 28.09.2026.`, 'Dates are text in SAP format DD.MM.YYYY. The extract was run twice by mistake, so some orders are duplicated.', 'Planner groups: M01 Mechanical, E01 Electrical, I01 Instrumentation. Priority 1 = urgent, 4 = low.'] });
 
   writeReadme(dir, {
     title: 'Demo kit: Maintenance backlog analysis from an SAP PM export', scenario: 'enr-maint-backlog-009',

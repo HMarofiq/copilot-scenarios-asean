@@ -2,16 +2,21 @@
 // The site redeploys nightly (deploy.yml schedule) so the downloadable kit stays current.
 import { join } from 'node:path';
 import { rng, addDays, iso, dmy, writeXlsx, writeReadme } from '../lib.mjs';
+import { entity, GROUP, ARMS } from '../../canon/zava.mjs';
 
+// Sites come from the Zava canon (Zava Energy & Resources).
+const [MINE, SMELTER, JETTY] = entity('ztambang').sites;
+const [ESTATE_ID] = entity('zagro').sites;
+const [EST3, EST5, MILL, BULK] = entity('zagromy').sites;
 const SITES = [
-  { site: 'Northwind Nickel Mine, East Kalimantan (ID)', country: 'ID' },
-  { site: 'Northwind Smelter, East Kalimantan (ID)', country: 'ID' },
-  { site: 'Northwind Jetty and Port, East Kalimantan (ID)', country: 'ID' },
-  { site: 'Northwind Estate 1, Central Kalimantan (ID)', country: 'ID' },
-  { site: 'Northwind Estate 3, Sabah (MY)', country: 'MY' },
-  { site: 'Northwind Estate 5, Sabah (MY)', country: 'MY' },
-  { site: 'Northwind Mill 1, Sabah (MY)', country: 'MY' },
-  { site: 'Northwind Bulking Terminal, Sabah (MY)', country: 'MY' },
+  { site: `${MINE} (ID)`, country: 'ID' },
+  { site: `${SMELTER} (ID)`, country: 'ID' },
+  { site: `${JETTY} (ID)`, country: 'ID' },
+  { site: `${ESTATE_ID} (ID)`, country: 'ID' },
+  { site: `${EST3} (MY)`, country: 'MY' },
+  { site: `${EST5} (MY)`, country: 'MY' },
+  { site: `${MILL} (MY)`, country: 'MY' },
+  { site: `${BULK} (MY)`, country: 'MY' },
 ];
 const PERMITS = {
   ID: [
@@ -57,7 +62,7 @@ export function generate(today) {
   let id = 1;
   // Background permits: comfortably far out, never inside a reminder window.
   for (const s of SITES) for (const [permit, authority, lead] of PERMITS[s.country]) {
-    rows.push({ id: `PRM-${String(id++).padStart(3, '0')}`, permit, authority, site: s.site, owner: `${r.pick(OWNERS)}@northwind.example`, lead, expiry: addDays(today, r.int(100, 900)), expiryIsDate: true });
+    rows.push({ id: `PRM-${String(id++).padStart(3, '0')}`, permit, authority, site: s.site, owner: `${r.pick(OWNERS)}@${GROUP.parent.domain}`, lead, expiry: addDays(today, r.int(100, 900)), expiryIsDate: true });
   }
   // Seeded hits: exact thresholds, weekend crossings (only caught on Mondays), expired, and near-miss controls.
   const seeds = [90, 90, 60, 60, 30, 30, 89, 88, 59, 29, -5, -12, 45, 120, 31];
@@ -75,7 +80,7 @@ export default async function build({ dir, today }) {
     name: 'Permits',
     columns: [c('Permit ID', 'id', 10), c('Permit', 'permit', 40), c('Authority', 'authority', 36), c('Site', 'site', 42), c('Owner email', 'owner', 30), c('Expiry date', 'expiry', 14, 'dd/mm/yyyy'), c('Renewal lead time (days)', 'lead', 12)],
     rows: rows.map((p) => ({ ...p, expiry: p.expiryIsDate ? p.expiry : p.expiryText })),
-  }], { readme: ['Northwind Resources permit register (fictional). 80 permits across 4 Indonesian and 4 Malaysian sites.', `Generated for ${iso(today)}. Expiry dates are relative to this date. The site rebuilds this kit every night.`, 'Owner emails use the reserved .example domain and cannot receive mail.'] });
+  }], { readme: [`${ARMS.energy.name} permit register (fictional). 80 permits across 4 Indonesian and 4 Malaysian sites.`, `Generated for ${iso(today)}. Expiry dates are relative to this date. The site rebuilds this kit every night.`, 'Owner emails use the reserved .example domain and cannot receive mail.'] });
 
   // Presenter key with live formulas, so it stays right on whatever day the demo runs.
   await writeXlsx(join(dir, 'ANSWER_KEY_live.xlsx'), [{
