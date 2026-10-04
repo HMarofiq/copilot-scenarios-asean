@@ -2,6 +2,9 @@
 // superseded Rev 3 values. The trap: an induction deck built from the change log teaches the old rules.
 import { join } from 'node:path';
 import { writeDocx, writeReadme } from '../lib.mjs';
+import { entity } from '../../canon/zava.mjs';
+
+const [MINE] = entity('ztambang').sites; // 'Zava Nickel Mine, Sulawesi Tengah'
 
 export const CURRENT = [
   { rule: 'Speed limit on site roads', value: '30 km/h', detail: '20 km/h within 50 m of workshops. Always give way to haul trucks.' },
@@ -19,8 +22,8 @@ export const SUPERSEDED = ['40 km/h', '8 hours', 'Muster Point B'];
 
 export default async function build({ dir }) {
   await writeDocx(join(dir, 'FICTIONAL_Site_HSE_Rules_Rev4.docx'), [
-    '# Northwind Nickel Mine (fictional): Site HSE Rules',
-    '**Document:** NW-HSE-STD-001. **Revision:** 4. **Effective:** 1 September 2026. **Owner:** Site HSE Manager.',
+    `# ${MINE.split(',')[0]} (fictional): Site HSE Rules`,
+    '**Document:** ZT-HSE-STD-001. **Revision:** 4. **Effective:** 1 September 2026. **Owner:** Site HSE Manager.',
     'Every contractor must complete induction on these rules before entering the site. These rules apply to all employees, contractors and visitors.',
     '## Current rules',
     { table: [['No', 'Rule', 'Requirement', 'Detail'], ...CURRENT.map((r, i) => [String(i + 1), r.rule, r.value, r.detail])] },
