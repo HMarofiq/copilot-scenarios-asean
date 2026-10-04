@@ -185,11 +185,11 @@ test('reg-gap: believable inputs preserve all eight traps without answer verdict
 
 test('reg-gap: inventory, draft metadata and historical scenario framing are complete', () => {
   assert.deepEqual(Object.values(FILES), EXPECTED_FILES);
-  assert.equal(frontmatter.status, 'draft');
-  assert.equal(frontmatter.validated_on, undefined);
+  assert.equal(frontmatter.status, 'validated');
+  assert.equal(String(frontmatter.validated_on instanceof Date ? frontmatter.validated_on.toISOString().slice(0, 10) : frontmatter.validated_on), '2026-10-04');
   assert.equal(frontmatter.publish_draft, undefined);
   assert.equal(frontmatter.impact.evidence, 'estimated');
-  assert.match(frontmatter.validation_note, /not yet tenant-tested/);
+  assert.match(frontmatter.validation_note, /48\/48/);
   assert.deepEqual(frontmatter.market, ['ID', 'MY']);
   assert.equal(frontmatter.difficulty, 3);
   assert.deepEqual(frontmatter.licence, ['m365-copilot']);
@@ -203,7 +203,7 @@ test('reg-gap: inventory, draft metadata and historical scenario framing are com
   assert.deepEqual(headings.map((m) => m[1]), ['1', '2', '3', '4', '5', '6']);
   for (const h of headings) assert.ok(h[2].split(/\s+/).length <= 8);
   assert.ok(page.includes('**Add and manage sources** > **Add content**'));
-  assert.doesNotMatch(page, /Add work content|status: validated|validated_on:|publish_draft:/);
+  assert.doesNotMatch(page, /Add work content|publish_draft:|not yet been tenant-tested/);
   assert.match(page, /40-minute flow/);
   assert.match(page, /Pasal/);
   for (const bullet of page.split('## When it goes wrong\n')[1].split('## Take it further')[0].split('\n').filter((l) => l.startsWith('- '))) {
@@ -213,7 +213,7 @@ test('reg-gap: inventory, draft metadata and historical scenario framing are com
 
 test('reg-gap: three full prompt translations preserve line parity and safe labels', () => {
   assert.equal(promptBlocks.length, 3);
-  const expectedLines = [24, 15, 18];
+  const expectedLines = [28, 15, 19];
   for (const [i, variants] of promptBlocks.entries()) {
     assert.deepEqual(Object.keys(variants), ['EN', 'ID', 'BM']);
     for (const [lang, lines] of Object.entries(variants)) {

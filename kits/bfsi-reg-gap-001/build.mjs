@@ -43,7 +43,7 @@ export function keyNotes(rows = answerRows()) {
     `${CASE.budgetLabel} is a proposal pending CFO decision, not approved expenditure. Head of Compliance sign-off remains unsigned.`,
     'Targets and remediation actions are proposed, not commitments; the exercise authorises no sending, policy edits or execution.',
     'Counts in this answer key are static values computed from the model. The participant-generated workbook must instead use linked Summary formulas.',
-    'This v3 kit has not yet been tenant-tested. Local structural checks do not establish prompt accuracy, visual layout or compliance.',
+    'Tenant-tested on 4 October 2026 in EN, ID and BM: final runs matched all 16 keyed rows per language, the formula Summary and the two-page unsigned note. A matching run does not establish compliance; human review remains required.',
   ];
 }
 

@@ -36,14 +36,16 @@ limits:
   - "Approved design does not prove operation. Every conclusion needs entity-relevant evidence and human checking against source paragraph, printed page, policy section and evidence ID."
   - "The predecessor and related policy texts are absent. Clause-level changes remain Unknown; paragraph 16.28 cannot be concluded Covered from this pack."
   - "File creation and source availability depend on the tenant. Count attachments, open actual output files, check formulas and verify where files were saved."
-  - "This v3 kit and these prompts have not yet been tenant-tested. Bahasa Indonesia and Bahasa Melayu are language variants of the Malaysian case, not country validation."
+  - "Chat counts drift even when every row is right. In testing, correct 16-row reviews still reported wrong totals, so all counting is left to the formula-based Excel Summary."
+  - "Bahasa Indonesia and Bahasa Melayu are language variants of the Malaysian case, not country validation. In testing, the ID and BM runs still wrote the Word note in English, following the English template."
 source_refs:
   - "https://www.bnm.gov.my/documents/20124/938039/pd-ftfc-mar24.pdf"
   - "https://ojk.go.id/id/regulasi/Pages/Pelindungan-Konsumen-dan-Masyarakat-di-Sektor-Jasa-Keuangan.aspx"
   - "https://ojk.go.id/id/berita-dan-kegiatan/siaran-pers/Pages/OJK-Perkuat-Peraturan-Pelindungan-Konsumen-dan-Masyarakat.aspx"
   - "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-overview"
-status: draft
-validation_note: "Rebuilt v3 historical Malaysian training kit; not yet tenant-tested. Earlier September validation concerned a different kit and does not validate these prompts, source mappings or generated outputs. Impact is estimated; human legal and Head of Compliance review remains required."
+status: validated
+validated_on: 2026-10-04
+validation_note: "Tested on 4 October 2026 in the Microsoft 365 Copilot app (Work), Excel and Word, with the exact EN, ID and BM prompts on this page. The final runs matched all 16 keyed rows in each language (48/48). The formula Summary showed the keyed readiness, design and operating counts. Each unsigned Word note was A4, 11 pt and two pages. Earlier runs miscounted totals, labelled the draft Annex B as approved and named owners vaguely; the prompts now address each of these. Impact is estimated; human legal and Head of Compliance review remains required."
 ---
 
 ## Situation
@@ -84,7 +86,9 @@ Return exactly one row for each scoped question R01–R16 from input 01, in orde
 Use these columns: Review key | BNM paragraph | S/G | Scoped question | Applicability | Legal effective date | Change from predecessor.
 Continue with: Documented design | Operating evidence | Readiness status | Reason and missing evidence | Responsible role | Remediation approval.
 Finish with: Proposed action | Proposed due target | Source citations; preserve these fields even if you split the wide table into linked parts.
-Use only these design labels: Approved, Draft, N/A; decide approval from the actual approval perimeter, not the document cover alone.
+Use only these design labels: Approved, Draft, N/A; assess the implementing control procedure, not a policy statement requiring one. If the only implementing procedure is unapproved, use Draft even when the main policy is approved.
+Missing deployment, funding, records or completed tests concern operation; do not relabel an approved procedure Draft because its execution is missing.
+Use N/A for both design and operating fields on G rows; cite relevant context but do not grade guidance implementation.
 Use only these operating labels: Evidenced, Partial, Not evidenced, Unverifiable, N/A; assess dated, relevant artifacts independently of design approval.
 Use only these readiness labels and input 01 rules: Covered, Partial, Gap, Unverified, Guidance noted, N/A; keep the English labels unchanged.
 For every judgement cite input 02 with BNM paragraph and official printed page, input 03 section or annex, and input 04 E-ID with any relevant minutes.
@@ -99,7 +103,9 @@ Check the draft annex, expired authority, unsupported attestations and advertise
 Distinguish employee attendance, unfinished employees, unenrolled agents and the bank's internal skills check; do not invent a BNM pass mark.
 Treat planned CRM, proposed spreadsheet schemas, future tests and proposed funding as plans, not live records, completed tests or spending approvals.
 Take owner roles from the pack; propose actions and leave due targets blank or explicitly pending owner and Head of Compliance agreement, never committed.
-After the table, calculate readiness, design and operating counts separately, show S and G totals, flag contradictions and explain what needs human source verification.
+After the table, list review keys grouped by readiness, design and operating label, without numeric totals.
+List mandatory S and guidance G member keys separately; an R16 scope outcome must not enter the S group.
+Flag contradictions and source-verification needs; defer every numeric count to the formula-based Excel Summary in the next step.
 ID: Bertindaklah sebagai Nurul Aina Rahman, Senior Manager, Regulatory Compliance Advisory, yang meninjau Contoso Bank Malaysia Berhad fiktif untuk latihan.
 Gunakan hanya input 01–05 terlampir dan batas bukti historis Senin 17 Maret 2025, pukul 18.00 MYT; jangan gunakan tanggal chat ini sebagai tanggal kasus.
 Jangan menjelajah web, mengarang fakta, mengubah sumber, mengirim pesan atau menjalankan remediasi; jawab di chat ini.
@@ -108,7 +114,9 @@ Hasilkan tepat satu baris untuk setiap pertanyaan R01–R16 dalam cakupan input 
 Gunakan kolom: Review key | BNM paragraph | S/G | Scoped question | Applicability | Legal effective date | Change from predecessor.
 Lanjutkan dengan: Documented design | Operating evidence | Readiness status | Reason and missing evidence | Responsible role | Remediation approval.
 Akhiri dengan: Proposed action | Proposed due target | Source citations; pertahankan bidang ini meskipun tabel lebar dipecah menjadi bagian yang terhubung.
-Gunakan hanya label desain: Approved, Draft, N/A; tentukan persetujuan dari batas persetujuan sebenarnya, bukan hanya sampul dokumen.
+Gunakan hanya label desain: Approved, Draft, N/A; nilai prosedur pelaksana kontrol, bukan pernyataan kebijakan yang mewajibkannya. Jika satu-satunya prosedur pelaksana belum disetujui, gunakan Draft meskipun kebijakan utama disetujui.
+Ketiadaan penerapan, pendanaan, catatan atau hasil pengujian berkaitan dengan operasi; jangan mengubah prosedur yang disetujui menjadi Draft karena pelaksanaannya belum terbukti.
+Gunakan N/A untuk bidang desain dan bukti operasional pada baris G; rujuk konteks yang relevan, tetapi jangan menilai pelaksanaan panduan.
 Gunakan hanya label bukti operasional: Evidenced, Partial, Not evidenced, Unverifiable, N/A; nilai artefak bertanggal dan relevan secara terpisah dari persetujuan desain.
 Gunakan hanya label kesiapan dan aturan input 01: Covered, Partial, Gap, Unverified, Guidance noted, N/A; jangan mengubah label berbahasa Inggris.
 Untuk setiap penilaian, rujuk input 02 dengan paragraf BNM dan halaman cetak resmi, bagian atau lampiran input 03, serta E-ID input 04 dan notulen yang relevan.
@@ -123,7 +131,9 @@ Periksa draf lampiran, kewenangan kedaluwarsa, pernyataan tanpa dukungan dan sal
 Bedakan kehadiran pegawai, pegawai belum selesai, agen belum terdaftar dan pemeriksaan keterampilan internal bank; jangan mengarang nilai kelulusan BNM.
 Perlakukan rencana CRM, usulan skema spreadsheet, pengujian mendatang dan usulan pendanaan sebagai rencana, bukan catatan aktif, pengujian selesai atau persetujuan belanja.
 Ambil peran pemilik dari paket; usulkan tindakan dan biarkan target kosong atau jelas menunggu kesepakatan pemilik dan Head of Compliance, bukan komitmen.
-Setelah tabel, hitung kesiapan, desain dan bukti operasional secara terpisah, tampilkan total S dan G, tandai pertentangan dan jelaskan verifikasi sumber oleh manusia yang diperlukan.
+Setelah tabel, daftarkan kunci tinjauan menurut label kesiapan, desain dan bukti operasional, tanpa jumlah angka.
+Daftarkan kunci anggota S wajib dan panduan G secara terpisah; hasil cakupan R16 tidak boleh masuk kelompok S.
+Tandai pertentangan dan kebutuhan verifikasi sumber; serahkan seluruh hitungan angka kepada Excel Summary berbasis rumus pada langkah berikutnya.
 BM: Bertindak sebagai Nurul Aina Rahman, Senior Manager, Regulatory Compliance Advisory, yang menyemak Contoso Bank Malaysia Berhad rekaan untuk latihan.
 Gunakan hanya input 01–05 yang dilampirkan dan had bukti sejarah Isnin 17 Mac 2025, 18:00 MYT; jangan gunakan tarikh chat ini sebagai tarikh kes.
 Jangan layari web, reka fakta, ubah sumber, hantar mesej atau laksanakan pemulihan; jawab di sini dalam chat.
@@ -132,9 +142,11 @@ Hasilkan tepat satu baris bagi setiap soalan berskop R01–R16 daripada input 01
 Gunakan lajur: Review key | BNM paragraph | S/G | Scoped question | Applicability | Legal effective date | Change from predecessor.
 Teruskan dengan: Documented design | Operating evidence | Readiness status | Reason and missing evidence | Responsible role | Remediation approval.
 Akhiri dengan: Proposed action | Proposed due target | Source citations; kekalkan medan ini walaupun jadual lebar dipecahkan kepada bahagian yang dipautkan.
-Gunakan label reka bentuk ini sahaja: Approved, Draft, N/A; tentukan kelulusan berdasarkan had kelulusan sebenar, bukan kulit dokumen semata-mata.
+Gunakan label reka bentuk ini sahaja: Approved, Draft, N/A; nilai prosedur pelaksanaan kawalan, bukan pernyataan dasar yang mewajibkannya. Jika satu-satunya prosedur pelaksanaan belum diluluskan, gunakan Draft walaupun dasar utama diluluskan.
+Ketiadaan pelaksanaan, pembiayaan, rekod atau ujian lengkap berkaitan dengan operasi; jangan ubah prosedur yang diluluskan kepada Draft kerana pelaksanaannya belum dibuktikan.
+Gunakan N/A bagi medan reka bentuk dan bukti operasi pada baris G; rujuk konteks yang relevan tetapi jangan nilai pelaksanaan panduan.
 Gunakan label bukti operasi ini sahaja: Evidenced, Partial, Not evidenced, Unverifiable, N/A; nilai artifak bertarikh dan relevan secara berasingan daripada kelulusan reka bentuk.
-Gunakan label kesediaan dan peraturan input 01 ini sahaja: Covered, Partial, Gap, Unverified, Guidance noted, N/A; kekalkan label bahasa Inggeris.
+Gunakan label kesediaan ini: Covered, Partial, Gap, Unverified, Guidance noted, N/A, mengikut input 01. Gunakan N/A jika soalan tidak terpakai kepada aktiviti entiti; Guidance noted hanya untuk panduan yang terpakai. Kekalkan label bahasa Inggeris.
 Bagi setiap pertimbangan, rujuk input 02 dengan perenggan BNM dan halaman bercetak rasmi, seksyen atau lampiran input 03, serta E-ID input 04 dan minit yang relevan.
 Jika tiada E-ID operasi bagi soalan skop sahaja, rujuk skop entiti dalam input 01 dan jelaskan sebabnya; jangan reka E-ID atau petikan sumber.
 Ringkasan sumber ialah parafrasa penulis, bukan autoriti undang-undang; halaman bercetak bersamaan halaman PDF rasmi tolak satu, bukan nombor halaman ringkasan.
@@ -147,7 +159,9 @@ Semak draf lampiran, kuasa tamat tempoh, akuan tanpa sokongan dan saluran yang d
 Bezakan kehadiran pekerja, pekerja belum selesai, ejen belum didaftarkan dan semakan kemahiran dalaman bank; jangan reka markah lulus BNM.
 Anggap CRM yang dirancang, cadangan skema hamparan, ujian akan datang dan cadangan pembiayaan sebagai rancangan, bukan rekod aktif, ujian selesai atau kelulusan belanja.
 Ambil peranan pemilik daripada pek; cadangkan tindakan dan biarkan sasaran kosong atau jelas menunggu persetujuan pemilik dan Head of Compliance, bukan komitmen.
-Selepas jadual, kira kesediaan, reka bentuk dan bukti operasi secara berasingan, paparkan jumlah S dan G, tandakan percanggahan dan jelaskan pengesahan sumber oleh manusia yang diperlukan.
+Selepas jadual, senaraikan kunci semakan mengikut label kesediaan, reka bentuk dan bukti operasi, tanpa jumlah angka.
+Senaraikan kunci ahli S wajib dan panduan G secara berasingan; hasil skop R16 tidak boleh masuk kumpulan S.
+Tandakan percanggahan dan keperluan pengesahan sumber; serahkan semua kiraan angka kepada Excel Summary berasaskan formula dalam langkah seterusnya.
 :::
 
 **After you run it:** expect **16 rows**, not proof of compliance. Open the cited paragraphs in the brief and the cited policy/evidence sections yourself. Check that assertions, future plans and authority dates have not become operating proof. If any row is missing, correct the review before creating files.
@@ -216,6 +230,7 @@ Berikan pautan fail sebenar dan laporkan batas penciptaan atau formula dengan ju
 :::prompt
 ABOUT: Creates a concise, unsigned Word paper from the same register and the supplied template, preserving evidence limits and pending decisions.
 EN: Create an actual downloadable Word .docx BRMC review note of no more than two pages using attached 06_Contoso_MY_BRMC_Paper_Template.docx.
+Use A4 portrait, body and table text of at least 11 pt, dark text on light backgrounds and visible table headings; shorten wording rather than shrinking text.
 Use the same reviewed R01–R16 register and Excel Summary above, not a fresh assessment; reconcile every count and source citation to that register.
 Write for fictional Contoso Bank Malaysia Berhad, prepared by Nurul Aina Rahman, Senior Manager, Regulatory Compliance Advisory, for human Head of Compliance review.
 Follow the template's sections: paper control and decision sought, scope and source limitation, register summary, priority risks/actions, resources/timeline, review and sign-off.
@@ -234,6 +249,7 @@ Keep future testing, draft Annex B and unavailable operating proof distinct from
 Leave the Head of Compliance signature and date blank, the review decision pending and the paper unsigned; do not invent a signature, approval or committee endorsement.
 Do not browse, edit source inputs, send the paper or execute actions; provide the actual file link and disclose creation or layout limitations without inventing a page or word count.
 ID: Buat nota tinjauan BRMC Word .docx yang benar-benar dapat diunduh, maksimal dua halaman, menggunakan 06_Contoso_MY_BRMC_Paper_Template.docx terlampir.
+Gunakan A4 potret, teks isi dan tabel minimal 11 pt, teks gelap pada latar terang serta judul kolom terlihat; persingkat kalimat, bukan ukuran teks.
 Gunakan register R01–R16 yang sama dan sudah ditinjau beserta Excel Summary di atas, bukan penilaian baru; cocokkan setiap hitungan dan rujukan sumber dengan register itu.
 Tulis untuk Contoso Bank Malaysia Berhad fiktif, disusun oleh Nurul Aina Rahman, Senior Manager, Regulatory Compliance Advisory, untuk tinjauan manusia oleh Head of Compliance.
 Ikuti bagian template: kendali nota dan keputusan diminta, cakupan dan batas sumber, ringkasan register, prioritas risiko/tindakan, sumber daya/linimasa, tinjauan dan tanda tangan.
@@ -252,6 +268,7 @@ Pisahkan pengujian mendatang, draf Annex B dan bukti operasional yang tidak ters
 Biarkan tanda tangan dan tanggal Head of Compliance kosong, keputusan tinjauan pending dan nota tanpa tanda tangan; jangan mengarang tanda tangan, persetujuan atau dukungan komite.
 Jangan menjelajah web, mengubah input sumber, mengirim nota atau menjalankan tindakan; berikan tautan file sebenarnya dan ungkapkan batas pembuatan atau tata letak tanpa mengarang jumlah halaman atau kata.
 BM: Hasilkan nota semakan BRMC Word .docx yang benar-benar boleh dimuat turun, tidak melebihi dua halaman, menggunakan 06_Contoso_MY_BRMC_Paper_Template.docx yang dilampirkan.
+Gunakan A4 potret, teks isi dan jadual sekurang-kurangnya 11 pt, teks gelap pada latar cerah serta tajuk lajur kelihatan; ringkaskan ayat, bukan saiz teks.
 Gunakan daftar R01–R16 yang sama dan telah disemak serta Excel Summary di atas, bukan penilaian baharu; padankan setiap kiraan dan rujukan sumber dengan daftar itu.
 Tulis untuk Contoso Bank Malaysia Berhad rekaan, disediakan oleh Nurul Aina Rahman, Senior Manager, Regulatory Compliance Advisory, untuk semakan manusia oleh Head of Compliance.
 Ikut seksyen templat: kawalan kertas dan keputusan diminta, skop dan batas sumber, ringkasan daftar, keutamaan risiko/tindakan, sumber/garis masa, semakan dan tandatangan.
@@ -261,7 +278,7 @@ Jelaskan bahawa standard S dan panduan G terpilih ialah sampel berskop, bukan li
 Nyatakan bahawa ringkasan sumber ialah parafrasa penulis, bukan autoriti undang-undang; kecualikan bukti Indonesia dan bezakan pengedaran bank daripada tugas penanggung rakan kongsi.
 Laporkan kiraan kesediaan, reka bentuk dan bukti operasi secara konsisten dengan Excel, serta jelaskan mengapa kelulusan reka bentuk tidak membuktikan operasi.
 Utamakan isu Gap dan Unverified, kemudian tindakan Partial yang material; rujuk kunci semakan, perenggan/halaman bercetak BNM, seksyen dasar dan E-ID atau rujukan skop berasas.
-Bagi setiap tindakan utama, gunakan peranan bertanggungjawab dan sasaran kosong atau jelas dicadangkan menunggu persetujuan pemilik dan Head of Compliance, bukan komitmen rekaan.
+Bagi setiap tindakan utama, ulang peranan bertanggungjawab daripada daftar, termasuk setiap pemilik bagi baris gabungan; jangan tulis sekadar "pemilik berkaitan". Biarkan sasaran kosong atau jelas menunggu persetujuan pemilik dan Head of Compliance, bukan komitmen rekaan.
 Asingkan cadangan RM380,000 yang menunggu keputusan CFO daripada sumber yang diluluskan; jangan reka kelulusan belanja atau kuantiti pemulihan.
 Dedahkan janji WhatsApp dan video-relay tanpa sokongan; jangan gambarkannya sebagai bantuan tersedia atau pelaksanaan yang diluluskan.
 Jelaskan mengapa pelepasan CRM yang dirancang pada 14 April 2025 melepasi tarikh kuat kuasa undang-undang dan mengapa skema hamparan sahaja bukan kawalan interim yang beroperasi.
@@ -299,6 +316,9 @@ Jangan layari web, ubah input sumber, hantar kertas atau laksanakan tindakan; be
 ## When it goes wrong
 
 - **A file is missing or the wrong copy appears (step 2).** Reopen **Add and manage sources** > **Add content**, use **Search** / **Files**, confirm the folder and count five chips. If indexing is delayed, open the file and retry later; do not assume an attachment succeeded.
+- **Every row is right but the totals are wrong (step 3).** Seen in testing: a correct 16-row review reported wrong summary counts. Do not fix the totals in chat; the prompt lists keys only, and the Excel Summary formulas do the counting in step 4.
+- **R05 shows Approved because the main policy is approved (step 3).** Seen in testing. The only implementing procedure, Annex B v0.3, is a draft outside the Board approval, so R05's design is **Draft**. Ask Copilot to re-check R05 against 03 Annex B and 04 E07.
+- **The note says "relevant owners" or uses small text (step 5).** Seen in testing. Ask Copilot to name each row's owner from the register and to keep body text at 11 pt or larger, then check the regenerated file in Word.
 - **The review repeats the policy as proof (step 3).** Ask it to recheck approval and operating evidence separately for the affected keys, citing annex status, E-IDs and missing artifacts. Preserve all 16 keys and recalculate before continuing.
 - **It changes the dates or invents a comparison (step 3).** Reground on 01 §1 and 02 §2: use the historical cutoff, the phased effective date and Unknown for the absent predecessor; do not browse to fill the gap.
 - **It uses Indonesian evidence or treats G as mandatory (step 3).** Recheck entity names and S/G in each cited source, exclude E18 from Malaysian proof and preserve the bank/underwriter distinction.
@@ -322,7 +342,7 @@ Jangan layari web, ubah input sumber, hantar kertas atau laksanakan tindakan; be
 
 **Ask before you start:** Who owns the legal interpretation? Where are approval and operating records kept? Who signs off the committee paper? Which requirements lie outside this scoped exercise?
 
-**What is and is not validated:** this rebuilt kit has not yet been tenant-tested. Timing and impact are estimates; do not reuse the old September result, promise perfect source recall or claim that generated files automatically save in OneDrive. EN/ID/BM prompts retain the same Malaysian case and English classification labels.
+**What is and is not validated:** the exact EN, ID and BM prompts were tested in the demo tenant on 4 October 2026. The final runs matched the key, the Excel formula counts and the unsigned two-page note. Earlier runs miscounted and mislabelled R05, so show the Excel Summary, not chat totals. Timing and impact are estimates; do not promise perfect source recall or claim that generated files automatically save in OneDrive. EN/ID/BM prompts retain the same Malaysian case and English classification labels.
 
 **Close on judgement:** approved policy is not operational readiness. Compare every key and citation, check formula counts and the unsigned note, and obtain Head of Compliance sign-off before real use. Never send the training paper as a regulatory submission.
 :::
