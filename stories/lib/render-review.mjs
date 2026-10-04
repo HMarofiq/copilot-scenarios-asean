@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
 import { expand, at, fmt, addDays } from './dates.mjs';
 
-const [world = 'contoso-niaga', episode = 'email-triage', out = 'review.html', d0s] = process.argv.slice(2);
+const [world = 'zava-distribution', episode = 'email-triage', out = 'review.html', d0s] = process.argv.slice(2);
 const base = resolve('stories', world);
 const imp = (p) => import(pathToFileURL(resolve(base, p)).href);
 const [{ WORLD }, { CAST, SYSTEM_SENDERS }, spec, { INBOX }, { HISTORY }, { CHATS }, { FILES }, { EVENTS }] = await Promise.all([
@@ -40,7 +40,7 @@ const chats = X(CHATS).map((c) => ({ ...c, members: c.members.map((m) => CAST[m]
 const files = X(FILES).map((f) => ({ ...f, owner: CAST[f.owner].name, sharedWith: f.sharedWith.map((k) => CAST[k].name) }));
 const events = X(EVENTS).map((e) => ({ ...e, organizer: CAST[e.organizer].name, attendees: (e.attendees || []).map((k) => CAST[k].name), optional: (e.optional || []).map((k) => CAST[k].name), s: at(e.start, D0, WORLD.utcOffset), e: at(e.end, D0, WORLD.utcOffset) }));
 const arcs = Object.fromEntries(Object.entries(WORLD.arcs).map(([k, a]) => [k, X(a)]));
-const cast = Object.entries(CAST).map(([k, c]) => ({ k, name: c.name, title: c.title, ext: !!c.external, org: c.external ? WORLD.orgs[c.org].name : 'Contoso Niaga', alias: c.alias || c.email, style: c.style }));
+const cast = Object.entries(CAST).map(([k, c]) => ({ k, name: c.name, title: c.title, ext: !!c.external, org: c.external ? WORLD.orgs[c.org].name : 'Zava Niaga', alias: c.alias || c.email, style: c.style }));
 
 const words = (s) => (s || '').split(/\s+/).filter(Boolean).length;
 const stats = {

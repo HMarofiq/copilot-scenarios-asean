@@ -26,7 +26,7 @@ const upn = (k) => `${CAST[k].alias}@${domain}`;
 const isInternal = (k) => CAST[k] && !CAST[k].external;
 const addr = (k) => {
   if (k.startsWith('sys:')) { const s = SYSTEM_SENDERS[k.slice(4)]; return { name: s.name, address: s.email }; }
-  if (GROUPS[k]) return { name: GROUPS[k].name, address: `${k}@contoso-niaga.example` };
+  if (GROUPS[k]) return { name: GROUPS[k].name, address: `${k}@zava.example` };
   const c = CAST[k]; return { name: c.name, address: c.external ? c.email : upn(k) };
 };
 // Internal people who get a copy: direct internal recipients plus members of recipient groups.
@@ -89,7 +89,7 @@ async function mailOp(s, t, kind) {
     attachments.push({ name: a.name, localPath: p, contentType: CT[a.kind] });
   }
   return { op: 'mail', key: `mail:${s.id}`, id: s.id, kind, group: s.group ?? null, sentUtc, receivedUtc: sentUtc,
-    internetMessageId: `<${s.id.toLowerCase()}.${EPISODE.key}.${runId}@contoso-niaga.example>`,
+    internetMessageId: `<${s.id.toLowerCase()}.${EPISODE.key}.${runId}@zava.example>`,
     subject: t.subject, bodyHtml: html(t.body), importance: t.importance ?? 'normal',
     from: addr(s.from), to: (s.to ?? []).map(addr), cc: (s.cc ?? []).map(addr), copies, attachments };
 }

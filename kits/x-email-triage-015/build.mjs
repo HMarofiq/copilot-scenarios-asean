@@ -1,19 +1,19 @@
-// Demo kit: x-email-triage-015, built from the story library (stories/contoso-niaga, episode email-triage).
+// Demo kit: x-email-triage-015, built from the story library (stories/zava-distribution, episode email-triage).
 // The same story is what the tenant seeder writes, so the kit and a seeded demo tenant never drift apart.
 import { join } from 'node:path';
 import { writeDocx, writeReadme, writeText, NOTICE } from '../lib.mjs';
 import { expand, at } from '../../stories/lib/dates.mjs';
-import { WORLD } from '../../stories/contoso-niaga/world.mjs';
-import { CAST, SYSTEM_SENDERS } from '../../stories/contoso-niaga/cast.mjs';
-import { EPISODE, INBOX_SPEC, GROUPS } from '../../stories/contoso-niaga/episodes/email-triage/spec.mjs';
-import { INBOX as TEXT } from '../../stories/contoso-niaga/episodes/email-triage/inbox.mjs';
+import { WORLD } from '../../stories/zava-distribution/world.mjs';
+import { CAST, SYSTEM_SENDERS } from '../../stories/zava-distribution/cast.mjs';
+import { EPISODE, INBOX_SPEC, GROUPS } from '../../stories/zava-distribution/episodes/email-triage/spec.mjs';
+import { INBOX as TEXT } from '../../stories/zava-distribution/episodes/email-triage/inbox.mjs';
 
 export const D0 = new Date(EPISODE.canonicalD0);
 export const INBOX = INBOX_SPEC.map((s) => ({ ...s, ...expand(TEXT.find((t) => t.id === s.id), D0) }));
 
 export const RULES = [
   '# My email triage rules',
-  'I am Carlos Slattery, Chief Technology Officer at PT Contoso Niaga Nusantara. My manager is Adelia Chin (President Director). My direct reports are Lydia Bauer, Kian Lambert, Sarah Perez and Elvia Atkins.',
+  'I am Carlos Slattery, Chief Technology Officer at PT Zava Niaga Nusantara. My manager is Adelia Chin (President Director). My direct reports are Lydia Bauer, Kian Lambert, Sarah Perez and Elvia Atkins.',
   'Important senders: Adelia Chin; Andre Lawson (CFO); anyone at wingtip-retail.example (our largest customer); approvals waiting for me in SAP.',
   '## Groups',
   '- **Act today**: an important sender asks me for something; anyone asks me by name for a decision, approval or reply due today or tomorrow, even if I am only in CC and the ask is at the end of a long thread; an approval is waiting for me in a system and expires soon; a customer complaint or escalation.',
@@ -62,13 +62,13 @@ ${RULES.slice(1).join('\n')}
 
 const person = (k) => {
   if (k.startsWith('sys:')) { const s = SYSTEM_SENDERS[k.slice(4)]; return `"${s.name}" <${s.email}>`; }
-  if (GROUPS[k]) return `"${GROUPS[k].name}" <${k}@contoso-niaga.example>`;
-  const c = CAST[k]; return `"${c.name}" <${c.external ? c.email : `${c.alias.toLowerCase()}@contoso-niaga.example`}>`;
+  if (GROUPS[k]) return `"${GROUPS[k].name}" <${k}@zava.example>`;
+  const c = CAST[k]; return `"${c.name}" <${c.external ? c.email : `${c.alias.toLowerCase()}@zava.example`}>`;
 };
 function eml(m) {
   const date = new Date(at(m.at, D0, WORLD.utcOffset)).toUTCString().replace('GMT', '+0000');
   const cc = m.cc?.length ? `Cc: ${m.cc.map(person).join(', ')}\n` : '';
-  return `From: ${person(m.from)}\nTo: ${m.to.map(person).join(', ')}\n${cc}Subject: ${m.subject}\nDate: ${date}\nMessage-ID: <${m.id.toLowerCase()}.triage015@contoso-niaga.example>\nMIME-Version: 1.0\nContent-Type: text/plain; charset=utf-8\nContent-Transfer-Encoding: 8bit\n\n${m.body}\n\n-- \n${NOTICE}\n`;
+  return `From: ${person(m.from)}\nTo: ${m.to.map(person).join(', ')}\n${cc}Subject: ${m.subject}\nDate: ${date}\nMessage-ID: <${m.id.toLowerCase()}.triage015@zava.example>\nMIME-Version: 1.0\nContent-Type: text/plain; charset=utf-8\nContent-Transfer-Encoding: 8bit\n\n${m.body}\n\n-- \n${NOTICE}\n`;
 }
 
 export default async function build({ dir }) {
@@ -80,10 +80,10 @@ export default async function build({ dir }) {
   writeReadme(dir, {
     title: 'Demo kit: Morning email triage in three tiers', scenario: 'x-email-triage-015',
     contents: [
-      `Inbox/*.eml: the ${INBOX.length} unread morning emails of Carlos Slattery, CTO of PT Contoso Niaga Nusantara (fictional), in Bahasa Indonesia, English and Bahasa Melayu`,
+      `Inbox/*.eml: the ${INBOX.length} unread morning emails of Carlos Slattery, CTO of PT Zava Niaga Nusantara (fictional), in Bahasa Indonesia, English and Bahasa Melayu`,
       'FICTIONAL_My_Triage_Rules.docx: example rules; copy the names into the prompts and paste the rules into the Cowork skill prompt',
       'Cowork/email-triage/SKILL.md: the same rules as a ready skill file (optional; the page creates the skill from pasted rules)',
-      'The full story (history emails, Teams chats, files, calendar) lives in the repo under stories/contoso-niaga; a seeder writes it into a demo tenant as the real people.',
+      'The full story (history emails, Teams chats, files, calendar) lives in the repo under stories/zava-distribution; a seeder writes it into a demo tenant as the real people.',
     ],
     setup: [
       'Best: seed a demo tenant from the story library, so colleagues own their side of every email, chat and file.',

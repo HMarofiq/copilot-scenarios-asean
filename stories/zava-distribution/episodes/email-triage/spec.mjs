@@ -1,10 +1,10 @@
-// Episode: email triage morning (scenario x-email-triage-015) in the contoso-niaga world.
+// Episode: email triage morning (scenario x-email-triage-015) in the zava-distribution world.
 // This file is the SPEC: who, when, which arc, what it must contain, and the trap. The full text lives in
 // inbox.mjs (40 morning emails), history.mjs (older emails), chats.mjs, files.mjs, calendar.mjs.
 // Times are WIB {d, t} relative to D0 (demo day). The demo runs at 07:30 on D0.
 
 export const EPISODE = {
-  key: 'email-triage', tag: 'Triage', scenario: 'x-email-triage-015', world: 'contoso-niaga',
+  key: 'email-triage', tag: 'Triage', scenario: 'x-email-triage-015', world: 'zava-distribution',
   hero: 'carlos', demoAt: { d: 0, t: '07:30' },
   canonicalD0: '2026-09-30',
   window: 'All 40 morning emails arrive between D-1 16:00 and D0 07:25. History is older than D-1 07:30, except H2 which is Carlos\'s own sent mail.',

@@ -1,4 +1,4 @@
-// Cast of the contoso-niaga world. Internal people are existing users of the demo tenant (alias = mail nickname);
+// Cast of the zava-distribution world. Internal people are existing users of the demo tenant (alias = mail nickname);
 // their story title may differ from the directory title. External people use .example domains from world.mjs.
 // style: how they write. Writers follow it so each person sounds like the same person in every episode.
 
@@ -6,19 +6,19 @@ export const CAST = {
   carlos: { alias: 'CarlosS', name: 'Carlos Slattery', title: 'Chief Technology Officer', dept: 'Technology',
     reportsTo: 'adelia', lang: 'id+en',
     style: 'Bilingual. Short, decisive replies. Uses "Thanks" and "Noted". Signs "Carlos".',
-    signature: 'Carlos Slattery\nChief Technology Officer\nPT Contoso Niaga Nusantara' },
+    signature: 'Carlos Slattery\nChief Technology Officer\nPT Zava Niaga Nusantara' },
   adelia: { alias: 'achin', name: 'Adelia Chin', title: 'President Director (CEO)', dept: 'Executive Management', lang: 'id',
     style: 'Bahasa Indonesia with English business terms. Warm but direct, gives the reason and the deadline in the first two lines. Calls Carlos by first name. Signs "Salam, Adelia".',
-    signature: 'Adelia Chin\nPresident Director\nPT Contoso Niaga Nusantara' },
+    signature: 'Adelia Chin\nPresident Director\nPT Zava Niaga Nusantara' },
   andre: { alias: 'AndreL', name: 'Andre Lawson', title: 'Chief Financial Officer', dept: 'Finance', reportsTo: 'adelia', lang: 'en',
     style: 'Formal English, numbered lists, always states the deadline in bold words and where the template lives. Signs with full block.',
-    signature: 'Andre Lawson\nChief Financial Officer\nPT Contoso Niaga Nusantara\nT +62 21 5550 1100' },
+    signature: 'Andre Lawson\nChief Financial Officer\nPT Zava Niaga Nusantara\nT +62 21 5550 1100' },
   babak: { alias: 'BabakS', name: 'Babak Shammas', title: 'Head of Financial Consolidation', dept: 'Finance', reportsTo: 'andre', lang: 'en',
     style: 'Precise English, tables and timelines, no small talk.',
     signature: 'Babak Shammas\nHead of Financial Consolidation\nFinance Division' },
   lydia: { alias: 'LydiaB', name: 'Lydia Bauer', title: 'Enterprise IT Architect (Head of Infrastructure & SRE)', dept: 'Technology', reportsTo: 'carlos', lang: 'id+en',
     style: 'Thorough. Bahasa Indonesia mixed with technical English terms; bullet points, numbers, links to tickets. Long emails with context first, ask last. Signs "Salam, Lydia".',
-    signature: 'Lydia Bauer\nEnterprise IT Architect | Infrastructure & SRE\nPT Contoso Niaga Nusantara' },
+    signature: 'Lydia Bauer\nEnterprise IT Architect | Infrastructure & SRE\nPT Zava Niaga Nusantara' },
   kian: { alias: 'KianL', name: 'Kian Lambert', title: 'Application Development Manager (Proyek Nusa cutover lead)', dept: 'Technology', reportsTo: 'carlos', lang: 'id',
     style: 'Friendly, practical Bahasa Indonesia, calls Carlos "Pak Carlos", explains trade-offs, attaches or links files.',
     signature: 'Kian Lambert\nApplication Development Manager\nProyek Nusa - Cutover Lead' },
@@ -50,10 +50,10 @@ export const CAST = {
 
 // Mailbox-style senders that are systems or bulk senders.
 export const SYSTEM_SENDERS = {
-  sap: { name: 'SAP Workflow', email: 'sap-workflow@erp.contoso-niaga.example' },
-  hr: { name: 'HR Contoso Niaga', email: 'hr-portal@contoso-niaga.example' },
-  bi: { name: 'BI Team', email: 'bi-reports@contoso-niaga.example' },
-  legal: { name: 'Legal Contoso Niaga', email: 'legal@contoso-niaga.example' },
+  sap: { name: 'SAP Workflow', email: 'sap-workflow@erp.zava.example' },
+  hr: { name: 'HR Zava Niaga', email: 'hr-portal@zava.example' },
+  bi: { name: 'BI Team', email: 'bi-reports@zava.example' },
+  legal: { name: 'Legal Zava Niaga', email: 'legal@zava.example' },
   sharepoint: { name: 'SharePoint Online', email: 'no-reply@sharepointonline.example' },
   planner: { name: 'Microsoft Planner', email: 'noreply@planner.example' },
   techweek: { name: 'TechWeek Nusantara', email: 'newsletter@techweek-nusantara.example' },
@@ -61,5 +61,5 @@ export const SYSTEM_SENDERS = {
   pulse: { name: 'Customer Pulse', email: 'survey@pulse-research.example' },
   serverparts: { name: 'Server Parts Direct', email: 'promo@serverparts-direct.example' },
   tikethemat: { name: 'Tiket Hemat', email: 'promo@tikethemat.example' },
-  phish: { name: 'IT Helpdesk', email: 'it-helpdesk@c0ntoso-helpdesk.example' },
+  phish: { name: 'IT Helpdesk', email: 'it-helpdesk@zavva-helpdesk.example' },
 };

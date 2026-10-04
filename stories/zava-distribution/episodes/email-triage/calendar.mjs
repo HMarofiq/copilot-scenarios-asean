@@ -6,7 +6,7 @@ export const EVENTS = [
   },
   {
     key: 'direksi-meeting', organizer: 'adelia', subject: 'Direksi meeting - operations update', attendees: ['andre', 'mona', 'cecil'], optional: [],
-    start: { d: 0, t: '14:00' }, end: { d: 0, t: '16:00' }, location: 'Menara Contoso - Boardroom', online: true, categories: ['Triage'],
+    start: { d: 0, t: '14:00' }, end: { d: 0, t: '16:00' }, location: 'Menara Zava - Boardroom', online: true, categories: ['Triage'],
     body: `Operations update for Direksi. Adelia will cover September service reliability, the Portal Mitra P1 incident and customer fallout, Proyek Nusa readiness, Q4 commercial priorities, and communications risks. Carlos is not an attendee; his input is expected in the pre-read by 12.00, with one page of summary and one backup table. Mona should be ready to address Wingtip sentiment and QBR plans. Andre will cover Q4 re-forecast timing and financial exposure.`
   },
   {
