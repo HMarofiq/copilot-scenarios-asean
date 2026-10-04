@@ -12,7 +12,7 @@ const ZAVA_RENAMED = ['Contoso Niaga', 'Contoso', 'Northwind', 'Fabrikam', 'Rele
 const armOf = (id) => Object.entries(ARMS).find(([, a]) => a.scenarios.includes(id));
 const scan = readdirSync('content/scenarios').filter((f) => f.endsWith('.md')).map((f) => {
   const id = f.replace('.md', '');
-  const page = readFileSync(join('content/scenarios', f), 'utf8');
+  const page = readFileSync(join('content/scenarios', f), 'utf8').replace(/\r\n/g, '\n');
   const title = (page.match(/title:\s*\{\s*en:\s*"([^"]+)"/) || [])[1] ?? id;
   const status = (page.match(/^status:\s*(\S+)/m) || [])[1];
   const prompts = [...page.matchAll(/^:::prompt\n([\s\S]*?)^:::/gm)].map((m) => m[1]).join('\n');
@@ -36,7 +36,7 @@ const decisions = [
   { n: 3, t: 'Demo-tenant story world', pick: 'Rename stories/contoso-niaga to the Zava Distribution episode set (PT Zava Niaga Nusantara). Cast, arcs and demo-tenant users stay.', why: 'The demo tenant is already branded Zava, so live demos and the public library tell one story.', alt: 'Keep Contoso Niaga for live demos only (two worlds to maintain).' },
 ];
 
-const extRows = Object.values(EXTERNAL).map((x) => `<tr><td>${esc(x.names ? x.names.join(', ') : x.name)}</td><td>${esc(x.role)}</td><td><code>${esc(x.domain ?? '')}</code></td></tr>`).join('');
+const extRows = Object.values(EXTERNAL).map((x) => `<tr><td>${esc(x.names ? x.names.join(', ') : x.name)}</td><td>${esc(x.role)}</td><td>${x.domain ? `<code>${esc(x.domain)}</code>` : '-'}</td></tr>`).join('');
 const pplRows = PEOPLE.map((p) => `<tr><td><b>${esc(p.name)}</b>${p.alias ? ` <span class="pill">tenant user</span>` : ''}</td><td>${esc(p.title)}</td><td>${(p.scenarios ?? []).map((s) => `<code>${esc(s)}</code>`).join(' ')}</td><td class="small">${esc(p.note ?? '')}</td></tr>`).join('');
 const migRows = scan.map((s) => {
   const target = s.free ? '<span class="pill ok">No company</span>' : s.arm ? esc(s.arm[1].name) : '<span class="pill bad">Unmapped</span>';
