@@ -28,7 +28,7 @@ export const FILES = {
 const pdfBlocks = (blocks) => blocks.filter((b) => typeof b === 'string').map((b) => (b.startsWith('### ') ? `## ${b.slice(4)}` : b));
 
 export default async function build({ dir }) {
-  const opt = (title) => ({ title, creator: 'Contoso Niaga Legal & Procurement', keywords: 'contract review; playbook; fictional' });
+  const opt = (title) => ({ title, creator: 'Zava Niaga Legal & Procurement', keywords: 'contract review; playbook; fictional' });
   await writeDocx(join(dir, FILES.request), EMAIL_REQUEST, opt('Tailspin contract review request'));
   await writeDocx(join(dir, FILES.vendor), EMAIL_VENDOR, opt('Tailspin cover note'));
   await writeDocx(join(dir, FILES.msa), MSA, { title: 'Tailspin MSA v4.2 (ASEAN)', creator: 'Tailspin Cloud Services Legal', keywords: 'MSA; SLA; DPA; fictional' });

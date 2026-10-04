@@ -37,13 +37,13 @@ source_refs:
   - "https://adoption.microsoft.com/en-us/scenario-library/legal/"
   - "https://learn.microsoft.com/en-us/microsoft-365/copilot/microsoft-365-copilot-overview"
 status: validated
-validated_on: 2026-09-30
-validation_note: "Run end to end in a demo tenant with the kit (MSA with schedules 16,400 words plus Order Forms, Service Terms and playbook) in Word for the web: the review matched the answer key on 19 of 19 issues in the final run, including the clause 22.14 override of the DPA cap, the order of precedence that ranks the negotiated Special Conditions last, the AI-training right inside the online terms and the missing insurance clause; the vendor reply grouped all points without revealing approvers or fallbacks; the memo gave one table per approver and a Bahasa Indonesia summary; the mark-up changed six clauses with six comments tagged by issue ID. Found: Word for the web shows the full redline, but the .docx downloaded from OneDrive kept only the tracked insertions; P12 came back once as Red line instead of Beyond fallback. Test report with screenshots kept by the author."
+validated_on: 2026-10-04
+validation_note: "Run end to end in a demo tenant with the kit (MSA with schedules 16,400 words plus Order Forms, Service Terms and playbook) in Word for the web: the review matched the answer key on 19 of 19 issues in the final run, including the clause 22.14 override of the DPA cap, the order of precedence that ranks the negotiated Special Conditions last, the AI-training right inside the online terms and the missing insurance clause; the vendor reply grouped all points without revealing approvers or fallbacks; the memo gave one table per approver and a Bahasa Indonesia summary; the mark-up changed six clauses with six comments tagged by issue ID. Found: Word for the web shows the full redline, but the .docx downloaded from OneDrive kept only the tracked insertions; P12 came back once as Red line instead of Beyond fallback. Re-run on 4 Oct 2026 after the switch to fictional company names, prompt 1 in EN, ID and BM in Word's new Agent mode: 17 of 19 in each language, all five red lines, the 22.14 override, P13 from the PDF and P19 Not addressed correct each time. Every difference was a stricter call: P12 Red line in all three, P06 Red line in two, and in BM P05 Within fallback 1 because the order form says 30 days from invoice date. Agent mode sometimes asks before a long answer. Test report with screenshots kept by the author."
 ---
 
 ## Situation
 
-**The deal.** Contoso Niaga needs Legal's review of a three-year cloud deal covering Indonesia and Malaysia. After a portal outage, IT wants to move on 1 November.
+**The deal.** Your company needs Legal's review of a three-year cloud deal covering Indonesia and Malaysia. After a portal outage, IT wants to move on 1 November.
 
 **The inputs.** The vendor sent an agreement, schedules, order forms and online terms. Procurement negotiated Jakarta hosting and a price freeze.
 
@@ -71,7 +71,7 @@ validation_note: "Run end to end in a demo tenant with the kit (MSA with schedul
 
 :::prompt
 ABOUT: Builds the review record: a verdict and an approver for each of the 19 playbook issues, with clause references.
-EN: Review this agreement (the MSA with Schedule 1 SLA and Schedule 2 DPA) for PT Contoso Niaga Nusantara Tbk against our playbook 06_Contract_Playbook_Cloud_SaaS_v3.1.
+EN: Review this agreement (the MSA with Schedule 1 SLA and Schedule 2 DPA) for the customer named in the agreement against our playbook 06_Contract_Playbook_Cloud_SaaS_v3.1.
 The Order Forms (04) and the printed Service Terms (05) are part of the same contract, so use them too.
 Do not edit the document yet; answer here in chat.
 Give me a Contract Review Record as a table with one row for each playbook issue, P01 to P19, in order: Issue | Clause(s) | What the contract says (short quote) | Verdict | Approver.
@@ -83,7 +83,7 @@ Check the order of precedence in clause 1.3 and say whether the Order Form Speci
 If nothing in the documents deals with an issue, write Not addressed. Do not assume.
 Take the approver from the playbook.
 After the table, list the red lines, then the items that need escalation grouped by approver.
-ID: Tinjau perjanjian ini (MSA beserta Schedule 1 SLA dan Schedule 2 DPA) untuk PT Contoso Niaga Nusantara Tbk terhadap playbook kami 06_Contract_Playbook_Cloud_SaaS_v3.1.
+ID: Tinjau perjanjian ini (MSA beserta Schedule 1 SLA dan Schedule 2 DPA) untuk pelanggan yang disebut dalam perjanjian terhadap playbook kami 06_Contract_Playbook_Cloud_SaaS_v3.1.
 Order Form (04) dan Service Terms yang dicetak (05) adalah bagian dari kontrak yang sama, jadi gunakan juga.
 Jangan mengubah dokumen dulu; jawab di chat.
 Buatkan Contract Review Record berupa tabel dengan satu baris untuk setiap isu playbook, P01 sampai P19, berurutan: Issue | Clause(s) | What the contract says (kutipan singkat) | Verdict | Approver.
@@ -95,7 +95,7 @@ Periksa urutan prioritas dokumen di pasal 1.3 dan nyatakan apakah Special Condit
 Jika tidak ada ketentuan yang membahas suatu isu, tulis Not addressed. Jangan berasumsi.
 Ambil approver dari playbook.
 Setelah tabel, daftarkan red line, lalu isu yang perlu dieskalasi dikelompokkan per approver.
-BM: Semak perjanjian ini (MSA berserta Schedule 1 SLA dan Schedule 2 DPA) untuk PT Contoso Niaga Nusantara Tbk berbanding buku panduan kami 06_Contract_Playbook_Cloud_SaaS_v3.1.
+BM: Semak perjanjian ini (MSA berserta Schedule 1 SLA dan Schedule 2 DPA) untuk pelanggan yang dinamakan dalam perjanjian berbanding buku panduan kami 06_Contract_Playbook_Cloud_SaaS_v3.1.
 Order Form (04) dan Service Terms yang dicetak (05) ialah sebahagian daripada kontrak yang sama, jadi gunakan juga.
 Jangan ubah dokumen lagi; jawab di sini dalam chat.
 Berikan Contract Review Record dalam bentuk jadual dengan satu baris bagi setiap isu buku panduan, P01 hingga P19, mengikut susunan: Issue | Clause(s) | What the contract says (petikan ringkas) | Verdict | Approver.
@@ -242,7 +242,9 @@ Bagi setiap perubahan, tambah komen yang bermula dengan ID isu buku panduan (con
 
 - **Copilot edits the contract instead of answering.** Word's Copilot edits by default. Keep "Do not edit the document yet; answer here in chat" in the prompt. To undo, press **Undo** or restore from **File** > **Info** > **Version history**. (step 3)
 - **P13 says Not addressed, or the order forms are ignored.** A file was not attached. Attach it and ask: "Also use the attached Service Terms; re-check P01, P04, P12 and P13." (step 2)
-- **P12 shows Red line instead of Beyond fallback.** It happened in one of our runs. The vendor gives 10 days' notice of new subprocessors, but only to customers who subscribe. Both answers are defensible; the lawyer decides. (step 3)
+- **P12 or P06 shows Red line instead of Beyond fallback.** It happened in most of our runs. The playbook red line is "no notice of new subprocessors" (the vendor gives 10 days' notice, but only to subscribers) and "suspension for commercial reasons" (11.1 suspends for suspected misuse or threats). Copilot calls them stricter; the lawyer decides. Ask: "Quote the playbook red line for P06 and P12 and say whether the contract matches it word for word." (step 3)
+- **P05 shows Within fallback 1.** The order form says 30 days from invoice date, but the MSA ranks above it and says 30 days from receipt. Ask Copilot which document wins under clause 1.3. (step 3)
+- **Copilot asks whether to go ahead with a long answer.** Word's Copilot now works in Agent mode and sometimes checks first. Reply "Yes, continue". (step 3)
 - **A row is vague or quotes the wrong clause.** Long contracts get less attention in the middle. Ask about one issue: "Quote clause 22.14 in full and tell me which clauses it overrides." (step 3)
 - **The vendor reply mentions "our playbook" or "fallback".** Keep the sentence "Do not mention our internal approvers, fallback positions or the playbook itself." (step 4)
 - **The verdicts changed when you ran the review again.** Copilot reads the contract as it is now. If you marked up the original, restore it from Version history and do Part B on a copy. (step 6)

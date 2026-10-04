@@ -68,7 +68,7 @@ export const MSA_PART2 = [
   "Name: _____________________________________",
   "Title: ____________________________________",
   "Date: _____________________________________",
-  "CUSTOMER: PT Contoso Niaga Nusantara Tbk",
+  "CUSTOMER: PT Zava Niaga Nusantara",
   "Signature: ________________________________",
   "Name: _____________________________________",
   "Title: President Director",
