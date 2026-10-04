@@ -69,7 +69,7 @@ Proyek Nusa - Cutover Lead`,
 
 Terima kasih untuk koordinasinya. Kami konfirmasi slot maintenance Portal Mitra pada {{d:0:id}} pukul 23.00-01.00 WIB. Window ini dipilih supaya tidak mengganggu cut-off order utama Wingtip dan partner lain.
 
-Dampak yang diperkirakan: partner masih dapat login dan melihat katalog, tetapi submit order dapat mengalami intermittent error atau antrean selama pekerjaan connector berlangsung. Tim Contoso akan menahan perubahan bila validasi awal tidak memenuhi checklist, dan rollback dilakukan sebelum pukul 00.30 WIB jika ada risiko ke order pagi.
+Dampak yang diperkirakan: partner masih dapat login dan melihat katalog, tetapi submit order dapat mengalami intermittent error atau antrean selama pekerjaan connector berlangsung. Tim Zava akan menahan perubahan bila validasi awal tidak memenuhi checklist, dan rollback dilakukan sebelum pukul 00.30 WIB jika ada risiko ke order pagi.
 
 Kami tidak menjadwalkan perubahan pricing, katalog, atau akun partner pada window ini. Tujuan maintenance hanya stabilisasi connector dan validasi antrean order.
 
@@ -80,7 +80,7 @@ Carlos
 
 Carlos Slattery
 Chief Technology Officer
-PT Contoso Niaga Nusantara`,
+PT Zava Niaga Nusantara`,
     attachments: []
   },
   {
@@ -119,7 +119,7 @@ Lydia
 
 Lydia Bauer
 Enterprise IT Architect | Infrastructure & SRE
-PT Contoso Niaga Nusantara`,
+PT Zava Niaga Nusantara`,
     attachments: [
       { name: 'PIR_INC-2026-0914-001.docx', kind: 'docx', blocks: PIR_BLOCKS }
     ]

@@ -1,20 +1,20 @@
-// World: PT Contoso Niaga Nusantara (fictional). The canon for every episode set in this world.
+// World: PT Zava Niaga Nusantara (fictional). The canon for every episode set in this world.
 // Writers must not contradict anything here. Dates are day offsets from D0 (the demo day), written as {{d:N:FORMAT}}.
 // Canonical D0 for the first seeding: Wednesday 30 September 2026. The world is set at the end of Q3; arcs assume
 // the demo day falls in late September or October.
 
 export const WORLD = {
-  key: 'contoso-niaga',
+  key: 'zava-distribution',
   tz: 'Asia/Jakarta', utcOffset: 7,
   company: {
-    legalName: 'PT Contoso Niaga Nusantara',
-    shortName: 'Contoso Niaga',
+    legalName: 'PT Zava Niaga Nusantara',
+    shortName: 'Zava Niaga',
     what: 'B2B distributor of consumer electronics and home appliances to modern retail chains across Indonesia, with a Malaysian hub.',
     size: 'About 2,400 employees; revenue about IDR 9.8 trillion a year.',
-    hq: 'Menara Contoso, Jakarta Selatan (fictional).',
+    hq: 'Menara Zava, Jakarta Selatan (fictional).',
     sites: [
       'Distribution centre Cikarang (largest)', 'Distribution centre Surabaya', 'Distribution centre Medan',
-      'Johor Bahru hub, run by subsidiary Contoso Niaga Malaysia Sdn Bhd (serves Malaysian and Singapore retail)',
+      'Johor Bahru hub, run by subsidiary Zava Niaga Malaysia Sdn. Bhd. (serves Malaysian and Singapore retail)',
     ],
     fiscalYear: 'Calendar year. Q4 re-forecast runs in the first week of October.',
     languages: 'Head office works in Bahasa Indonesia with English for finance, security and anything that goes to the regional office. The Johor hub and Malaysian vendors write in Bahasa Melayu or English.',
@@ -31,7 +31,7 @@ export const WORLD = {
   },
 
   orgs: {
-    wingtip: { name: 'PT Wingtip Retail Nusantara', domain: 'wingtip-retail.example', what: 'Largest retail partner: 180 stores, about 14% of Contoso Niaga revenue. Orders through Portal Mitra.' },
+    wingtip: { name: 'PT Wingtip Retail Nusantara', domain: 'wingtip-retail.example', what: 'Largest retail partner: 180 stores, about 14% of Zava Niaga revenue. Orders through Portal Mitra.' },
     northwind: { name: 'Northwind Supply Sdn Bhd', domain: 'northwind-supply.example', what: 'Network and WAN integrator for the Johor Bahru hub.' },
     litware: { name: 'PT Litware Data Center', domain: 'litware-dc.example', what: 'Colocation provider (primary data centre, Cibitung).' },
     proseware: { name: 'PT Proseware Tenaga Ahli', domain: 'proseware-ta.example', what: 'IT staffing vendor; supplies contractors for Proyek Nusa.' },
@@ -39,7 +39,7 @@ export const WORLD = {
     pulse: { name: 'Customer Pulse Research', domain: 'pulse-research.example', what: 'Survey panel company (spam-ish).' },
     serverparts: { name: 'Server Parts Direct', domain: 'serverparts-direct.example', what: 'Hardware reseller that sends marketing.' },
     tikethemat: { name: 'Tiket Hemat', domain: 'tikethemat.example', what: 'Travel promotions.' },
-    phish: { name: 'fake "IT Helpdesk"', domain: 'c0ntoso-helpdesk.example', what: 'Lookalike domain used for a phishing attempt (zero instead of the letter o).' },
+    phish: { name: 'fake "IT Helpdesk"', domain: 'zavva-helpdesk.example', what: 'Lookalike domain used for a phishing attempt (double v in zavva).' },
   },
 
   // Arcs: the running stories. Every seeded item belongs to one arc. Numbers here are canon.
@@ -92,7 +92,7 @@ export const WORLD = {
     johor: {
       title: 'Johor Bahru hub network work (Northwind Supply)',
       facts: [
-        'Northwind proposes four maintenance windows in October at the Johor hub: every Tuesday 23.00 to 02.00 MYT (22.00 to 01.00 WIB), starting {{d:+6:ms}}. Needs Contoso Niaga\'s confirmation by {{d:+1:ms}} to book field engineers.',
+        'Northwind proposes four maintenance windows in October at the Johor hub: every Tuesday 23.00 to 02.00 MYT (22.00 to 01.00 WIB), starting {{d:+6:ms}}. Needs Zava Niaga\'s confirmation by {{d:+1:ms}} to book field engineers.',
         'Replacement core routers shipped: shipment MY-2211 left Port Klang on D-1, ETA Tanjung Priok {{d:+2:en-short}}.',
         'Tan Mei Ling is Northwind\'s project manager for the Johor account.',
       ],
@@ -103,7 +103,7 @@ export const WORLD = {
       facts: [
         'Quarterly user access review for IT systems due {{d:+2:en}}; Carlos must certify access for his 4 direct reports and 23 service accounts.',
         'Security awareness month: this week\'s theme is phishing that imitates the IT helpdesk and password expiry.',
-        'Contoso Niaga never asks for passwords by email; password changes happen only in the self-service portal.',
+        'Zava Niaga never asks for passwords by email; password changes happen only in the self-service portal.',
       ],
     },
     hr: { title: 'Mid-year performance cycle', facts: ['Mid-year review window closes {{d:+2:en}}. Carlos has 4 direct reports: Lydia Bauer, Kian Lambert, Sarah Perez, Elvia Atkins.'] },

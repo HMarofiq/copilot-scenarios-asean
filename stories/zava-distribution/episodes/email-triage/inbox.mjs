@@ -40,7 +40,7 @@ Terima kasih.
 
 Adelia Chin
 President Director
-PT Contoso Niaga Nusantara`,
+PT Zava Niaga Nusantara`,
     personalData: false,
   },
   {
@@ -114,7 +114,7 @@ Salam,
 
 Lydia Bauer
 Enterprise IT Architect | Infrastructure & SRE
-PT Contoso Niaga Nusantara
+PT Zava Niaga Nusantara
 
 -----Original Message-----
 From: Kian Lambert
@@ -179,12 +179,12 @@ Q4 rate lock for primary data centre capacity and two additional cross-connects 
 Required action:
 Open the work item in SAP Fiori My Inbox and choose Approve or Reject before the expiry time.
 
-Open in SAP Fiori: https://fiori.contoso-niaga.example/sap/bc/ui2/flp#WorkflowTask-displayInbox?workitem=WI-0008732219
+Open in SAP Fiori: https://fiori.zava.example/sap/bc/ui2/flp#WorkflowTask-displayInbox?workitem=WI-0008732219
 
 Do not reply to this email. Replies are not monitored.
 
 This is a system-generated message from SAP Business Workflow.
-PT Contoso Niaga Nusantara`,
+PT Zava Niaga Nusantara`,
     personalData: false,
   },
   {
@@ -193,7 +193,7 @@ PT Contoso Niaga Nusantara`,
     importance: 'high',
     body: `Yth. Bapak Carlos,
 
-Kami mohon perhatian segera dari pihak PT Contoso Niaga Nusantara terkait dampak lanjutan dari gangguan Portal Mitra INC-2026-0914-001. Seperti sudah dibahas dengan Ibu Mona Kane, pada insiden tersebut terdapat 212 order Wingtip yang gagal masuk atau tertahan di antrian. Salah satu kasus kini berkembang menjadi keluhan publik dari pelanggan akhir kami.
+Kami mohon perhatian segera dari pihak PT Zava Niaga Nusantara terkait dampak lanjutan dari gangguan Portal Mitra INC-2026-0914-001. Seperti sudah dibahas dengan Ibu Mona Kane, pada insiden tersebut terdapat 212 order Wingtip yang gagal masuk atau tertahan di antrian. Salah satu kasus kini berkembang menjadi keluhan publik dari pelanggan akhir kami.
 
 Kasus pelanggan yang diteruskan oleh tim toko:
 
@@ -204,7 +204,7 @@ Nomor order Wingtip: WT-PO-774219
 Toko: Wingtip Kelapa Gading 2
 Produk: lemari es dua pintu, home delivery
 
-Kronologi singkat dari sisi Wingtip: order dibuat di toko saat Portal Mitra sedang bermasalah, kemudian statusnya terlihat re-queued setelah sistem pulih. Pengiriman yang semula dijanjikan pada slot berikutnya mundur 3 hari. Pelanggan menyatakan produk tersebut dibutuhkan untuk usaha katering rumahan dan sudah mengunggah keluhan di media sosial dengan menyebut nama Wingtip dan Contoso Niaga sebagai distributor.
+Kronologi singkat dari sisi Wingtip: order dibuat di toko saat Portal Mitra sedang bermasalah, kemudian statusnya terlihat re-queued setelah sistem pulih. Pengiriman yang semula dijanjikan pada slot berikutnya mundur 3 hari. Pelanggan menyatakan produk tersebut dibutuhkan untuk usaha katering rumahan dan sudah mengunggah keluhan di media sosial dengan menyebut nama Wingtip dan Zava Niaga sebagai distributor.
 
 Secara bisnis, isu ini sensitif bagi kami karena Wingtip sedang menyiapkan materi QBR dan tim operasional toko meminta jawaban yang dapat dipakai konsisten oleh Customer Care. Kami memahami root cause awal adalah sertifikat mTLS internal antara API gateway dan ERP connector yang kedaluwarsa, namun tim kami membutuhkan wording resmi yang singkat, jelas, dan dapat disampaikan kepada pelanggan tanpa istilah teknis berlebihan.
 
@@ -262,7 +262,7 @@ Regards,
 
 Andre Lawson
 Chief Financial Officer
-PT Contoso Niaga Nusantara
+PT Zava Niaga Nusantara
 T +62 21 5550 1100`,
     personalData: false,
   },
@@ -294,7 +294,7 @@ Terima kasih semua.
 
 Adelia Chin
 President Director
-PT Contoso Niaga Nusantara`,
+PT Zava Niaga Nusantara`,
     personalData: false,
   },
   {
@@ -303,7 +303,7 @@ PT Contoso Niaga Nusantara`,
     importance: 'normal',
     body: `Salam sejahtera Encik Carlos,
 
-Pihak Northwind Supply memohon pengesahan daripada Contoso Niaga untuk empat tetingkap penyelenggaraan rangkaian di Johor Bahru hub. Jadual ini diperlukan bagi kerja penggantian core router dan penyelarasan semula laluan WAN selepas peralatan gantian sampai di tapak.
+Pihak Northwind Supply memohon pengesahan daripada Zava Niaga untuk empat tetingkap penyelenggaraan rangkaian di Johor Bahru hub. Jadual ini diperlukan bagi kerja penggantian core router dan penyelarasan semula laluan WAN selepas peralatan gantian sampai di tapak.
 
 Tetingkap yang dicadangkan adalah seperti berikut:
 
@@ -322,7 +322,7 @@ Kesan yang dijangka adalah minimum. Semasa failover, pengguna di Johor mungkin m
 
 Sila berikan pengesahan bertulis selewat-lewatnya {{d:+1:ms}} supaya kami boleh menempah jurutera lapangan dan mengunci permit kerja malam. Jadual terperinci dilampirkan untuk semakan pihak tuan.
 
-Sekiranya Contoso Niaga mahu menukar mana-mana tetingkap, mohon maklumkan lebih awal kerana jadual pasukan NOC kami agak padat pada bulan ini.
+Sekiranya Zava Niaga mahu menukar mana-mana tetingkap, mohon maklumkan lebih awal kerana jadual pasukan NOC kami agak padat pada bulan ini.
 
 Terima kasih.
 
@@ -355,9 +355,9 @@ Elvia Atkins    Data Platform Lead                 Not started        Not starte
 
 Please complete your self-assessment and review the submissions for all four direct reports before the window closes. If an employee has not started, you may still open the manager section and add notes, but final acknowledgement requires the employee submission.
 
-Open the HR portal: https://hr.contoso-niaga.example/performance/midyear
+Open the HR portal: https://hr.zava.example/performance/midyear
 
-This is an automated notification from the HR Contoso Niaga portal. Please do not reply to this email.`,
+This is an automated notification from the HR Zava Niaga portal. Please do not reply to this email.`,
     personalData: false,
   },
   {
@@ -424,7 +424,7 @@ svc-dw-test-loader                Data warehouse    >90 days           Disable i
 
 Please complete these steps:
 
-- Open https://security.contoso-niaga.example/access-review
+- Open https://security.zava.example/access-review
 - Choose campaign Q3 Technology Access Review.
 - For each user and service account, select Certify, Remove, or Exception.
 - Add a comment for every Exception and for any service account retained without recent usage.
@@ -459,7 +459,7 @@ Policy note: any score below 3 requires a comment. The comment should be factual
 
 I realise Litware is being discussed this week because of the Q4 colocation PO. The recent Portal Mitra outage should not be attributed to Litware if you score availability, because the recorded root cause was the internal mTLS certificate between the API gateway and the ERP connector. That said, please score Litware's own availability metrics factually, including any DC incidents, cross-connect lead times or escalation performance you have observed.
 
-The procurement portal link is: https://procurement.contoso-niaga.example/vendor-eval/litware-2026
+The procurement portal link is: https://procurement.zava.example/vendor-eval/litware-2026
 
 If Lydia owns the day-to-day operational evidence, you may ask her for input, but the final score must come from you as Technology executive sponsor. We will use the submitted evaluation in the supplier review and renewal file.
 
@@ -475,7 +475,7 @@ VP of Procurement`,
     importance: 'normal',
     body: `Yth. Bapak Carlos,
 
-Sebelum eskalasi operasional lain masuk, kami ingin mulai mengunci jadwal Quarterly Business Review antara Wingtip dan Contoso Niaga. Dari sisi Wingtip, kami berharap Bapak dapat hadir karena topik stabilitas Portal Mitra akan menjadi salah satu agenda utama.
+Sebelum eskalasi operasional lain masuk, kami ingin mulai mengunci jadwal Quarterly Business Review antara Wingtip dan Zava Niaga. Dari sisi Wingtip, kami berharap Bapak dapat hadir karena topik stabilitas Portal Mitra akan menjadi salah satu agenda utama.
 
 Pilihan waktu yang tersedia di kantor pusat Wingtip, pukul 10.00 WIB:
 
@@ -511,7 +511,7 @@ T +62 21 5550 7788`,
     importance: 'normal',
     body: `Kepada Yth. Seluruh Karyawan,
 
-Sehubungan dengan perencanaan operasional Q4, kami sampaikan daftar hari libur nasional dan cuti bersama yang berlaku untuk PT Contoso Niaga Nusantara sampai akhir tahun berjalan.
+Sehubungan dengan perencanaan operasional Q4, kami sampaikan daftar hari libur nasional dan cuti bersama yang berlaku untuk PT Zava Niaga Nusantara sampai akhir tahun berjalan.
 
 Daftar hari libur dan cuti bersama:
 
@@ -558,7 +558,7 @@ Terima kasih.
 
 Adelia Chin
 President Director
-PT Contoso Niaga Nusantara`,
+PT Zava Niaga Nusantara`,
     personalData: false,
   },
   {
@@ -615,7 +615,7 @@ Action is required only if your division has open purchase orders above IDR 100 
 For Technology, please pay attention to infrastructure, cloud and contractor POs where services have been received but GR has not been posted. Accruals should be based on service period and best available evidence, not invoice receipt.
 
 Upload location:
-https://finance.contoso-niaga.example/closing/september/accruals
+https://finance.zava.example/closing/september/accruals
 
 Regards,
 
@@ -632,7 +632,7 @@ Finance Division`,
 
 Dashboard: IT Operations Weekly
 Refresh time: today 05:00 WIB
-Workspace: Contoso BI - Operations
+Workspace: Zava BI - Operations
 
 Headline tiles:
 
@@ -657,10 +657,10 @@ Additional tabs refreshed:
 - Change calendar
 - Problem actions
 
-Open dashboard: https://bi.contoso-niaga.example/reports/it-ops-weekly
+Open dashboard: https://bi.zava.example/reports/it-ops-weekly
 
 This is an automated notification from the BI Team.
-PT Contoso Niaga Nusantara`,
+PT Zava Niaga Nusantara`,
     personalData: false,
   },
   {
@@ -679,16 +679,16 @@ Tanda-tanda email palsu:
 - Bahasa terasa janggal atau terlalu mendesak.
 - Ada ancaman akun ditutup dalam beberapa jam.
 
-Kebijakan Contoso Niaga:
+Kebijakan Zava Niaga:
 
 1. Perusahaan tidak pernah meminta password melalui email.
 2. Perubahan password hanya dilakukan melalui self-service portal resmi.
 3. IT Helpdesk tidak memerlukan password lama untuk membantu reset.
 4. Jika ragu, gunakan tombol Report Message di Outlook atau forward ke Security Operations.
 
-Mohon managers mengingatkan tim untuk tidak membuka link dari email yang mencurigakan, meskipun terlihat memakai nama PT Contoso Niaga Nusantara atau logo internal.
+Mohon managers mengingatkan tim untuk tidak membuka link dari email yang mencurigakan, meskipun terlihat memakai nama PT Zava Niaga Nusantara atau logo internal.
 
-Materi poster singkat tersedia di SharePoint Compliance: https://compliance.contoso-niaga.example/security-awareness/phishing
+Materi poster singkat tersedia di SharePoint Compliance: https://compliance.zava.example/security-awareness/phishing
 
 Terima kasih atas bantuannya.
 
@@ -713,7 +713,7 @@ Packing list summary:
 - 1 x labelled rack-mount accessory kit
 - 1 x printed installation checklist and serial number sheet
 
-The shipment is marked for Contoso Niaga Malaysia Sdn Bhd / Johor Bahru hub project. Our logistics partner will notify both Northwind Supply and Contoso Niaga once the container clears customs. No action is required from your side at this point.
+The shipment is marked for Zava Niaga Malaysia Sdn. Bhd. / Johor Bahru hub project. Our logistics partner will notify both Northwind Supply and Zava Niaga once the container clears customs. No action is required from your side at this point.
 
 For planning, please keep the four proposed maintenance windows open until Carlos confirms the schedule. We have aligned field engineering resources tentatively, but we cannot lock them until the written confirmation is received.
 
@@ -738,9 +738,9 @@ To view it, open the HR portal and go to My Pay > Payslips. For security reasons
 
 If you have questions about payroll, please raise an HR ticket using the Payroll category.
 
-Open HR portal: https://hr.contoso-niaga.example/payroll/payslips
+Open HR portal: https://hr.zava.example/payroll/payslips
 
-This is an automated notification from HR Contoso Niaga. Please do not reply to this email.`,
+This is an automated notification from HR Zava Niaga. Please do not reply to this email.`,
     personalData: false,
   },
   {
@@ -800,9 +800,9 @@ Key changes:
 
 Existing executed agreements are not automatically amended. For active negotiations, please use the new template unless Legal has approved an exception.
 
-Template library: https://legal.contoso-niaga.example/templates/it-services
+Template library: https://legal.zava.example/templates/it-services
 
-This is an automated notification from Legal Contoso Niaga.`,
+This is an automated notification from Legal Zava Niaga.`,
     personalData: false,
   },
   {
@@ -822,7 +822,7 @@ Tiga highlight utama:
 3. Customer trust menjadi tema bersama. Mona membagikan feedback dari partner retail bahwa respons cepat saat incident sama pentingnya dengan pemulihan teknis. Playbook komunikasi partner akan diperbarui agar escalation path lebih jelas.
 
 Link materi:
-https://communications.contoso-niaga.example/townhall/recording
+https://communications.zava.example/townhall/recording
 
 Jika ada pertanyaan lanjutan, silakan kirim melalui form Ask Leadership di halaman yang sama. Pertanyaan yang belum terjawab akan dirangkum dalam update berikutnya.
 
@@ -830,7 +830,7 @@ Terima kasih.
 
 Adelia Chin
 President Director
-PT Contoso Niaga Nusantara`,
+PT Zava Niaga Nusantara`,
     personalData: false,
   },
   {
@@ -867,13 +867,13 @@ Dampak yang mungkin terlihat di pihak Wingtip:
 - Order yang sudah submitted sebelum 23.00 tetap diproses melalui queue normal.
 - Status order dan dashboard partner dapat terlambat refresh sampai maintenance selesai.
 
-Apabila ada kebutuhan eskalasi saat window berjalan, silakan hubungi command center Technology melalui hotline +62 21 5550 2200 atau email support@contoso-niaga.example. Tim kami akan standby bersama Service Desk.
+Apabila ada kebutuhan eskalasi saat window berjalan, silakan hubungi command center Technology melalui hotline +62 21 5550 2200 atau email support@zava.example. Tim kami akan standby bersama Service Desk.
 
 Thanks,
 
 Carlos Slattery
 Chief Technology Officer
-PT Contoso Niaga Nusantara`,
+PT Zava Niaga Nusantara`,
     personalData: false,
   },
   {
@@ -923,7 +923,7 @@ Waktu:
 
 Pembicara:
 - Nara Prasetyo, Principal SRE, Fabrikam Cloud Labs
-- Aisha Rahman, Head of Platform, Contoso Retail Sandbox
+- Aisha Rahman, Head of Platform, Adventure Works Retail Sandbox
 - Moderator: Dimas Hartono, Editor TechWeek Nusantara
 
 Agenda:
@@ -1104,7 +1104,7 @@ Tasks due this week:
    Status: Not started
 
 Open plan:
-https://planner.example/contoso-niaga/proyek-nusa
+https://planner.example/zava-distribution/proyek-nusa
 
 You are receiving this message because you follow the Proyek Nusa plan.
 
@@ -1123,7 +1123,7 @@ Task: Purchase order release notification
 Status: Approved
 
 Purchase Order: 4500123790
-Vendor: Contoso Software Maintenance Partner
+Vendor: Bellows Software Maintenance Partner
 Company code: CNID
 Requester: IT Procurement
 Approved by: Andre Lawson
@@ -1138,12 +1138,12 @@ Item  Description                             Qty   Unit   Net value
 
 This notification is for your information only. No action is required from Carlos Slattery.
 
-Open in SAP Fiori: https://fiori.contoso-niaga.example/sap/bc/ui2/flp#PurchaseOrder-displayFactSheet?PurchaseOrder=4500123790
+Open in SAP Fiori: https://fiori.zava.example/sap/bc/ui2/flp#PurchaseOrder-displayFactSheet?PurchaseOrder=4500123790
 
 Do not reply to this email. Replies are not monitored.
 
 This is a system-generated message from SAP Business Workflow.
-PT Contoso Niaga Nusantara`,
+PT Zava Niaga Nusantara`,
     personalData: false,
   },
   {
@@ -1217,7 +1217,7 @@ Message from Lydia: Updated version with the Johor week included. Please use thi
 Open file:
 https://sharepointonline.example/sites/technology/operations/Uptime_Insiden_Sep2026.xlsx
 
-This link works for people in PT Contoso Niaga Nusantara with existing access to the Technology reporting library.
+This link works for people in PT Zava Niaga Nusantara with existing access to the Technology reporting library.
 
 SharePoint Online
 no-reply@sharepointonline.example`,
@@ -1246,7 +1246,7 @@ survey@pulse-research.example`,
     id: 'S1',
     subject: 'Verifikasi Akun Microsoft 365 - Password berakhir hari ini',
     importance: 'high',
-    body: `PT Contoso Niaga Nusantara
+    body: `PT Zava Niaga Nusantara
 Tim IT Helpdesk
 Ticket: HD-7782-EXP
 
@@ -1255,7 +1255,7 @@ Yth. Pengguna,
 Sistem kami mendeteksi bahwa password Microsoft 365 Anda akan berakhir hari ini. Untuk menghindari penonaktifan akses email, Teams, SharePoint dan aplikasi kantor lain, mohon lakukan verifikasi dalam waktu 2 jam setelah menerima pesan ini.
 
 Silakan buka halaman verifikasi berikut:
-https://c0ntoso-helpdesk.example/verifikasi
+https://zavva-helpdesk.example/verifikasi
 
 Pada formulir tersebut, masukkan:
 - alamat email perusahaan;
@@ -1268,7 +1268,7 @@ Jika verifikasi tidak diselesaikan tepat waktu, akun dapat terkunci otomatis dan
 Terima kasih untuk kerjasama cepat Anda. Ini prosedur wajib untuk semua user.
 
 Tim IT Helpdesk
-PT Contoso Niaga Nusantara`,
+PT Zava Niaga Nusantara`,
     personalData: false,
   },
 ];

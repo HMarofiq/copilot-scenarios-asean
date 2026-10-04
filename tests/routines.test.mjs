@@ -1,13 +1,13 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as tri from '../kits/x-email-triage-015/build.mjs';
-import { INBOX_SPEC, HISTORY_SPEC, EPISODE } from '../stories/contoso-niaga/episodes/email-triage/spec.mjs';
-import { INBOX as INBOX_TEXT } from '../stories/contoso-niaga/episodes/email-triage/inbox.mjs';
-import { HISTORY } from '../stories/contoso-niaga/episodes/email-triage/history.mjs';
-import { CHATS } from '../stories/contoso-niaga/episodes/email-triage/chats.mjs';
-import { FILES } from '../stories/contoso-niaga/episodes/email-triage/files.mjs';
-import { EVENTS } from '../stories/contoso-niaga/episodes/email-triage/calendar.mjs';
-import { CAST } from '../stories/contoso-niaga/cast.mjs';
+import { INBOX_SPEC, HISTORY_SPEC, EPISODE } from '../stories/zava-distribution/episodes/email-triage/spec.mjs';
+import { INBOX as INBOX_TEXT } from '../stories/zava-distribution/episodes/email-triage/inbox.mjs';
+import { HISTORY } from '../stories/zava-distribution/episodes/email-triage/history.mjs';
+import { CHATS } from '../stories/zava-distribution/episodes/email-triage/chats.mjs';
+import { FILES } from '../stories/zava-distribution/episodes/email-triage/files.mjs';
+import { EVENTS } from '../stories/zava-distribution/episodes/email-triage/calendar.mjs';
+import { CAST } from '../stories/zava-distribution/cast.mjs';
 import { assertNoHardDates, expand } from '../stories/lib/dates.mjs';
 
 const walk = (v, f, path = '') => (typeof v === 'string' ? f(v, path) : v && typeof v === 'object' ? Object.entries(v).forEach(([k, x]) => walk(x, f, `${path}.${k}`)) : null);
@@ -29,7 +29,7 @@ test('email triage: traps are present in the text', () => {
   assert.match(m.A4.body, /\b\d{16}\b/, 'A4 carries an NIK that must not be repeated');
   assert.match(m.N5.subject, /^URGENT/);
   assert.equal(m.F2.from, 'adelia');
-  assert.match(m.S1.body, /c0ntoso-helpdesk\.example/);
+  assert.match(m.S1.body, /zavva-helpdesk\.example/);
   assert.equal(m.W1.lang, 'ms');
 });
 
