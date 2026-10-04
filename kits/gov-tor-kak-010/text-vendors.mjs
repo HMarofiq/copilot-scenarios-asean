@@ -3,12 +3,12 @@ const p = (text) => text.trim().split('\n').map((line) => line.trim()).filter(Bo
 export const PROPOSAL_A = [
   ...p(`
 # Surat Penawaran
-Nomor: 090/TRS-FN/EAM/IX/2026
+Nomor: 090/TRS-ZLN/EAM/IX/2026
 Jakarta, 21 September 2026
-Kepada Yth. Ketua Tim Evaluasi / Panitia Pengadaan PT Fabrikam Nusantara (Persero)
-Perihal: Penawaran Pengadaan Sistem Enterprise Asset Management (EAM) Grup berbasis SaaS, Tender No. 0142/PGD-FN/VIII/2026
-Dengan hormat, bersama surat ini PT Trey Riset Solusi menyampaikan penawaran teknis dan administrasi untuk penyediaan Trey Asset360 bagi lingkungan Fabrikam Group. Penawaran kami disusun berdasarkan dokumen pengadaan, berita acara aanwijzing, serta klarifikasi yang diterima sampai batas pemasukan. Kami menyatakan telah menerima dan memahami Adendum 1 tanggal 11 September 2026 (Surat Pernyataan Menerima Adendum 1 bermeterai terlampir sebagai Lampiran 3) dan telah menyesuaikan kapasitas pengguna, arsitektur layanan, serta rencana implementasi dalam dokumen ini.
-Penawaran ini berlaku selama 90 hari kalender sejak batas akhir pemasukan penawaran, yaitu sampai dengan 20 Desember 2026. Apabila kami ditetapkan sebagai penyedia, kami siap menandatangani kontrak dan memulai kick-off sesuai jadwal yang disepakati dengan PT Fabrikam Nusantara (Persero).
+Kepada Yth. Ketua Tim Evaluasi / Panitia Pengadaan PT Zava Logistik Nusantara
+Perihal: Penawaran Pengadaan Sistem Enterprise Asset Management (EAM) Grup berbasis SaaS, Tender No. 0142/PGD-ZLN/VIII/2026
+Dengan hormat, bersama surat ini PT Trey Riset Solusi menyampaikan penawaran teknis dan administrasi untuk penyediaan Trey Asset360 bagi lingkungan Zava Logistik Group. Penawaran kami disusun berdasarkan dokumen pengadaan, berita acara aanwijzing, serta klarifikasi yang diterima sampai batas pemasukan. Kami menyatakan telah menerima dan memahami Adendum 1 tanggal 11 September 2026 (Surat Pernyataan Menerima Adendum 1 bermeterai terlampir sebagai Lampiran 3) dan telah menyesuaikan kapasitas pengguna, arsitektur layanan, serta rencana implementasi dalam dokumen ini.
+Penawaran ini berlaku selama 90 hari kalender sejak batas akhir pemasukan penawaran, yaitu sampai dengan 20 Desember 2026. Apabila kami ditetapkan sebagai penyedia, kami siap menandatangani kontrak dan memulai kick-off sesuai jadwal yang disepakati dengan PT Zava Logistik Nusantara.
 Hormat kami,
 **Raka Pramudya**
 Direktur Utama, PT Trey Riset Solusi
@@ -26,12 +26,12 @@ Telepon: +62-21-555-0188 | surel: proposal@treyriset.example
 - Ringkasan Komersial
 ## Profil Perusahaan
 PT Trey Riset Solusi adalah perusahaan teknologi informasi yang berfokus pada sistem manajemen aset, pemeliharaan, dan analitik operasi untuk industri logistik, utilitas, transportasi, dan fasilitas terpadu. Sejak 2014 kami mengembangkan platform Trey Asset360 sebagai layanan SaaS dengan konfigurasi proses kerja yang dapat diadaptasi untuk holding dan anak usaha. Tim kami berkantor di Jakarta Selatan dan Bandung, dengan pusat layanan pelanggan 555-0142 dan domain korespondensi treyriset.example.
-Dalam tiga tahun terakhir kami menangani proyek EAM untuk operator gudang berpendingin, perusahaan pelabuhan kering, dan jaringan fasilitas distribusi nasional. Pengalaman tersebut relevan dengan kondisi Fabrikam Group yang memiliki 20 anak usaha, lokasi operasional tersebar, serta kebutuhan konsolidasi data aset dari berbagai format spreadsheet. Pendekatan kami konservatif: memastikan data, kontrol akses, integrasi, dan tata kelola perubahan berjalan tertib sebelum perluasan penuh.
+Dalam tiga tahun terakhir kami menangani proyek EAM untuk operator gudang berpendingin, perusahaan pelabuhan kering, dan jaringan fasilitas distribusi nasional. Pengalaman tersebut relevan dengan kondisi Zava Logistik Group yang memiliki 20 anak usaha, lokasi operasional tersebar, serta kebutuhan konsolidasi data aset dari berbagai format spreadsheet. Pendekatan kami konservatif: memastikan data, kontrol akses, integrasi, dan tata kelola perubahan berjalan tertib sebelum perluasan penuh.
 ## Pemahaman Lingkup Pekerjaan
-Kami memahami bahwa PT Fabrikam Nusantara (Persero) memerlukan Sistem Enterprise Asset Management Grup berbasis SaaS untuk 500 named users selama tiga tahun, mencakup pencatatan aset, preventive dan corrective maintenance, work order, spare part, inspeksi, dashboard manajemen, migrasi data, pelatihan, serta integrasi SAP S/4HANA melalui konektor API standar. Sistem harus mendukung 20 anak usaha, 63 lokasi, dan berbagai kelompok aset seperti dermaga, forklift, truk, cold room, conveyor, genset, dan fasilitas gudang.
+Kami memahami bahwa PT Zava Logistik Nusantara memerlukan Sistem Enterprise Asset Management Grup berbasis SaaS untuk 500 named users selama tiga tahun, mencakup pencatatan aset, preventive dan corrective maintenance, work order, spare part, inspeksi, dashboard manajemen, migrasi data, pelatihan, serta integrasi SAP S/4HANA melalui konektor API standar. Sistem harus mendukung 20 anak usaha, 63 lokasi, dan berbagai kelompok aset seperti dermaga, forklift, truk, cold room, conveyor, genset, dan fasilitas gudang.
 Kunci keberhasilan menurut kami adalah keseragaman master data tanpa menghilangkan kebutuhan lokal. Oleh sebab itu, rancangan awal kami membagi konfigurasi menjadi tiga lapisan: standar grup, parameter anak usaha, dan hak akses per lokasi. Rapat desain akan melibatkan Direktorat Operasi, TI, Keuangan, dan key user anak usaha sehingga setiap keputusan konfigurasi dapat ditelusuri. Kami juga memahami perlunya audit trail, log persetujuan, serta pelaporan yang dapat dipertanggungjawabkan untuk lingkungan BUMN.
 ## Solusi Trey Asset360
-Trey Asset360 v5 adalah platform EAM SaaS yang mencakup asset registry, maintenance planning, mobile work order, inventory issue, inspection checklist, warranty tracking, cost allocation, dan dashboard kinerja. Modul mobile mendukung pekerjaan lapangan dengan foto, tanda tangan digital, geotag terbatas, dan mode koneksi tidak stabil. Untuk Fabrikam Group, kami menawarkan 500 named users yang dapat dialokasikan ke holding dan anak usaha berdasarkan daftar final dari pemilik pekerjaan.
+Trey Asset360 v5 adalah platform EAM SaaS yang mencakup asset registry, maintenance planning, mobile work order, inventory issue, inspection checklist, warranty tracking, cost allocation, dan dashboard kinerja. Modul mobile mendukung pekerjaan lapangan dengan foto, tanda tangan digital, geotag terbatas, dan mode koneksi tidak stabil. Untuk Zava Logistik Group, kami menawarkan 500 named users yang dapat dialokasikan ke holding dan anak usaha berdasarkan daftar final dari pemilik pekerjaan.
 Solusi kami menyediakan konektor API standar untuk SAP S/4HANA guna sinkronisasi cost center, vendor, material tertentu, dan posting referensi work order sesuai desain integrasi. Konektor standar sudah termasuk dalam harga. Namun pekerjaan khusus SAP di luar konektor API standar, termasuk perubahan BAPI, enhancement, atau mapping khusus yang tidak disepakati dalam desain awal, dikenakan biaya man-day sebesar IDR 12.500.000 dan berada di luar total penawaran.
 ## Matriks Kepatuhan
 `),
@@ -86,18 +86,18 @@ Project Manager kami, Ardiansyah Wibowo, akan menjadi satu pintu koordinasi hari
 PT Trey Riset Solusi melampirkan sertifikat TKDN untuk produk Trey Asset360 v5 atas nama PT Trey Riset Solusi dengan nilai TKDN 36,4% dan BMP 6,7%, sehingga total preferensi yang dinyatakan adalah 43,1%. Sertifikat tersebut berlaku sampai 14 Maret 2028. Komponen lokal berasal dari pengembangan aplikasi, dukungan implementasi, pusat layanan, dokumentasi, dan tenaga ahli dalam negeri. Kami bersedia memperlihatkan dokumen asli atau salinan terlegalisasi pada saat klarifikasi administrasi.
 ## Ringkasan Komersial
 Rincian harga lengkap kami sampaikan dalam lampiran Excel **Daftar Kuantitas dan Harga**. Ringkasan nilai penawaran adalah **Rp12.877.680.000 belum termasuk PPN**. Harga mencakup langganan Trey Asset360 untuk 500 named users selama tiga tahun, implementasi, migrasi data, pelatihan, dan integrasi SAP S/4HANA melalui konektor API standar. harga langganan tahun ke-2 dan ke-3 naik 7% per tahun sebagaimana tercantum dalam Daftar Kuantitas dan Harga. Seluruh harga belum termasuk PPN, pajak diperlakukan sesuai ketentuan yang berlaku, dan pekerjaan custom SAP di luar konektor standar dikenakan IDR 12.500.000 per man-day di luar total penawaran.
-Kami berharap pendekatan yang tertib, transparan, dan realistis ini memberi keyakinan kepada Tim Evaluasi bahwa Trey Riset Solusi mampu mendampingi Fabrikam Group dalam membangun tata kelola aset yang konsisten lintas anak usaha. Komitmen kami bukan hanya menyediakan aplikasi, melainkan memastikan penggunaan sistem menjadi bagian dari ritme kerja operasi sehari-hari.
+Kami berharap pendekatan yang tertib, transparan, dan realistis ini memberi keyakinan kepada Tim Evaluasi bahwa Trey Riset Solusi mampu mendampingi Zava Logistik Group dalam membangun tata kelola aset yang konsisten lintas anak usaha. Komitmen kami bukan hanya menyediakan aplikasi, melainkan memastikan penggunaan sistem menjadi bagian dari ritme kerja operasi sehari-hari.
 `),
 ];
 
 export const PROPOSAL_B = [
   ...p(`
 # Surat Penawaran
-Nomor: 211/RSI-MAINT/FN/IX/2026
+Nomor: 211/RSI-MAINT/ZLN/IX/2026
 Jakarta, 21 September 2026
-Kepada Yth. Ketua Tim Evaluasi / Panitia Pengadaan PT Fabrikam Nusantara (Persero)
-Perihal: Penawaran Relecloud Maintain untuk Tender No. 0142/PGD-FN/VIII/2026 - Pengadaan Sistem Enterprise Asset Management (EAM) Grup berbasis SaaS
-Dengan hormat, PT Relecloud Sistem Indonesia dengan bangga menyampaikan penawaran terbaik untuk mendukung transformasi manajemen aset Fabrikam Group. Kami telah membaca dokumen pengadaan, mengikuti penjelasan pekerjaan, dan menyatakan bahwa kami telah menerima serta memahami Adendum 1 tanggal 11 September 2026; surat pernyataan terkait kami lampirkan. Relecloud Maintain kami posisikan sebagai platform modern, cepat diimplementasikan, dan mudah diterima pengguna lapangan karena tampilan yang sederhana dan alur kerja yang siap pakai.
+Kepada Yth. Ketua Tim Evaluasi / Panitia Pengadaan PT Zava Logistik Nusantara
+Perihal: Penawaran Relecloud Maintain untuk Tender No. 0142/PGD-ZLN/VIII/2026 - Pengadaan Sistem Enterprise Asset Management (EAM) Grup berbasis SaaS
+Dengan hormat, PT Relecloud Sistem Indonesia dengan bangga menyampaikan penawaran terbaik untuk mendukung transformasi manajemen aset Zava Logistik Group. Kami telah membaca dokumen pengadaan, mengikuti penjelasan pekerjaan, dan menyatakan bahwa kami telah menerima serta memahami Adendum 1 tanggal 11 September 2026; surat pernyataan terkait kami lampirkan. Relecloud Maintain kami posisikan sebagai platform modern, cepat diimplementasikan, dan mudah diterima pengguna lapangan karena tampilan yang sederhana dan alur kerja yang siap pakai.
 Penawaran ini berlaku 60 hari kalender sejak batas akhir pemasukan, sampai 20 November 2026. Kami percaya masa berlaku tersebut cukup untuk proses evaluasi dan negosiasi yang efisien, serta kami siap memperbarui administrasi apabila diperlukan oleh Panitia. Proposal ini disusun dengan format ringkas agar Tim Evaluasi segera melihat nilai tambah, biaya total, dan kesiapan kami untuk bergerak cepat.
 Hormat kami,
 **Dewi Anggraini**
@@ -106,7 +106,7 @@ Telepon: +62-21-555-0260 | surel: tender@relecloud-id.example
 ## Daftar Isi
 - Surat Penawaran
 - Profil Perusahaan
-- Pemahaman Kebutuhan Fabrikam Group
+- Pemahaman Kebutuhan Zava Logistik Group
 - Solusi Relecloud Maintain
 - Matriks Kepatuhan
 - Hosting, Keamanan, dan Layanan
@@ -117,8 +117,8 @@ Telepon: +62-21-555-0260 | surel: tender@relecloud-id.example
 ## Profil Perusahaan
 PT Relecloud Sistem Indonesia adalah penyedia solusi cloud bisnis yang membantu organisasi besar mempercepat digitalisasi proses operasional. Portofolio kami meliputi aplikasi enterprise untuk sumber daya manusia, pemeliharaan aset, layanan pelanggan internal, workflow approval, dan pelaporan manajemen. Kami dikenal karena implementasi yang cepat, tampilan pengguna yang bersih, serta paket dukungan yang responsif melalui service desk 555-0277.
 Relecloud Maintain dikembangkan dari pengalaman kami dalam membangun platform proses berskala besar. Untuk pelanggan holding, kami menyiapkan template multi-company, role matrix, dan dashboard eksekutif yang dapat digunakan sejak minggu awal. Nilai utama kami adalah membuat pengguna lapangan mau memakai sistem, bukan hanya menyelesaikan instalasi. Oleh karena itu desain layar, notifikasi, dan mobile checklist dibuat sesederhana mungkin.
-## Pemahaman Kebutuhan Fabrikam Group
-Kami memahami Fabrikam Group memerlukan satu sistem EAM berbasis SaaS untuk 500 named users yang tersebar pada holding dan 20 anak usaha. Sistem harus mencatat aset, menjadwalkan preventive maintenance, mengelola corrective work order, mendukung migrasi data spreadsheet, menyediakan dashboard grup, dan terhubung dengan SAP S/4HANA. Kebutuhan ini tidak hanya teknis, tetapi juga perubahan cara kerja dari pencatatan terpisah menjadi standar grup.
+## Pemahaman Kebutuhan Zava Logistik Group
+Kami memahami Zava Logistik Group memerlukan satu sistem EAM berbasis SaaS untuk 500 named users yang tersebar pada holding dan 20 anak usaha. Sistem harus mencatat aset, menjadwalkan preventive maintenance, mengelola corrective work order, mendukung migrasi data spreadsheet, menyediakan dashboard grup, dan terhubung dengan SAP S/4HANA. Kebutuhan ini tidak hanya teknis, tetapi juga perubahan cara kerja dari pencatatan terpisah menjadi standar grup.
 Bagi kami, tantangan terbesar adalah adopsi. Banyak proyek EAM gagal bukan karena fitur kurang, melainkan karena teknisi lapangan merasa sistem terlalu rumit. Relecloud Maintain menekankan tampilan mobile first, approval yang jelas, dan laporan yang otomatis tersusun dari transaksi harian. Dengan demikian manajemen memperoleh visibilitas, sementara pengguna lapangan tetap merasa pekerjaannya dibantu.
 ## Solusi Relecloud Maintain
 Relecloud Maintain menyediakan modul asset registry, work request, work order, preventive maintenance, inspection checklist, material request, downtime log, SLA, dan dashboard. Paket yang kami tawarkan mencakup 500 named users selama tiga tahun. Hak akses dapat dibagi menjadi admin grup, admin anak usaha, planner, supervisor, teknisi, approver, auditor, dan viewer manajemen. Setiap transaksi memiliki jejak waktu, pengguna, status, dan lampiran.
@@ -177,18 +177,18 @@ Project Manager Fajar Wiratama akan memimpin operasional harian. Ia memiliki 9 t
 Sebagai bagian dari dokumen administrasi, PT Relecloud Sistem Indonesia melampirkan sertifikat TKDN untuk Relecloud HRIS v4 atas nama PT Relecloud Sistem Indonesia dengan nilai TKDN 38,2% dan BMP 7,5%, berlaku sampai 30 Juni 2027. Kami menyampaikan sertifikat tersebut sebagai bukti komitmen Relecloud terhadap pengembangan produk dan layanan di Indonesia. Dalam pelaksanaan Relecloud Maintain, tenaga implementasi, pelatihan, konfigurasi, dan dukungan pelanggan seluruhnya berasal dari tim lokal Indonesia.
 ## Ringkasan Harga
 Rincian harga lengkap terdapat pada lampiran Excel **Daftar Kuantitas dan Harga**. Total harga penawaran kami adalah **Rp12.768.000.000 sudah termasuk PPN 12%**. Nilai tersebut mencakup langganan Relecloud Maintain untuk 500 named users selama tiga tahun, implementasi, migrasi data, pelatihan, integrasi SAP, dukungan go-live, dan hypercare sesuai ruang lingkup. Penawaran ini kami rancang sebagai pilihan paling menarik secara biaya dan paling cepat memberi manfaat operasional.
-Kami yakin Relecloud Maintain akan memberikan pengalaman penggunaan yang nyaman bagi teknisi, data yang rapi bagi planner, dan indikator yang tajam bagi manajemen Fabrikam Group. Dengan harga kompetitif, metodologi cepat, dan komitmen tim lokal, PT Relecloud Sistem Indonesia siap menjadi mitra transformasi EAM Fabrikam Nusantara.
+Kami yakin Relecloud Maintain akan memberikan pengalaman penggunaan yang nyaman bagi teknisi, data yang rapi bagi planner, dan indikator yang tajam bagi manajemen Zava Logistik Group. Dengan harga kompetitif, metodologi cepat, dan komitmen tim lokal, PT Relecloud Sistem Indonesia siap menjadi mitra transformasi EAM Zava Logistik Nusantara.
 `),
 ];
 
 export const PROPOSAL_C = [
   ...p(`
 # Surat Penawaran
-Nomor: 147/ATN-EAM/FN/IX/2026
+Nomor: 147/ATN-EAM/ZLN/IX/2026
 Jakarta, 20 September 2026
-Kepada Yth. Ketua Tim Evaluasi / Panitia Pengadaan PT Fabrikam Nusantara (Persero)
-Perihal: Penawaran Adatum EAM Cloud v4 untuk Tender No. 0142/PGD-FN/VIII/2026, Pengadaan Sistem Enterprise Asset Management (EAM) Grup berbasis SaaS
-Dengan hormat, berdasarkan undangan dan dokumen pemilihan penyedia, PT Adatum Teknologi Nusantara menyampaikan proposal teknis dan administrasi untuk implementasi Adatum EAM Cloud v4 di lingkungan PT Fabrikam Nusantara (Persero). Kami telah menelaah Kerangka Acuan Kerja, ketentuan pengadaan, dan hasil penjelasan pekerjaan, serta dengan ini menyatakan menerima seluruh ketentuan Adendum 1 tanggal 11 September 2026 (Surat Pernyataan Menerima Adendum 1 yang ditandatangani Direktur Utama terlampir sebagai Lampiran 2). Seluruh bagian proposal ini disusun untuk memenuhi kebutuhan 500 named users, tata kelola holding, dan operasional 20 anak usaha.
+Kepada Yth. Ketua Tim Evaluasi / Panitia Pengadaan PT Zava Logistik Nusantara
+Perihal: Penawaran Adatum EAM Cloud v4 untuk Tender No. 0142/PGD-ZLN/VIII/2026, Pengadaan Sistem Enterprise Asset Management (EAM) Grup berbasis SaaS
+Dengan hormat, berdasarkan undangan dan dokumen pemilihan penyedia, PT Adatum Teknologi Nusantara menyampaikan proposal teknis dan administrasi untuk implementasi Adatum EAM Cloud v4 di lingkungan PT Zava Logistik Nusantara. Kami telah menelaah Kerangka Acuan Kerja, ketentuan pengadaan, dan hasil penjelasan pekerjaan, serta dengan ini menyatakan menerima seluruh ketentuan Adendum 1 tanggal 11 September 2026 (Surat Pernyataan Menerima Adendum 1 yang ditandatangani Direktur Utama terlampir sebagai Lampiran 2). Seluruh bagian proposal ini disusun untuk memenuhi kebutuhan 500 named users, tata kelola holding, dan operasional 20 anak usaha.
 Penawaran ini berlaku selama 120 hari kalender sejak batas akhir pemasukan, yaitu sampai 19 Januari 2027. Masa berlaku yang lebih panjang kami berikan untuk memberi keleluasaan proses evaluasi, klarifikasi, persetujuan internal, dan penandatanganan kontrak. Kami menyatakan sanggup menjaga harga, komposisi tim, dan komitmen layanan selama masa berlaku tersebut.
 Hormat kami,
 **Hendra Kusnadi**
@@ -232,8 +232,8 @@ Untuk integrasi SAP S/4HANA, kami menyediakan integrasi standar melalui API gate
   ] },
   ...p(`
 ## Hosting, Keamanan, dan Kontinuitas
-Adatum EAM Cloud v4 untuk Fabrikam Group akan ditempatkan pada primary data center Jakarta dengan disaster recovery center Batam. Desain layanan menggunakan segregasi tenant, load balancing, backup terjadwal, monitoring aplikasi, dan prosedur pemulihan. Parameter teknis RTO dan RPO akan ditetapkan dalam dokumen Service Level dan diuji melalui tabletop exercise setelah go-live.
-Pengamanan sistem mencakup enkripsi data in transit dan at rest, role based access, SSO, MFA sesuai kebijakan pelanggan, audit trail, log administratif, serta pemantauan anomali. Kami menyiapkan akses terbatas untuk tim implementasi dan akan mencabut akses setelah pekerjaan selesai. Setiap perubahan konfigurasi akan melalui tiket yang disetujui. Laporan keamanan dan operasional disampaikan berkala kepada tim yang ditunjuk oleh PT Fabrikam Nusantara (Persero).
+Adatum EAM Cloud v4 untuk Zava Logistik Group akan ditempatkan pada primary data center Jakarta dengan disaster recovery center Batam. Desain layanan menggunakan segregasi tenant, load balancing, backup terjadwal, monitoring aplikasi, dan prosedur pemulihan. Parameter teknis RTO dan RPO akan ditetapkan dalam dokumen Service Level dan diuji melalui tabletop exercise setelah go-live.
+Pengamanan sistem mencakup enkripsi data in transit dan at rest, role based access, SSO, MFA sesuai kebijakan pelanggan, audit trail, log administratif, serta pemantauan anomali. Kami menyiapkan akses terbatas untuk tim implementasi dan akan mencabut akses setelah pekerjaan selesai. Setiap perubahan konfigurasi akan melalui tiket yang disetujui. Laporan keamanan dan operasional disampaikan berkala kepada tim yang ditunjuk oleh PT Zava Logistik Nusantara.
 ## Rencana Implementasi
 `),
   { table: [
@@ -267,18 +267,18 @@ Nugraha Setiadi sebagai Project Manager memiliki 9 tahun pengalaman dan telah me
 PT Adatum Teknologi Nusantara melampirkan sertifikat TKDN untuk Adatum EAM Cloud v4 atas nama PT Adatum Teknologi Nusantara. Nilai TKDN adalah 34,7% dan BMP 6,5%, sehingga total TKDN dan BMP adalah 41,2%. Sertifikat berlaku sampai 2 September 2027. Komponen lokal meliputi pengembangan aplikasi, konfigurasi, implementasi, dukungan pelanggan, dokumentasi, dan pelatihan yang dilakukan oleh tenaga kerja Indonesia.
 ## Ringkasan Komersial
 Rincian harga terdapat dalam lampiran Excel **Daftar Kuantitas dan Harga**. Dalam lampiran tersebut nilai disajikan dengan kolom DPP, PPN sesuai ketentuan 12% x 11/12, dan total. Nilai grand total penawaran yang kami cantumkan adalah **Rp14.254.620.000 termasuk PPN**. Ringkasan ini mencakup langganan Adatum EAM Cloud v4 untuk 500 named users selama tiga tahun, implementasi, migrasi data, 20 training sessions, integrasi SAP S/4HANA, dan dukungan hypercare sesuai cakupan.
-Kami berkomitmen memberikan implementasi yang tertib, terdokumentasi, dan dapat diaudit. Bagi PT Adatum Teknologi Nusantara, keberhasilan proyek ini diukur dari kualitas data aset, konsistensi proses pemeliharaan, kesiapan pengguna, dan kemampuan manajemen Fabrikam Group mengambil keputusan berdasarkan informasi yang akurat.
+Kami berkomitmen memberikan implementasi yang tertib, terdokumentasi, dan dapat diaudit. Bagi PT Adatum Teknologi Nusantara, keberhasilan proyek ini diukur dari kualitas data aset, konsistensi proses pemeliharaan, kesiapan pengguna, dan kemampuan manajemen Zava Logistik Group mengambil keputusan berdasarkan informasi yang akurat.
 `),
 ];
 
 export const PROPOSAL_D = [
   ...p(`
 # Proposal Cover Letter
-Ref. No.: WWD/SG-ID/FN-EAM/0920/2026
+Ref. No.: WWD/SG-ID/ZLN-EAM/0920/2026
 Singapore and Jakarta, 20 September 2026
-To: Chairman of the Evaluation Team / Procurement Committee, PT Fabrikam Nusantara (Persero)
-Subject: Proposal for Group Enterprise Asset Management (EAM) SaaS, Tender No. 0142/PGD-FN/VIII/2026
-Dear Sir or Madam, Wide World Digital Pte. Ltd., together with our Indonesian delivery partner PT Wide World Integrasi, is pleased to submit this technical and administrative proposal for WWD Fleet & Facility. Our proposal addresses the requirements for a group-wide asset management SaaS platform serving the operating companies of Fabrikam Group. We bring a mature global platform, implementation discipline, and practical experience from transport, ports, facility management, and fleet-intensive enterprises.
+To: Chairman of the Evaluation Team / Procurement Committee, PT Zava Logistik Nusantara
+Subject: Proposal for Group Enterprise Asset Management (EAM) SaaS, Tender No. 0142/PGD-ZLN/VIII/2026
+Dear Sir or Madam, Wide World Digital Pte. Ltd., together with our Indonesian delivery partner PT Wide World Integrasi, is pleased to submit this technical and administrative proposal for WWD Fleet & Facility. Our proposal addresses the requirements for a group-wide asset management SaaS platform serving the operating companies of Zava Logistik Group. We bring a mature global platform, implementation discipline, and practical experience from transport, ports, facility management, and fleet-intensive enterprises.
 This proposal is valid for 90 calendar days from the submission closing date, until 20 December 2026. During this validity period, we will maintain the commercial terms, proposed core team, and service assumptions stated in this document. If selected, Wide World Digital and PT Wide World Integrasi are ready to proceed with contract finalisation, mobilisation, and project initiation immediately after award.
 Yours faithfully,
 **Jonathan Halim**
@@ -298,13 +298,13 @@ Phone: +65-555-0190 / +62-21-555-0410 | email: proposals@wideworlddigital.exampl
 - Commercial Summary
 ## Company Profile
 Wide World Digital Pte. Ltd. is a Singapore-headquartered enterprise SaaS principal serving asset-intensive organisations in logistics, public transport, property operations, and industrial services. Our WWD Fleet & Facility platform is used to manage fleet assets, facilities, maintenance teams, inspections, warranties, spare part references, and executive performance dashboards. For Indonesia engagements, we work through PT Wide World Integrasi, a Jakarta-based implementation and support partner with consultants experienced in enterprise workflow, data migration, and bilingual user enablement.
-Our operating model combines global product governance with local implementation accountability. Product engineering, roadmap control, and security assurance are led by Wide World Digital, while PT Wide World Integrasi provides local project management support, business analysis, configuration, training, and first-line hypercare. This arrangement gives Fabrikam Group access to a mature platform and a local team that can work closely with operating companies.
+Our operating model combines global product governance with local implementation accountability. Product engineering, roadmap control, and security assurance are led by Wide World Digital, while PT Wide World Integrasi provides local project management support, business analysis, configuration, training, and first-line hypercare. This arrangement gives Zava Logistik Group access to a mature platform and a local team that can work closely with operating companies.
 ## Understanding of the Assignment
-We understand that PT Fabrikam Nusantara (Persero) is seeking a cloud-based Group Enterprise Asset Management system for the holding company and its subsidiaries. The required scope includes asset registration, maintenance planning, work orders, inspection execution, data migration, user training, management reporting, and integration with enterprise systems. The original planning figure we have used for commercial sizing is 400 named users distributed across the holding and operating companies.
+We understand that PT Zava Logistik Nusantara is seeking a cloud-based Group Enterprise Asset Management system for the holding company and its subsidiaries. The required scope includes asset registration, maintenance planning, work orders, inspection execution, data migration, user training, management reporting, and integration with enterprise systems. The original planning figure we have used for commercial sizing is 400 named users distributed across the holding and operating companies.
 The operating environment is complex because assets are spread across ports, warehouses, trucking operations, and cold storage facilities. Different subsidiaries may use different asset codes, maintenance calendars, and approval practices. A successful platform must therefore support common group controls while preserving operational flexibility. Our recommendation is to establish a group template first, then apply subsidiary parameters during phased deployment rather than forcing all units into one unmanaged configuration.
 ## Proposed Solution
 WWD Fleet & Facility provides asset hierarchy, location management, maintenance plans, work requests, mobile work orders, inspection forms, downtime recording, service provider assignment, document attachments, dashboards, and exportable reports. The platform is designed for operational users who need fast screens, clear task ownership, and reliable mobile access. Supervisors can review backlog, overdue preventive tasks, asset history, and resource allocation without requesting manual spreadsheet consolidation.
-For Fabrikam Group, we propose 400 named users for a three-year subscription. User roles include group administrator, subsidiary administrator, planner, maintenance supervisor, technician, finance viewer, auditor, and executive viewer. The standard product includes API capabilities for master data and transaction exchange. SAP integration is available via our partner marketplace connector, priced separately upon scoping, because final effort depends on the SAP landscape, interface objects, middleware, and security model confirmed during design.
+For Zava Logistik Group, we propose 400 named users for a three-year subscription. User roles include group administrator, subsidiary administrator, planner, maintenance supervisor, technician, finance viewer, auditor, and executive viewer. The standard product includes API capabilities for master data and transaction exchange. SAP integration is available via our partner marketplace connector, priced separately upon scoping, because final effort depends on the SAP landscape, interface objects, middleware, and security model confirmed during design.
 ## Compliance Matrix
 `),
   { table: [
@@ -341,7 +341,7 @@ Our implementation approach is structured but pragmatic. We begin with an execut
     ['9', 'Hypercare and transition', 'Operational handover, support model, closure report.'],
   ] },
   ...p(`
-The proposed nine-month schedule assumes timely availability of business process owners, data owners, IT security reviewers, and SAP interface representatives. Where data quality is weaker than expected, we will provide options: proceed with minimum viable data and enrich later, or extend cleansing before cutover. We will make these choices transparent so Fabrikam Group can balance speed and data confidence.
+The proposed nine-month schedule assumes timely availability of business process owners, data owners, IT security reviewers, and SAP interface representatives. Where data quality is weaker than expected, we will provide options: proceed with minimum viable data and enrich later, or extend cleansing before cutover. We will make these choices transparent so Zava Logistik Group can balance speed and data confidence.
 ## Key Personnel and CV Summaries
 `),
   { table: [
@@ -354,11 +354,11 @@ The proposed nine-month schedule assumes timely availability of business process
     ['Training Lead', 'Mira Santoso', '9 years', 'Bilingual user training, adoption measurement, floor support.'],
   ] },
   ...p(`
-Melissa Tan will serve as Project Manager. She has 12 years of enterprise delivery experience and has managed 5 asset management or facility management projects across transport, property operations, and regional service organisations. Her role will include schedule control, issue escalation, executive reporting, and coordination between Wide World Digital, PT Wide World Integrasi, and Fabrikam stakeholders.
+Melissa Tan will serve as Project Manager. She has 12 years of enterprise delivery experience and has managed 5 asset management or facility management projects across transport, property operations, and regional service organisations. Her role will include schedule control, issue escalation, executive reporting, and coordination between Wide World Digital, PT Wide World Integrasi, and Zava Logistik stakeholders.
 ## Local Content and Administrative Statement
 As a global SaaS principal we do not hold a TKDN certificate for the platform; our local partner's implementation services represent approximately 30% local content (self-declared). PT Wide World Integrasi will provide local consultants, project coordination, training delivery, first-line support, and Indonesian-language user assistance. We are prepared to discuss documentary support for the local services component during clarification.
 ## Commercial Summary
 The detailed price breakdown is provided in the attached Excel **Daftar Kuantitas dan Harga**. Our commercial summary is **USD 456,000 for the 3-year subscription plus IDR 1,630,000,000 for services, excluding VAT**. The subscription is quoted at USD 380 per named user per year for 400 named users over three years. Services are quoted in IDR and cover implementation, training, and data migration. SAP integration through the partner marketplace connector is priced separately upon scoping and is not included in the services amount above.
-Wide World Digital offers a polished, proven platform with global references and a local partner prepared to work closely with Fabrikam Group. We believe our combination of mature SaaS capability, disciplined delivery, and practical operational focus will help the holding company create consistent visibility across assets, work orders, maintenance performance, and management reporting.
+Wide World Digital offers a polished, proven platform with global references and a local partner prepared to work closely with Zava Logistik Group. We believe our combination of mature SaaS capability, disciplined delivery, and practical operational focus will help the holding company create consistent visibility across assets, work orders, maintenance performance, and management reporting.
 `),
 ];

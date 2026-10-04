@@ -43,7 +43,7 @@ validation_note: "Run end to end in a demo tenant with the kit. Word drafted the
 
 ## Situation
 
-**The request.** Fabrikam Nusantara needs a three-year cloud maintenance system for 18,400 assets at 63 sites. You must turn the department's memo into a vendor-neutral KAK.
+**The request.** Zava Logistik Nusantara needs a three-year cloud maintenance system for 18,400 assets at 63 sites. You must turn the department's memo into a vendor-neutral KAK.
 
 **The memo's problems.** User counts disagree, a favourite product is named, offshore hosting breaks policy, and the confidential HPS must stay out of the KAK.
 

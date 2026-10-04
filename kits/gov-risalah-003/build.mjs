@@ -1,6 +1,10 @@
 // Board minutes: a mixed Bahasa Indonesia / English board meeting script to record in the demo
 // tenant (Teams needs a real recording to produce a transcript), plus agenda, template and key.
 import { join } from 'node:path';
+import { entity } from '../../canon/zava.mjs';
+
+const HOLDING = entity('zid'); // PT Zava Indonesia Tbk
+const HOLD_SHORT = HOLDING.short; // Zava Indonesia
 import { writeDocx, writeText, writeReadme, NOTICE } from '../lib.mjs';
 
 const CAST = { PD: 'Direktur Utama (chair)', DK: 'Direktur Keuangan (CFO)', DO: 'Direktur Operasi', SP: 'Sekretaris Perusahaan' };
@@ -16,7 +20,7 @@ export const ACTIONS = [
   { pic: 'Sekretaris Perusahaan', action: 'Circulate draft minutes to directors', due: '2 October 2026' },
 ];
 const SCRIPT = [
-  ['SP', 'Selamat pagi Bapak Ibu Direksi. Rapat Direksi Fabrikam Holding tanggal 28 September 2026 kami buka. Hadir empat dari lima direktur, jadi rapat kuorum. Direktur SDM berhalangan hadir.'],
+  ['SP', `Selamat pagi Bapak Ibu Direksi. Rapat Direksi ${HOLD_SHORT} tanggal 28 September 2026 kami buka. Hadir empat dari lima direktur, jadi rapat kuorum. Direktur SDM berhalangan hadir.`],
   ['PD', 'Terima kasih. Kita mulai dengan agenda satu, capex 2027. Silakan, Pak CFO.'],
   ['DK', 'Thank you. The proposed 2027 capex envelope is 1.2 trillion rupiah. Sixty percent is for the two processing subsidiaries, the rest for logistics and digital.'],
   ['DO', 'Saya setuju secara prinsip, tapi porsi logistik agak kecil menurut saya. Kalau pilot elektrifikasi armada jalan, kita butuh lebih.'],
@@ -41,7 +45,7 @@ export default async function build({ dir }) {
   ].join('\n'));
   // Ready-made Teams-style transcript of the same meeting, for demos without a live recording.
   let s = 5;
-  const tx = ['# Rapat Direksi Fabrikam Holding 28 September 2026 - Transcript', 'Started transcription'];
+  const tx = [`# Rapat Direksi ${HOLD_SHORT} 28 September 2026 - Transcript`, 'Started transcription'];
   for (const [k, text] of SCRIPT) {
     tx.push(`**${CAST[k].replace(/ \(.*\)$/, '')}**   ${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`, text);
     s += 12 + Math.round(text.length / 9);
@@ -50,7 +54,7 @@ export default async function build({ dir }) {
   await writeDocx(join(dir, 'FICTIONAL_Transcript_Rapat_Direksi_2026-09-28.docx'), tx, { title: 'Transcript' });
   await writeDocx(join(dir, 'FICTIONAL_Agenda_Rapat_Direksi_2026-09-28.docx'), [
     '# Agenda Rapat Direksi / Board of Directors meeting agenda',
-    '**Fabrikam Holding Group (fictional).** 28 September 2026, 09:00 WIB, Teams.',
+    `**${HOLDING.legal} (fictional).** 28 September 2026, 09:00 WIB, Teams.`,
     { table: [['No', 'Mata acara / Item', 'Presenter'], ['1', 'Capex 2027 envelope', 'Direktur Keuangan'], ['2', 'Sabah warehouse lease renewal', 'Direktur Operasi'], ['3', 'Fleet electrification pilot sponsor', 'Direktur Utama']] },
   ], { title: 'Agenda' });
   await writeDocx(join(dir, 'FICTIONAL_Template_Risalah_Rapat.docx'), [

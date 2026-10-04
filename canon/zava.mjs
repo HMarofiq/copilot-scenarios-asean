@@ -70,11 +70,18 @@ export const ARMS = {
   infrastructure: {
     name: 'Zava Logistics & Infrastructure', what: 'Ports, trucking, warehousing and cold chain. Majority-owned by a fictional state investment fund, so state-enterprise procurement and governance rules apply.',
     entities: [
-      { key: 'zlogistik', legal: 'PT Zava Logistik Nusantara', parent: 'zid', ownership: '51% Dana Kelola Nusantara (fictional state investment fund), 49% PT Zava Indonesia Tbk', governance: 'Direksi and Dewan Komisaris; RKAP; procurement under state-enterprise rules (KAK, HPS)', subsidiaries: ['PT Zava Pelabuhan Nusantara', 'PT Zava Truk Ekspres', 'PT Zava Gudang Logistik', 'PT Zava Rantai Dingin'] },
+      { key: 'zlogistik', legal: 'PT Zava Logistik Nusantara', parent: 'zid', ownership: '51% Dana Kelola Nusantara (fictional state investment fund), 49% PT Zava Indonesia Tbk', governance: 'Direksi and Dewan Komisaris; RKAP; procurement under state-enterprise rules (KAK, HPS)', subsidiaries: ['PT Zava Pelabuhan Nusantara', 'PT Zava Truk Ekspres', 'PT Zava Gudang Logistik Tbk', 'PT Zava Depo Kontainer'], note: 'No cold-chain business yet: buying one is the board-paper scenario (Proyek Kutub).' },
+      { key: 'zgudang', legal: 'PT Zava Gudang Logistik Tbk', parent: 'zlogistik', ticker: 'ZGLD', ownership: '65% PT Zava Logistik Nusantara, 35% public (fictional listing)', governance: 'Direksi and Dewan Komisaris with independent commissioners; listed-company rules apply', note: 'Dry logistics hubs (Cikarang, Surabaya, Medan, Makassar).' },
       { key: 'zinframy', legal: 'Zava Infra Malaysia Sdn. Bhd.', parent: 'zmy', ownership: '51% Dana Infrastruktur Malaysia (fictional government-linked fund), 49% Zava Malaysia Berhad', governance: 'GLC-style Board' },
     ],
     replaces: ['Fabrikam (PT Fabrikam Logistik Tbk, PT Fabrikam Nusantara and its subsidiaries)'],
-    scenarios: ['gov-risalah-003', 'gov-portfolio-004', 'gov-kpi-narrative-008', 'gov-tor-kak-010', 'gov-board-paper-013'],
+    scenarios: ['gov-tor-kak-010', 'gov-board-paper-013'],
+  },
+  holding: {
+    name: 'Zava Indonesia (sub-holding)', what: 'PT Zava Indonesia Tbk as a multi-sector holding: Direksi meetings, group KPI pack and the portfolio review of its Indonesian subsidiaries.',
+    entities: [],
+    replaces: ['Fabrikam Holding Group'],
+    scenarios: ['gov-risalah-003', 'gov-portfolio-004', 'gov-kpi-narrative-008'],
   },
 };
 // Room to add later: Zava Health (hospitals, pharmacy), Zava Manufacturing, Zava Property.
@@ -118,9 +125,11 @@ export const PEOPLE = [
   { name: 'Sinta Wulandari', title: 'Senior Counsel, Legal & Regulatory, PT Zava Seluler Indonesia', entity: 'zseluler', scenarios: ['tel-mkt-board-016'] },
   { name: 'Rizky Ananda', title: 'BI & Data Platform Lead, PT Zava Seluler Indonesia', entity: 'zseluler', scenarios: ['tel-mkt-board-016'], note: 'Was Elvia Atkins in 016 (Elvia is a distribution demo-tenant user).' },
   // Zava Logistics & Infrastructure
-  { name: 'Laras Pratiwi', title: 'Commissioner, PT Zava Logistik Nusantara', entity: 'zlogistik', scenarios: ['gov-board-paper-013'] },
-  { name: 'Hendro Wibisono', title: 'Corporate Secretary, PT Zava Logistik Nusantara', entity: 'zlogistik', scenarios: ['gov-risalah-003', 'gov-board-paper-013'] },
-  { name: 'Ratna Sari', title: 'Head of Strategy Office / PMO, PT Zava Logistik Nusantara', entity: 'zlogistik', scenarios: ['gov-portfolio-004', 'gov-kpi-narrative-008'] },
+  { name: 'Laras Pratiwi', title: 'Independent Commissioner, PT Zava Gudang Logistik Tbk', entity: 'zgudang', scenarios: ['gov-board-paper-013'] },
+  { name: 'Dewi Lestari', title: 'Corporate Secretary, PT Zava Gudang Logistik Tbk', entity: 'zgudang', scenarios: ['gov-board-paper-013'] },
+  { name: 'Hendro Wibisono', title: 'Corporate Secretary, PT Zava Logistik Nusantara', entity: 'zlogistik' },
+  { name: 'Ratna Sari', title: 'Head of Strategy Office / PMO, PT Zava Indonesia Tbk', entity: 'zid', scenarios: ['gov-portfolio-004', 'gov-kpi-narrative-008'] },
+  { name: 'Siska Amalia', title: 'Corporate Secretary, PT Zava Indonesia Tbk', entity: 'zid', scenarios: ['gov-risalah-003'] },
   { name: 'Bayu Nugroho', title: 'Procurement Officer, PT Zava Logistik Nusantara', entity: 'zlogistik', scenarios: ['gov-tor-kak-010'] },
 ];
 
@@ -131,6 +140,12 @@ export const EXTERNAL = {
   fabrikam: { name: 'PT Fabrikam Logistik', role: 'Line-haul carrier for Zava Distribution', domain: 'fabrikam-logistik.example' },
   alpine: { name: 'PT Alpine Kargo', role: 'Line-haul carrier (Sumatra)', domain: 'alpine-kargo.example' },
   coho: { name: 'PT Coho Rantai Dingin', role: 'Acquisition target (Proyek Kutub) in the board paper', domain: 'coho-cold.example' },
+  blueyonder: { name: 'Blue Yonder Capital Fund II', role: 'Seller of Proyek Kutub', domain: 'blueyonder-capital.example' },
+  margie: { name: 'PT Margie Frozen Nusantara', role: 'Alternative cold-chain target considered in the board paper', domain: 'margie-frozen.example' },
+  humongous: { name: 'PT Humongous Cold Express', role: 'Alternative cold-chain target considered in the board paper', domain: 'humongous-cold.example' },
+  lamna: { name: 'Kantor Hukum Lamna & Rekan', role: 'External legal counsel (Indonesian law)', domain: 'lamna-law.example' },
+  vanarsdel: { name: 'VanArsdel Tax Advisory', role: 'External tax adviser', domain: 'vanarsdel-tax.example' },
+  proseware: { name: 'PT Proseware Tenaga Ahli', role: 'IT staffing vendor (demo story world)', domain: 'proseware-ta.example' },
   woodgrove: { name: 'PT Bank Woodgrove Indonesia', role: 'Lender', domain: 'woodgrove.example' },
   lucerne: { name: 'KJPP Lucerne dan Rekan', role: 'Independent valuer', domain: 'lucerne-valuation.example' },
   litware: { name: 'PT Litware Data Center', role: 'Colocation provider', domain: 'litware-dc.example' },

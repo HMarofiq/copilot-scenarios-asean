@@ -1,9 +1,9 @@
 // Model for gov-board-paper-013 (v3): the facts every divisional input must agree or deliberately disagree on.
-// World: Fabrikam Group (fictional). Acquirer: PT Fabrikam Logistik Tbk (listed subsidiary of the state-owned
-// PT Fabrikam Nusantara (Persero)). Target: PT Coho Rantai Dingin ("Project Kutub"). Amounts in IDR billion.
+// World: Zava Group (fictional), see canon/zava.mjs. Acquirer: PT Zava Gudang Logistik Tbk (listed subsidiary of the state-linked
+// PT Zava Logistik Nusantara). Target: PT Coho Rantai Dingin ("Project Kutub"). Amounts in IDR billion.
 
 export const ACQ = {
-  name: 'PT Fabrikam Logistik Tbk', ticker: 'FLOG', parent: 'PT Fabrikam Nusantara (Persero)', parentStake: 65,
+  name: 'PT Zava Gudang Logistik Tbk', ticker: 'ZGLD', parent: 'PT Zava Logistik Nusantara', parentStake: 65,
   equity: 4_800, assets: 9_600, revenue: 7_200, statementDate: '30 Juni 2026 (laporan keuangan interim yang ditelaah)',
   netDebtToEbitda: 1.6, covenant: 3.0,
 };
@@ -63,8 +63,8 @@ export const SECTIONS = [
 ];
 
 export const CPS = [
-  'Persetujuan Dewan Komisaris FLOG sesuai Anggaran Dasar (Komisaris Independen yang memiliki benturan kepentingan tidak ikut memberikan persetujuan).',
-  'Persetujuan tertulis pemegang saham utama PT Fabrikam Nusantara (Persero) sesuai Anggaran Dasar FLOG untuk penyertaan di atas Rp500 miliar.',
+  'Persetujuan Dewan Komisaris ZGLD sesuai Anggaran Dasar (Komisaris Independen yang memiliki benturan kepentingan tidak ikut memberikan persetujuan).',
+  'Persetujuan tertulis pemegang saham utama PT Zava Logistik Nusantara sesuai Anggaran Dasar ZGLD untuk penyertaan di atas Rp500 miliar.',
   'Persetujuan pemilik lahan (PT Litware Properti) atas perubahan pengendalian untuk sewa gudang berpendingin Cikarang.',
   `Sertifikat CDOB (Cara Distribusi Obat yang Baik) rantai dingin dari BPOM milik target diperpanjang dan berlaku pada tanggal penyelesaian (sertifikat saat ini berakhir ${'31 Oktober 2026'}).`,
   'Tidak terjadi perubahan merugikan yang material (no material adverse change) sampai tanggal penyelesaian.',
@@ -84,7 +84,7 @@ export function answerKey() {
     outsideRemit: 'Operations says KPPU approval is needed before signing; Legal (the owner) says post-completion notification within 30 working days. Follow Legal; flag the difference.',
     recusal: `${PEOPLE.conflicted} sits on the investment committee of ${TARGET.seller}: conflict of interest (POJK 42/2020 procedures), she must not take part in the Dewan Komisaris approval.`,
     cps: CPS.length,
-    approvals: ['Dewan Komisaris FLOG', 'PT Fabrikam Nusantara (Persero) as majority shareholder', 'Independent appraiser report and fairness opinion (material transaction, POJK 17/2020)', 'Public disclosure after signing (POJK 17/2020; material information rules as amended by POJK 45/2024)', 'KPPU notification within 30 working days after completion (not a condition precedent)'],
+    approvals: ['Dewan Komisaris ZGLD', 'PT Zava Logistik Nusantara as majority shareholder', 'Independent appraiser report and fairness opinion (material transaction, POJK 17/2020)', 'Public disclosure after signing (POJK 17/2020; material information rules as amended by POJK 45/2024)', 'KPPU notification within 30 working days after completion (not a condition precedent)'],
     noRups: 'RUPS approval not required: 21.25% is below 50% of equity and the fairness opinion says fair.',
   };
 }

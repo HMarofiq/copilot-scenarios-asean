@@ -39,7 +39,7 @@ validation_note: "Run end to end in a demo tenant with the kit in Word for the w
 
 ## Situation
 
-**The deadline.** Fabrikam Logistik's Direksi meets on Wednesday to decide on Proyek Kutub, a 60% acquisition. As Corporate Secretary, you need the draft by Tuesday 10.00.
+**The deadline.** Zava Gudang Logistik's Direksi meets on Wednesday to decide on Proyek Kutub, a 60% acquisition. As Corporate Secretary, you need the draft by Tuesday 10.00.
 
 **The inputs.** Five divisions sent inputs; Human Capital's will arrive too late. The template names each section's owner.
 
