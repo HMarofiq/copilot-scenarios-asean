@@ -36,6 +36,7 @@ limits:
   - "Treat any report as the author's draft. Copilot reproduced the report's own story until the prompt told it to recalculate from the workbook and apply the correction."
   - "Status labels need definitions. Without a written rule for Done, Partly done and Not started, Copilot called a tender that was only discussed Partly done."
   - "Copilot may add estimates of its own. In our runs it annualised storage and freight costs and labelled them illustrative; check and keep only what you can defend."
+  - "Cowork keeps its files in its own task folder (OneDrive > Documents > Cowork > Tasks). When an earlier prompt asked it to save next to the sources, three approved moves failed. Its tables also lost the template's RAG colour fills."
   - "Basic tier: Copilot Chat cannot edit your PowerPoint file. It writes the slide text and notes; you build the slides."
 source_refs:
   - "https://support.microsoft.com/en-us/PowerPoint/copilot/create-a-new-presentation-with-copilot-in-powerpoint"
@@ -44,7 +45,8 @@ source_refs:
   - "https://adoption.microsoft.com/en-us/copilot/prompt-gallery/?steps=create-a-business-review"
   - "https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/use-cowork"
 status: partly-validated
-validation_note: "Premium tier tested on 4 October 2026 in Copilot in PowerPoint for the web (Allow editing) with the exact EN, ID and BM prompts on this page. Basic and Cowork tiers not yet run."
+validated_on: 2026-10-04
+validation_note: "Tested on 4 October 2026. Premium: the exact EN, ID and BM prompts in Copilot in PowerPoint for the web each produced a deck matching all 22 answer-key checks. Cowork: the published prompt produced a 22/22 deck, a checks file and an unsent email draft. The Basic tier (Copilot Chat without a Copilot licence) has not been run yet."
 ---
 
 ## Situation
@@ -185,7 +187,7 @@ Akhiri dengan senarai ringkas dalam chat bagi setiap angka dalam dek yang berbez
 ABOUT: Reads all six files, builds the deck in a copy of the template, checks it against the standard and drafts the cover email for your approval.
 EN: Act as Nadia Rahman, Business Planning Manager at fictional Contoso Niaga. Build the Distribution Operations section of the Q3 2026 QBR deck for the Direksi meeting on Thursday 8 October.
 Work only from the OneDrive folder [your folder name]: 01 request and QBR deck standard, 02 Q3 report v1.0, 03 KPI workbook, 04 correction email, 05 Q2 QBR deck and 06 QBR template. Read all six before you start.
-Make a copy of 06 named Q3_QBR_Distribution_Ops_Cowork.pptx in the same folder and build the deck in that copy; replace the sample slides, keep the design, and never edit files 01 to 06.
+Build the deck in a copy of 06 named Q3_QBR_Distribution_Ops_Cowork.pptx saved in this task's output; replace the sample slides, keep the design, and never edit or move files 01 to 06.
 Follow the deck standard in 01 exactly: at most 10 slides including the title, one message per slide written as the slide title, English slide text, RAG rules as written.
 Treat report 02 as the author's draft: recalculate every KPI from workbook 03 and apply the correction in 04 before you write any slide.
 Report the quarter, not the best month. Calculate company OTIF and fill rate from total orders and order lines, not by averaging DC percentages.
@@ -197,11 +199,11 @@ Answer the three Direksi questions in 01. Show each Q2 commitment as Done, Partl
 Show the overflow warehouse and carrier tender as decisions requested with annual cost, alternative and date needed; never as approved.
 Name owners by role only; leave out report Appendix C and any named employee, disciplinary matter or ranking.
 Add speaker notes to every content slide: what to say in 3 to 5 sentences, the source of each number, and what changed from report v1.0.
-Then check your own deck against every rule in the standard and fix what fails. Save a short Word file Q3_QBR_Checks.docx in the folder listing each check, pass or fail, and every figure that differs from report v1.0.
+Then check your own deck against every rule in the standard and fix what fails. Save a short Word file Q3_QBR_Checks.docx next to the deck, listing each check, pass or fail, and every figure that differs from report v1.0.
 Finally draft, but do not send, an email to Yusuf Hakim with the deck link and three lines on what changed from the report. Show me the draft and wait for my approval.
 ID: Bertindaklah sebagai Nadia Rahman, Business Planning Manager di Contoso Niaga (fiktif). Susun bagian Distribution Operations untuk deck QBR Q3 2026 bagi rapat Direksi hari Kamis 8 Oktober.
 Bekerja hanya dari folder OneDrive [nama folder Anda]: 01 permintaan dan QBR deck standard, 02 laporan Q3 v1.0, 03 KPI workbook, 04 email koreksi, 05 deck QBR Q2 dan 06 template QBR. Baca keenamnya sebelum mulai.
-Buat salinan 06 bernama Q3_QBR_Distribution_Ops_Cowork.pptx di folder yang sama dan bangun deck di salinan itu; ganti slide contoh, pertahankan desain, dan jangan pernah mengubah file 01 sampai 06.
+Bangun deck di salinan 06 bernama Q3_QBR_Distribution_Ops_Cowork.pptx yang disimpan di output tugas ini; ganti slide contoh, pertahankan desain, dan jangan pernah mengubah atau memindahkan file 01 sampai 06.
 Ikuti deck standard di 01 persis: maksimal 10 slide termasuk judul, satu pesan per slide yang ditulis sebagai judul slide, teks slide dalam bahasa Inggris, aturan RAG sesuai tertulis.
 Perlakukan laporan 02 sebagai draf penulisnya: hitung ulang setiap KPI dari workbook 03 dan terapkan koreksi di 04 sebelum menulis slide apa pun.
 Laporkan kuartal, bukan bulan terbaik. Hitung OTIF dan fill rate perusahaan dari total order dan order line, bukan dengan merata-ratakan persentase DC.
@@ -213,11 +215,11 @@ Jawab tiga pertanyaan Direksi di 01. Tampilkan setiap komitmen Q2 sebagai Done, 
 Tampilkan gudang overflow dan tender carrier sebagai keputusan yang diminta dengan biaya tahunan, alternatif dan tanggal dibutuhkan; jangan sebagai yang sudah disetujui.
 Sebut pemilik hanya dengan jabatan; jangan masukkan Lampiran C laporan maupun nama karyawan, perkara disiplin atau peringkat.
 Tambahkan speaker notes di setiap slide isi: yang akan diucapkan dalam 3 sampai 5 kalimat, sumber setiap angka, dan apa yang berubah dari laporan v1.0.
-Lalu periksa deck Anda sendiri terhadap setiap aturan di standard dan perbaiki yang gagal. Simpan file Word singkat Q3_QBR_Checks.docx di folder itu berisi setiap pemeriksaan, lulus atau gagal, dan setiap angka yang berbeda dari laporan v1.0.
+Lalu periksa deck Anda sendiri terhadap setiap aturan di standard dan perbaiki yang gagal. Simpan file Word singkat Q3_QBR_Checks.docx di samping deck, berisi setiap pemeriksaan, lulus atau gagal, dan setiap angka yang berbeda dari laporan v1.0.
 Terakhir, buat draf email untuk Yusuf Hakim, tetapi jangan kirim, berisi tautan deck dan tiga baris tentang apa yang berubah dari laporan. Tunjukkan drafnya kepada saya dan tunggu persetujuan saya.
 BM: Bertindak sebagai Nadia Rahman, Business Planning Manager di Contoso Niaga (rekaan). Bina bahagian Distribution Operations bagi dek QBR Q3 2026 untuk mesyuarat Lembaga Pengarah pada Khamis 8 Oktober.
 Bekerja hanya daripada folder OneDrive [nama folder anda]: 01 permintaan dan QBR deck standard, 02 laporan Q3 v1.0, 03 KPI workbook, 04 e-mel pembetulan, 05 dek QBR Q2 dan 06 templat QBR. Baca keenam-enamnya sebelum bermula.
-Buat salinan 06 bernama Q3_QBR_Distribution_Ops_Cowork.pptx dalam folder yang sama dan bina dek dalam salinan itu; gantikan slaid contoh, kekalkan reka bentuk, dan jangan sekali-kali mengubah fail 01 hingga 06.
+Bina dek dalam salinan 06 bernama Q3_QBR_Distribution_Ops_Cowork.pptx yang disimpan dalam output tugasan ini; gantikan slaid contoh, kekalkan reka bentuk, dan jangan sekali-kali mengubah atau mengalihkan fail 01 hingga 06.
 Ikut deck standard dalam 01 dengan tepat: paling banyak 10 slaid termasuk tajuk, satu mesej bagi setiap slaid yang ditulis sebagai tajuk slaid, teks slaid dalam bahasa Inggeris, peraturan RAG seperti yang tertulis.
 Anggap laporan 02 sebagai draf penulisnya: kira semula setiap KPI daripada workbook 03 dan gunakan pembetulan dalam 04 sebelum menulis sebarang slaid.
 Laporkan suku tahun, bukan bulan terbaik. Kira OTIF dan fill rate syarikat daripada jumlah pesanan dan order line, bukan dengan mempuratakan peratusan DC.
@@ -229,11 +231,11 @@ Jawab tiga soalan Lembaga dalam 01. Tunjukkan setiap komitmen Q2 sebagai Done, P
 Tunjukkan gudang limpahan dan tender pengangkut sebagai keputusan yang dipohon dengan kos tahunan, alternatif dan tarikh diperlukan; bukan sebagai telah diluluskan.
 Namakan pemilik mengikut jawatan sahaja; jangan masukkan Lampiran C laporan atau sebarang nama pekerja, perkara tatatertib atau kedudukan.
 Tambah speaker notes pada setiap slaid kandungan: apa yang perlu disampaikan dalam 3 hingga 5 ayat, sumber setiap angka, dan apa yang berubah daripada laporan v1.0.
-Kemudian semak dek anda sendiri terhadap setiap peraturan dalam standard dan betulkan yang gagal. Simpan fail Word ringkas Q3_QBR_Checks.docx dalam folder itu yang menyenaraikan setiap semakan, lulus atau gagal, dan setiap angka yang berbeza daripada laporan v1.0.
+Kemudian semak dek anda sendiri terhadap setiap peraturan dalam standard dan betulkan yang gagal. Simpan fail Word ringkas Q3_QBR_Checks.docx di sebelah dek, yang menyenaraikan setiap semakan, lulus atau gagal, dan setiap angka yang berbeza daripada laporan v1.0.
 Akhir sekali, draf tetapi jangan hantar e-mel kepada Yusuf Hakim dengan pautan dek dan tiga baris tentang apa yang berubah daripada laporan. Tunjukkan draf kepada saya dan tunggu kelulusan saya.
 :::
 
-**After you run it:** a new deck and a checks file in your folder, and an email draft shown for approval. Files 01 to 06 stay unchanged.
+**After you run it:** the deck and a checks file in the task's **Output** panel (OneDrive > Documents > Cowork > Tasks), and an email draft shown for approval. Files 01 to 06 stay unchanged.
 
 **3. Review, then approve or edit the email.** Open the deck and the checks file side by side and compare them with **Check it**. Approve the email draft only when you would send it yourself.
 ::::
@@ -292,6 +294,8 @@ Akhir sekali, draf tetapi jangan hantar e-mel kepada Yusuf Hakim dengan pautan d
 - **Cowork edits the template itself.** Keep "Make a copy of 06" and "never edit files 01 to 06" in the prompt. Restore the original from the kit if it was changed. (step 2)
 - **Cowork wants to send the email.** Decline. The prompt asks for a draft shown for approval; send it yourself when ready. (step 3)
 - **The checks file says everything passed.** Compare it with **Check it** yourself; a self-check is not independent proof. (step 3)
+- **Cowork asks to move the deck and the move fails.** Seen three times in our tests. Cancel, open the deck from the task's **Output** panel and move it yourself if needed. (step 2)
+- **RAG cells lost their colours.** Cowork kept the RAG words but not the template's fills. Recolour the cells in PowerPoint, or ask Copilot in PowerPoint to "apply the template's Green, Amber and Red fills to the RAG column". (step 3)
 ::::
 
 ## Take it further
