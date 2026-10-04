@@ -205,11 +205,11 @@ A3.2 Customer may request additional information about a Subprocessor's role, lo
 export const ORDER_FORMS = [
   '# Order Form TS-OF-2026-0417',
   ...para(`
-Tailspin Order Form ID: TS-OF-2026-0417. Customer: PT Contoso Niaga Nusantara Tbk, Menara Contoso, Jl. Jend. Sudirman Kav. 99, Jakarta Selatan 12190, Indonesia. Provider: Tailspin Cloud Services Pte. Ltd., UEN 201912345K, 10 Marina Boulevard, #28-01, Singapore 018983. Agreement: Tailspin Master Subscription and Managed Services Agreement MSA v4.2 (ASEAN) dated 15 September 2026. Effective date of this Order Form: the date of last signature below.
+Tailspin Order Form ID: TS-OF-2026-0417. Customer: PT Zava Niaga Nusantara, Menara Zava, Jl. Jend. Sudirman Kav. 99, Jakarta Selatan 12190, Indonesia. Provider: Tailspin Cloud Services Pte. Ltd., UEN 201912345K, 10 Marina Boulevard, #28-01, Singapore 018983. Agreement: Tailspin Master Subscription and Managed Services Agreement MSA v4.2 (ASEAN) dated 15 September 2026. Effective date of this Order Form: the date of last signature below.
 
 This Order Form is governed by the Tailspin Master Subscription and Managed Services Agreement MSA v4.2 (ASEAN), which is incorporated by reference. The Services are purchased for the re-platforming and managed operation of Portal Mitra, the B2B ordering portal and related data warehouse operated by Customer for retail partners. Capitalised terms not defined in this Order Form have the meanings given in the Agreement.
 
-Customer contacts. Technical contact: Lydia Bauer, Enterprise IT Architect, lydia.bauer@contosoniaga.example, +62 21 5550 4100. Procurement contact: Charlotte Waltson, VP of Procurement, charlotte.waltson@contosoniaga.example, +62 21 5550 4101. Finance contact: Rudi Hartono, Finance Operations Manager, rudi.hartono@contosoniaga.example, +62 21 5550 4102. Security contact: Indra Permana, Chief Information Security Officer, indra.permana@contosoniaga.example.
+Customer contacts. Technical contact: Lydia Bauer, Enterprise IT Architect, lydia.bauer@zava.example, +62 21 5550 4100. Procurement contact: Charlotte Waltson, VP of Procurement, charlotte.waltson@zava.example, +62 21 5550 4101. Finance contact: Rudi Hartono, Finance Operations Manager, rudi.hartono@zava.example, +62 21 5550 4102. Security contact: Indra Permana, Chief Information Security Officer, indra.permana@zava.example.
 
 Provider contacts. Account executive: Marcus Lee, Regional Account Director, marcus.lee@tailspin-cloud.example, +65 6800 1100. Service delivery manager: Amira Tan, Senior Service Delivery Manager, amira.tan@tailspin-cloud.example. Finance contact: billing-apac@tailspin-cloud.example. Legal notices: legal-notices@tailspin-cloud.example, with copy to Priya Raman, Senior Counsel APAC, priya.raman@tailspin-cloud.example.
 
@@ -241,16 +241,16 @@ Purchase administration. Customer will issue purchase orders for internal proces
 
 Service management. The parties will hold weekly migration governance meetings until production cutover and monthly service review meetings thereafter. Service review materials may include incident summaries, capacity trends, support ticket statistics, change calendars, action registers and commercial status. Meeting minutes are operational records and do not amend this Order Form unless signed by authorised representatives of both parties.
 
-Signature blocks. For Customer: PT Contoso Niaga Nusantara Tbk. Name: ______________________________. Title: ______________________________. Signature: __________________________. Date: ______________________________. For Provider: Tailspin Cloud Services Pte. Ltd. Name: ______________________________. Title: ______________________________. Signature: __________________________. Date: ______________________________.
+Signature blocks. For Customer: PT Zava Niaga Nusantara. Name: ______________________________. Title: ______________________________. Signature: __________________________. Date: ______________________________. For Provider: Tailspin Cloud Services Pte. Ltd. Name: ______________________________. Title: ______________________________. Signature: __________________________. Date: ______________________________.
   `),
   { pageBreak: true },
   '# Order Form TS-OF-2026-0418',
   ...para(`
-Tailspin Order Form ID: TS-OF-2026-0418. Customer: Contoso Niaga Malaysia Sdn. Bhd., registration number 201801012345 (1275431-X), Level 12, Menara Johor, Jalan Wong Ah Fook, 80000 Johor Bahru, Malaysia. Provider: Tailspin Cloud Services Pte. Ltd., UEN 201912345K, 10 Marina Boulevard, #28-01, Singapore 018983. Agreement: Tailspin Master Subscription and Managed Services Agreement MSA v4.2 (ASEAN) dated 15 September 2026.
+Tailspin Order Form ID: TS-OF-2026-0418. Customer: Zava Niaga Malaysia Sdn. Bhd., registration number 201801012345 (1275431-X), Level 12, Menara Johor, Jalan Wong Ah Fook, 80000 Johor Bahru, Malaysia. Provider: Tailspin Cloud Services Pte. Ltd., UEN 201912345K, 10 Marina Boulevard, #28-01, Singapore 018983. Agreement: Tailspin Master Subscription and Managed Services Agreement MSA v4.2 (ASEAN) dated 15 September 2026.
 
 This Order Form is governed by the Tailspin Master Subscription and Managed Services Agreement MSA v4.2 (ASEAN), which is incorporated by reference. This Order Form is entered by Customer as an Affiliate customer for the Johor Bahru hub and related Malaysia partner operations. Each Order Form is a separate contract incorporating the Agreement, and the Services under this Order Form are separately metered, invoiced and supported.
 
-Customer contacts. Technical contact: Farah Lim, Regional Systems Manager, farah.lim@contosoniaga-my.example, +60 7 555 1200. Business contact: Daniel Omar, Head of Partner Operations, daniel.omar@contosoniaga-my.example. Finance contact: Mei Tan, Finance Controller, mei.tan@contosoniaga-my.example. Security contact: Cassandra Dunn, Compliance Manager and Data Protection Officer, cassandra.dunn@contosoniaga-my.example.
+Customer contacts. Technical contact: Farah Lim, Regional Systems Manager, farah.lim@zava.example, +60 7 555 1200. Business contact: Daniel Omar, Head of Partner Operations, daniel.omar@zava.example. Finance contact: Mei Tan, Finance Controller, mei.tan@zava.example. Security contact: Cassandra Dunn, Compliance Manager and Data Protection Officer, cassandra.dunn@zava.example.
 
 Provider contacts. Account executive: Marcus Lee, Regional Account Director, marcus.lee@tailspin-cloud.example, +65 6800 1100. Service delivery manager: Amira Tan, Senior Service Delivery Manager, amira.tan@tailspin-cloud.example. Finance contact: billing-apac@tailspin-cloud.example. Legal notices: legal-notices@tailspin-cloud.example, with copy to Priya Raman, Senior Counsel APAC, priya.raman@tailspin-cloud.example.
 
@@ -282,7 +282,7 @@ Purchase administration. Customer will provide any required purchase order detai
 
 Service management. The parties will use Malaysia time for Johor Bahru support coordination, weekly implementation check-ins and monthly operational reviews. Provider may consolidate platform-level reporting with the Indonesian programme where appropriate, provided that invoices, tickets and commercial records for this Order Form remain separately identifiable.
 
-Signature blocks. For Customer: Contoso Niaga Malaysia Sdn. Bhd. Name: ______________________________. Title: ______________________________. Signature: __________________________. Date: ______________________________. For Provider: Tailspin Cloud Services Pte. Ltd. Name: ______________________________. Title: ______________________________. Signature: __________________________. Date: ______________________________.
+Signature blocks. For Customer: Zava Niaga Malaysia Sdn. Bhd. Name: ______________________________. Title: ______________________________. Signature: __________________________. Date: ______________________________. For Provider: Tailspin Cloud Services Pte. Ltd. Name: ______________________________. Title: ______________________________. Signature: __________________________. Date: ______________________________.
   `),
 ];
 export const ONLINE_TERMS = [

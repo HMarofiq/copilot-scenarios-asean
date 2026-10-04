@@ -5,8 +5,8 @@
 
 export const PARTIES = {
   provider: { name: 'Tailspin Cloud Services Pte. Ltd.', short: 'Tailspin', uen: '201912345K', address: '10 Marina Boulevard, #28-01, Singapore 018983', site: 'tailspin-cloud.example' },
-  cn01: { name: 'PT Contoso Niaga Nusantara Tbk', short: 'Contoso Niaga', address: 'Menara Contoso, Jl. Jend. Sudirman Kav. 99, Jakarta Selatan 12190, Indonesia' },
-  cm01: { name: 'Contoso Niaga Malaysia Sdn. Bhd.', short: 'Contoso Niaga Malaysia', regno: '201801012345 (1275431-X)', address: 'Level 12, Menara Johor, Jalan Wong Ah Fook, 80000 Johor Bahru, Malaysia' },
+  cn01: { name: 'PT Zava Niaga Nusantara', short: 'Zava Niaga', address: 'Menara Zava, Jl. Jend. Sudirman Kav. 99, Jakarta Selatan 12190, Indonesia' },
+  cm01: { name: 'Zava Niaga Malaysia Sdn. Bhd.', short: 'Zava Niaga Malaysia', regno: '201801012345 (1275431-X)', address: 'Level 12, Menara Johor, Jalan Wong Ah Fook, 80000 Johor Bahru, Malaysia' },
 };
 
 export const DEAL = {

@@ -33,7 +33,7 @@ test('zava canon: every scenario has a home', () => {
 });
 
 // Scenarios already moved to Zava. Add an id here when its migration lands.
-const MIGRATED = ['bfsi-branch-recon-002', 'bfsi-claims-012', 'x-mgmt-report-011', 'x-email-triage-015', 'gov-risalah-003', 'gov-portfolio-004', 'gov-kpi-narrative-008', 'gov-tor-kak-010', 'gov-board-paper-013', 'enr-hse-incident-005', 'enr-permit-watch-006', 'enr-induction-007', 'enr-maint-backlog-009', 'tel-mkt-board-016', 'x-report-deck-017'];
+const MIGRATED = ['x-contract-review-014', 'bfsi-branch-recon-002', 'bfsi-claims-012', 'x-mgmt-report-011', 'x-email-triage-015', 'gov-risalah-003', 'gov-portfolio-004', 'gov-kpi-narrative-008', 'gov-tor-kak-010', 'gov-board-paper-013', 'enr-hse-incident-005', 'enr-permit-watch-006', 'enr-induction-007', 'enr-maint-backlog-009', 'tel-mkt-board-016', 'x-report-deck-017'];
 // Old fictional names that used to be the scenario's own company (outside-party uses of Fabrikam, Northwind etc. stay legal).
 const OLD_OWN = /Contoso|Northwind (Nickel|Smelter|Resources|Estate|Mill|Jetty|Bulking)|northwind\.example|PT Relecloud (Nusantara|Seluler)|Relecloud Malaysia|PT Fabrikam (Logistik Tbk|Nusantara)|Fabrikam (Holding|Group|Pelabuhan|Gudang|Truk|Rantai|Nusantara)|FLOG\b/;
 const textOf = (id) => {
