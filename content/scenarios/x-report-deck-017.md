@@ -22,7 +22,7 @@ inputs:
   - { name: "KPI workbook issued with the report", format: ".xlsx", where: "Shared by the report owner", count: "1", kit: ["03_Q3_2026_Distribution_KPI_Workbook.xlsx"], steps: [1, 2] }
   - { name: "Late correction from Finance", format: ".docx", where: "Email the evening before", count: "1", kit: ["04_Email_Correction_Surabaya_Volume.docx"], steps: [1, 2] }
   - { name: "Last quarter's deck with the commitments", format: ".pptx", where: "Team site", count: "1", kit: ["05_Q2_2026_QBR_Distribution_Operations.pptx"], steps: [1] }
-  - { name: "Company QBR template", format: ".pptx", where: "Brand library", count: "1", kit: ["06_Contoso_Niaga_QBR_Template.pptx"], steps: [1, 2] }
+  - { name: "Company QBR template", format: ".pptx", where: "Brand library", count: "1", kit: ["06_Zava_Niaga_QBR_Template.pptx"], steps: [1, 2] }
 objective: "Turn a report someone else wrote into a short leadership deck that uses the corrected figures, follows your company's deck rules and is honest about misses, in one working session instead of a day."
 needs:
   - "A copy of the template (06) for each attempt, so you always start from the clean sample slides"
@@ -51,7 +51,7 @@ validation_note: "Tested on 4 October 2026. Premium: the exact EN, ID and BM pro
 
 ## Situation
 
-**The ask.** Tuesday, 14:00. The Chief of Staff wants your division's section of Thursday's Quarterly Business Review by Wednesday noon: ten slides at most, in the company template.
+**The ask.** Tuesday, 14:00. You are the business planning manager. The Chief of Staff wants your division's section of Thursday's Quarterly Business Review by Wednesday noon: ten slides at most, in the company template.
 
 **What you received.** A 10-page report and KPI workbook from a manager now on leave, plus a correction from Finance last night. The report headlines its best month, changed a definition and still claims zero lost-time injuries.
 
@@ -63,14 +63,14 @@ validation_note: "Tested on 4 October 2026. Premium: the exact EN, ID and BM pro
 
 1. Download the kit and copy files **01 to 06** into one folder in your OneDrive for work. Keep **README.txt** out of it: it holds the answer key.
 2. Open each file once so it appears in search. If your organisation requires a sensitivity label before editing, apply your lowest internal label.
-3. For each attempt, make a copy of **06_Contoso_Niaga_QBR_Template.pptx** and give it a new name. Never build in the original.
+3. For each attempt, make a copy of **06_Zava_Niaga_QBR_Template.pptx** and give it a new name. Never build in the original.
 
 ::::tier{key="basic"}
 **2. Have Copilot Chat rebuild the numbers and write the slides.** Open **Copilot Chat** with your work account, select **+** > **Upload from this device**, add files **01 to 04**, then run:
 
 :::prompt
 ABOUT: Recalculates the report from the workbook and correction, then writes every slide and its notes for you to paste.
-EN: Act as Nadia Rahman, Business Planning Manager at fictional Contoso Niaga, preparing the Distribution Operations section of the Q3 2026 QBR deck for the Direksi.
+EN: Act as the Business Planning Manager named in request 01, preparing the Distribution Operations section of the Q3 2026 QBR deck for the Direksi of the fictional company in the files.
 Use only the four uploaded files: 01 request with the QBR deck standard, 02 Q3 report v1.0, 03 KPI workbook and 04 correction email. Do not search the web.
 Treat report 02 as the author's draft: recalculate every KPI from workbook 03, apply the correction in 04 and follow the deck standard in 01 exactly.
 Report the quarter, not the best month. Calculate company OTIF and fill rate from total orders and order lines, not by averaging the DC percentages.
@@ -82,7 +82,7 @@ Then write the deck slide by slide, at most 10 slides: slide title as a one-sent
 Answer the three Direksi questions in 01, show each Q2 commitment from 01 as Done, Partly done or Not started using the definitions in the standard, and show the two decisions requested with annual cost and alternative.
 Name owners by role only; leave out report Appendix C and any named employee, disciplinary matter or ranking.
 End with a list of every figure that differs from report v1.0 and why. If you can create a downloadable .pptx file, create one as well; otherwise say so.
-ID: Bertindaklah sebagai Nadia Rahman, Business Planning Manager di Contoso Niaga (fiktif), yang menyiapkan bagian Distribution Operations untuk deck QBR Q3 2026 bagi Direksi.
+ID: Bertindaklah sebagai Business Planning Manager yang disebut dalam permintaan 01, yang menyiapkan bagian Distribution Operations untuk deck QBR Q3 2026 bagi Direksi perusahaan fiktif dalam file.
 Gunakan hanya empat file yang diunggah: 01 permintaan beserta QBR deck standard, 02 laporan Q3 v1.0, 03 KPI workbook dan 04 email koreksi. Jangan mencari di web.
 Perlakukan laporan 02 sebagai draf penulisnya: hitung ulang setiap KPI dari workbook 03, terapkan koreksi di 04 dan ikuti deck standard di 01 persis.
 Laporkan kuartal, bukan bulan terbaik. Hitung OTIF dan fill rate perusahaan dari total order dan order line, bukan dengan merata-ratakan persentase DC.
@@ -94,7 +94,7 @@ Lalu tulis deck slide demi slide, maksimal 10 slide: judul slide berupa pesan sa
 Jawab tiga pertanyaan Direksi di 01, tampilkan setiap komitmen Q2 dari 01 sebagai Done, Partly done atau Not started sesuai definisi di standard, dan tampilkan dua keputusan yang diminta dengan biaya tahunan dan alternatif.
 Sebut pemilik hanya dengan jabatan; jangan masukkan Lampiran C laporan maupun nama karyawan, perkara disiplin atau peringkat.
 Akhiri dengan daftar setiap angka yang berbeda dari laporan v1.0 beserta alasannya. Jika Anda dapat membuat file .pptx yang bisa diunduh, buat juga; jika tidak, sebutkan.
-BM: Bertindak sebagai Nadia Rahman, Business Planning Manager di Contoso Niaga (rekaan), yang menyediakan bahagian Distribution Operations bagi dek QBR Q3 2026 untuk Lembaga Pengarah.
+BM: Bertindak sebagai Business Planning Manager yang dinamakan dalam permintaan 01, yang menyediakan bahagian Distribution Operations bagi dek QBR Q3 2026 untuk Lembaga Pengarah syarikat rekaan dalam fail.
 Gunakan hanya empat fail yang dimuat naik: 01 permintaan bersama QBR deck standard, 02 laporan Q3 v1.0, 03 KPI workbook dan 04 e-mel pembetulan. Jangan cari di web.
 Anggap laporan 02 sebagai draf penulisnya: kira semula setiap KPI daripada workbook 03, gunakan pembetulan dalam 04 dan ikut deck standard dalam 01 dengan tepat.
 Laporkan suku tahun, bukan bulan terbaik. Kira OTIF dan fill rate syarikat daripada jumlah pesanan dan order line, bukan dengan mempuratakan peratusan DC.
@@ -122,7 +122,7 @@ Akhiri dengan senarai setiap angka yang berbeza daripada laporan v1.0 dan sebabn
 
 :::prompt
 ABOUT: Builds the ten-slide deck in the open template from four files, applying the correction and the deck standard, with cited notes.
-EN: You are Nadia Rahman, Business Planning Manager, building the Distribution Operations section of the Q3 2026 QBR for the Direksi of fictional Contoso Niaga.
+EN: You are the Business Planning Manager named in request 01, building the Distribution Operations section of the Q3 2026 QBR for the Direksi of the fictional company in the attached files.
 Use only the four attached files: 01 request with the QBR deck standard, 02 Q3 report v1.0, 03 KPI workbook and 04 correction email. Build in this open template; replace its sample slides and keep its design.
 Follow the deck standard in 01 exactly: at most 10 slides including the title, one message per slide written as the slide title, English slide text.
 Treat report 02 as the author's draft, not the final truth: recalculate every KPI from workbook 03 and apply the correction in 04 before you write any slide.
@@ -139,7 +139,7 @@ Show the overflow warehouse lease and the carrier tender as decisions requested,
 Name owners by role only. Leave out report Appendix C and any named employee, disciplinary matter or individual ranking.
 Add speaker notes to every content slide: 3 to 5 sentences to say, then the source of each number (file and section or sheet) and what changed from report v1.0.
 Finish with a short list in chat of every figure where the deck differs from report v1.0 and why, plus anything you could not verify.
-ID: Anda adalah Nadia Rahman, Business Planning Manager, yang menyusun bagian Distribution Operations untuk QBR Q3 2026 di depan Direksi Contoso Niaga (fiktif).
+ID: Anda adalah Business Planning Manager yang disebut dalam permintaan 01, yang menyusun bagian Distribution Operations untuk QBR Q3 2026 di depan Direksi perusahaan fiktif dalam file terlampir.
 Gunakan hanya empat file terlampir: 01 permintaan beserta QBR deck standard, 02 laporan Q3 v1.0, 03 KPI workbook dan 04 email koreksi. Bangun di template yang sedang terbuka ini; ganti slide contohnya dan pertahankan desainnya.
 Ikuti deck standard di 01 persis: maksimal 10 slide termasuk judul, satu pesan per slide yang ditulis sebagai judul slide, teks slide dalam bahasa Inggris.
 Perlakukan laporan 02 sebagai draf penulisnya, bukan kebenaran akhir: hitung ulang setiap KPI dari workbook 03 dan terapkan koreksi di 04 sebelum menulis slide apa pun.
@@ -156,7 +156,7 @@ Tampilkan sewa gudang overflow dan tender carrier sebagai keputusan yang diminta
 Sebut pemilik hanya dengan jabatan. Jangan masukkan Lampiran C laporan maupun nama karyawan, perkara disiplin atau peringkat individu.
 Tambahkan speaker notes di setiap slide isi: 3 sampai 5 kalimat yang akan diucapkan, lalu sumber setiap angka (file dan bagian atau sheet) dan apa yang berubah dari laporan v1.0.
 Akhiri dengan daftar singkat di chat berisi setiap angka di deck yang berbeda dari laporan v1.0 beserta alasannya, ditambah hal yang tidak dapat Anda verifikasi.
-BM: Anda ialah Nadia Rahman, Business Planning Manager, yang menyediakan bahagian Distribution Operations bagi QBR Q3 2026 untuk Lembaga Pengarah Contoso Niaga (rekaan).
+BM: Anda ialah Business Planning Manager yang dinamakan dalam permintaan 01, yang menyediakan bahagian Distribution Operations bagi QBR Q3 2026 untuk Lembaga Pengarah syarikat rekaan dalam fail yang dilampirkan.
 Gunakan hanya empat fail yang dilampirkan: 01 permintaan bersama QBR deck standard, 02 laporan Q3 v1.0, 03 KPI workbook dan 04 e-mel pembetulan. Bina dalam templat yang sedang dibuka ini; gantikan slaid contohnya dan kekalkan reka bentuknya.
 Ikut deck standard dalam 01 dengan tepat: paling banyak 10 slaid termasuk tajuk, satu mesej bagi setiap slaid yang ditulis sebagai tajuk slaid, teks slaid dalam bahasa Inggeris.
 Anggap laporan 02 sebagai draf penulisnya, bukan kebenaran muktamad: kira semula setiap KPI daripada workbook 03 dan gunakan pembetulan dalam 04 sebelum menulis sebarang slaid.
@@ -185,7 +185,7 @@ Akhiri dengan senarai ringkas dalam chat bagi setiap angka dalam dek yang berbez
 
 :::prompt
 ABOUT: Reads all six files, builds the deck in a copy of the template, checks it against the standard and drafts the cover email for your approval.
-EN: Act as Nadia Rahman, Business Planning Manager at fictional Contoso Niaga. Build the Distribution Operations section of the Q3 2026 QBR deck for the Direksi meeting on Thursday 8 October.
+EN: Act as the Business Planning Manager named in request 01, at the fictional company in the folder. Build the Distribution Operations section of the Q3 2026 QBR deck for the Direksi meeting on Thursday 8 October.
 Work only from the OneDrive folder [your folder name]: 01 request and QBR deck standard, 02 Q3 report v1.0, 03 KPI workbook, 04 correction email, 05 Q2 QBR deck and 06 QBR template. Read all six before you start.
 Build the deck in a copy of 06 named Q3_QBR_Distribution_Ops_Cowork.pptx saved in this task's output; replace the sample slides, keep the design, and never edit or move files 01 to 06.
 Follow the deck standard in 01 exactly: at most 10 slides including the title, one message per slide written as the slide title, English slide text, RAG rules as written.
@@ -200,8 +200,8 @@ Show the overflow warehouse and carrier tender as decisions requested with annua
 Name owners by role only; leave out report Appendix C and any named employee, disciplinary matter or ranking.
 Add speaker notes to every content slide: what to say in 3 to 5 sentences, the source of each number, and what changed from report v1.0.
 Then check your own deck against every rule in the standard and fix what fails. Save a short Word file Q3_QBR_Checks.docx next to the deck, listing each check, pass or fail, and every figure that differs from report v1.0.
-Finally draft, but do not send, an email to Yusuf Hakim with the deck link and three lines on what changed from the report. Show me the draft and wait for my approval.
-ID: Bertindaklah sebagai Nadia Rahman, Business Planning Manager di Contoso Niaga (fiktif). Susun bagian Distribution Operations untuk deck QBR Q3 2026 bagi rapat Direksi hari Kamis 8 Oktober.
+Finally draft, but do not send, an email to the Chief of Staff who sent request 01, with the deck link and three lines on what changed from the report. Show me the draft and wait for my approval.
+ID: Bertindaklah sebagai Business Planning Manager yang disebut dalam permintaan 01, di perusahaan fiktif dalam folder. Susun bagian Distribution Operations untuk deck QBR Q3 2026 bagi rapat Direksi hari Kamis 8 Oktober.
 Bekerja hanya dari folder OneDrive [nama folder Anda]: 01 permintaan dan QBR deck standard, 02 laporan Q3 v1.0, 03 KPI workbook, 04 email koreksi, 05 deck QBR Q2 dan 06 template QBR. Baca keenamnya sebelum mulai.
 Bangun deck di salinan 06 bernama Q3_QBR_Distribution_Ops_Cowork.pptx yang disimpan di output tugas ini; ganti slide contoh, pertahankan desain, dan jangan pernah mengubah atau memindahkan file 01 sampai 06.
 Ikuti deck standard di 01 persis: maksimal 10 slide termasuk judul, satu pesan per slide yang ditulis sebagai judul slide, teks slide dalam bahasa Inggris, aturan RAG sesuai tertulis.
@@ -216,8 +216,8 @@ Tampilkan gudang overflow dan tender carrier sebagai keputusan yang diminta deng
 Sebut pemilik hanya dengan jabatan; jangan masukkan Lampiran C laporan maupun nama karyawan, perkara disiplin atau peringkat.
 Tambahkan speaker notes di setiap slide isi: yang akan diucapkan dalam 3 sampai 5 kalimat, sumber setiap angka, dan apa yang berubah dari laporan v1.0.
 Lalu periksa deck Anda sendiri terhadap setiap aturan di standard dan perbaiki yang gagal. Simpan file Word singkat Q3_QBR_Checks.docx di samping deck, berisi setiap pemeriksaan, lulus atau gagal, dan setiap angka yang berbeda dari laporan v1.0.
-Terakhir, buat draf email untuk Yusuf Hakim, tetapi jangan kirim, berisi tautan deck dan tiga baris tentang apa yang berubah dari laporan. Tunjukkan drafnya kepada saya dan tunggu persetujuan saya.
-BM: Bertindak sebagai Nadia Rahman, Business Planning Manager di Contoso Niaga (rekaan). Bina bahagian Distribution Operations bagi dek QBR Q3 2026 untuk mesyuarat Lembaga Pengarah pada Khamis 8 Oktober.
+Terakhir, buat draf email untuk Chief of Staff pengirim permintaan 01, tetapi jangan kirim, berisi tautan deck dan tiga baris tentang apa yang berubah dari laporan. Tunjukkan drafnya kepada saya dan tunggu persetujuan saya.
+BM: Bertindak sebagai Business Planning Manager yang dinamakan dalam permintaan 01, di syarikat rekaan dalam folder. Bina bahagian Distribution Operations bagi dek QBR Q3 2026 untuk mesyuarat Lembaga Pengarah pada Khamis 8 Oktober.
 Bekerja hanya daripada folder OneDrive [nama folder anda]: 01 permintaan dan QBR deck standard, 02 laporan Q3 v1.0, 03 KPI workbook, 04 e-mel pembetulan, 05 dek QBR Q2 dan 06 templat QBR. Baca keenam-enamnya sebelum bermula.
 Bina dek dalam salinan 06 bernama Q3_QBR_Distribution_Ops_Cowork.pptx yang disimpan dalam output tugasan ini; gantikan slaid contoh, kekalkan reka bentuk, dan jangan sekali-kali mengubah atau mengalihkan fail 01 hingga 06.
 Ikut deck standard dalam 01 dengan tepat: paling banyak 10 slaid termasuk tajuk, satu mesej bagi setiap slaid yang ditulis sebagai tajuk slaid, teks slaid dalam bahasa Inggeris, peraturan RAG seperti yang tertulis.
@@ -232,7 +232,7 @@ Tunjukkan gudang limpahan dan tender pengangkut sebagai keputusan yang dipohon d
 Namakan pemilik mengikut jawatan sahaja; jangan masukkan Lampiran C laporan atau sebarang nama pekerja, perkara tatatertib atau kedudukan.
 Tambah speaker notes pada setiap slaid kandungan: apa yang perlu disampaikan dalam 3 hingga 5 ayat, sumber setiap angka, dan apa yang berubah daripada laporan v1.0.
 Kemudian semak dek anda sendiri terhadap setiap peraturan dalam standard dan betulkan yang gagal. Simpan fail Word ringkas Q3_QBR_Checks.docx di sebelah dek, yang menyenaraikan setiap semakan, lulus atau gagal, dan setiap angka yang berbeza daripada laporan v1.0.
-Akhir sekali, draf tetapi jangan hantar e-mel kepada Yusuf Hakim dengan pautan dek dan tiga baris tentang apa yang berubah daripada laporan. Tunjukkan draf kepada saya dan tunggu kelulusan saya.
+Akhir sekali, draf tetapi jangan hantar e-mel kepada Chief of Staff yang menghantar permintaan 01, dengan pautan dek dan tiga baris tentang apa yang berubah daripada laporan. Tunjukkan draf kepada saya dan tunggu kelulusan saya.
 :::
 
 **After you run it:** the deck and a checks file in the task's **Output** panel (OneDrive > Documents > Cowork > Tasks), and an email draft shown for approval. Files 01 to 06 stay unchanged.
@@ -287,6 +287,7 @@ Akhir sekali, draf tetapi jangan hantar e-mel kepada Yusuf Hakim dengan pautan d
 - **A file does not appear after typing /.** Files uploaded minutes ago may not be indexed yet. Open the file once in the browser, wait a few minutes and try again. (step 2)
 - **The carrier tender shows Partly done.** This happened before the deck standard defined the statuses. Ask Copilot to re-check slide 8 against the status definitions in 01. (step 3)
 - **Copilot adds annualised costs of its own.** In our runs it added storage and freight estimates labelled illustrative. Keep them only if you can defend them, or ask Copilot to remove them. (step 3)
+- **Copilot asks whether to keep the current style.** Choose **Keep current QBR style** and **Confirm**: the deck standard requires the template. (step 2)
 - **Editing is greyed out.** Your organisation may require a sensitivity label first. Select a label, then switch to **Editing**. (step 2)
 ::::
 

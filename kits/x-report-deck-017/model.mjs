@@ -1,9 +1,15 @@
 // x-report-deck-017: Q3 2026 Distribution Operations report -> Direksi QBR deck.
 // Every number lives here once. build.mjs renders the files; tests/report-deck.test.mjs checks the answer key.
+// Every company and person name comes from canon/zava.mjs.
+import { entity, person, EXTERNAL } from '../../canon/zava.mjs';
+
+const who = (name) => ({ name, title: person(name).title.replace(/, PT Zava Niaga Nusantara$/, '') });
+const CO = entity('zniaga'), MY = entity('zniagamy');
 
 export const CASE = {
-  company: 'PT Contoso Niaga Nusantara',
-  short: 'Contoso Niaga',
+  company: CO.legal,
+  short: 'Zava Niaga',
+  malaysia: MY.legal,
   quarter: 'Q3 2026',
   reportDate: 'Thursday 1 October 2026',
   reportVersion: 'v1.0',
@@ -14,18 +20,21 @@ export const CASE = {
   qbr: 'Thursday 8 October 2026, 09:00 WIB',
   slot: '15 minutes plus 10 minutes of questions',
   maxSlides: 10,
-  presenter: { name: 'Nadia Rahman', title: 'Business Planning Manager, Office of the COO' },
-  requester: { name: 'Yusuf Hakim', title: 'Chief of Staff to the President Director' },
-  author: { name: 'Dimas Pratama', title: 'Head of Distribution Operations' },
-  controller: { name: 'Rudi Santoso', title: 'Operations Controller' },
-  ceo: { name: 'Adelia Chin', title: 'President Director' },
+  presenter: who('Putri Anggraini'),
+  requester: who('Yusuf Hakim'),
+  author: who('Dimas Pratama'),
+  controller: who('Rudi Santoso'),
+  ceo: who('Rahmat Hidayat'),
+  fd: who('Lina Marlina'),
+  customer: EXTERNAL.wingtip.name.replace(/^PT /, '').replace(/ Nusantara$/, ''),
+  carriers: [EXTERNAL.fabrikam.name, EXTERNAL.southridge.name, EXTERNAL.alpine.name],
 };
 
 export const DCS = [
-  { code: 'CKR', name: 'Cikarang', label: 'DC Cikarang', head: 'Bambang Wijaya' },
-  { code: 'SBY', name: 'Surabaya', label: 'DC Surabaya', head: 'Lestari Putri' },
-  { code: 'MDN', name: 'Medan', label: 'DC Medan', head: 'Hendra Siregar' },
-  { code: 'JHB', name: 'Johor Bahru', label: 'Johor Bahru hub', head: 'Farah Aziz' },
+  { code: 'CKR', name: 'Cikarang', label: 'DC Cikarang', head: person('Bambang Wijaya').name },
+  { code: 'SBY', name: 'Surabaya', label: 'DC Surabaya', head: person('Lestari Putri').name },
+  { code: 'MDN', name: 'Medan', label: 'DC Medan', head: person('Hendra Siregar').name },
+  { code: 'JHB', name: 'Johor Bahru', label: 'Johor Bahru hub', head: person('Farah Aziz').name },
 ];
 export const MONTHS = ['Jul', 'Aug', 'Sep'];
 

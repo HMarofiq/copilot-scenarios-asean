@@ -86,7 +86,8 @@ export const ARMS = {
 };
 // Room to add later: Zava Health (hospitals, pharmacy), Zava Manufacturing, Zava Property.
 
-// People. One name, one person. `alias` = existing demo-tenant user (the demo tenant is already branded Zava).
+// People. One name, one person. Minor background names inside a single kit (e.g. a picker list) need not be listed,
+// but must never reuse a canon name. `alias` = existing demo-tenant user (the demo tenant is already branded Zava).
 export const PEOPLE = [
   // Group / parent
   { name: 'Adelia Chin', title: 'Group CEO, Zava Holdings', entity: 'parent', alias: 'achin' },
@@ -100,11 +101,17 @@ export const PEOPLE = [
   { name: 'Charlotte Waltson', title: 'VP of Procurement, Zava Distribution', entity: 'zniaga', alias: 'CharlotteW' },
   { name: 'Lydia Bauer', title: 'Head of Infrastructure & SRE, Zava Distribution', entity: 'zniaga', alias: 'LydiaB' },
   { name: 'Kian Lambert', title: 'Application Development Manager (Proyek Nusa)', entity: 'zniaga', alias: 'KianL' },
+  { name: 'Rahmat Hidayat', title: 'President Director, PT Zava Niaga Nusantara', entity: 'zniaga', scenarios: ['x-report-deck-017'] },
+  { name: 'Lina Marlina', title: 'Finance Director, PT Zava Niaga Nusantara', entity: 'zniaga', scenarios: ['x-report-deck-017'] },
   { name: 'Yusuf Hakim', title: 'Chief of Staff to the President Director, PT Zava Niaga Nusantara', entity: 'zniaga', scenarios: ['x-report-deck-017'] },
   { name: 'Putri Anggraini', title: 'Business Planning Manager, Office of the COO, PT Zava Niaga Nusantara', entity: 'zniaga', scenarios: ['x-report-deck-017'], note: 'Was Nadia Rahman in 017 (name clashed with 016).' },
   { name: 'Dimas Pratama', title: 'Head of Distribution Operations', entity: 'zniaga', scenarios: ['x-report-deck-017'] },
   { name: 'Rudi Santoso', title: 'Operations Controller', entity: 'zniaga', scenarios: ['x-report-deck-017'] },
   { name: 'Farah Aziz', title: 'Head, Johor Bahru hub, Zava Niaga Malaysia', entity: 'zniagamy', scenarios: ['x-report-deck-017'] },
+  { name: 'Bambang Wijaya', title: 'DC Cikarang Head', entity: 'zniaga', scenarios: ['x-report-deck-017'] },
+  { name: 'Lestari Putri', title: 'DC Surabaya Head', entity: 'zniaga', scenarios: ['x-report-deck-017'] },
+  { name: 'Hendra Siregar', title: 'DC Medan Head', entity: 'zniaga', scenarios: ['x-report-deck-017'] },
+  { name: 'Agus Setiadi', title: 'Shift Supervisor, DC Surabaya (named only in a report appendix that must stay out of decks)', entity: 'zniaga', scenarios: ['x-report-deck-017'] },
   // Zava Financial
   { name: 'Nurul Aina Rahman', title: 'Senior Manager, Regulatory Compliance Advisory, Zava Bank Malaysia Berhad', entity: 'zbankmy', scenarios: ['bfsi-reg-gap-001'] },
   { name: 'Hafiz Ismail', title: 'Head of Compliance, Zava Bank Malaysia Berhad', entity: 'zbankmy' },
@@ -139,6 +146,7 @@ export const EXTERNAL = {
   tailspin: { name: 'Tailspin Cloud Services', role: 'SaaS vendor in the contract review', domain: 'tailspin-cloud.example' },
   fabrikam: { name: 'PT Fabrikam Logistik', role: 'Line-haul carrier for Zava Distribution', domain: 'fabrikam-logistik.example' },
   alpine: { name: 'PT Alpine Kargo', role: 'Line-haul carrier (Sumatra)', domain: 'alpine-kargo.example' },
+  southridge: { name: 'PT Southridge Ekspres', role: 'Line-haul carrier (Jabodetabek, Bandung)', domain: 'southridge-ekspres.example' },
   coho: { name: 'PT Coho Rantai Dingin', role: 'Acquisition target (Proyek Kutub) in the board paper', domain: 'coho-cold.example' },
   blueyonder: { name: 'Blue Yonder Capital Fund II', role: 'Seller of Proyek Kutub', domain: 'blueyonder-capital.example' },
   margie: { name: 'PT Margie Frozen Nusantara', role: 'Alternative cold-chain target considered in the board paper', domain: 'margie-frozen.example' },

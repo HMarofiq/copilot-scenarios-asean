@@ -12,7 +12,7 @@ export const FILES = {
   data: '03_Q3_2026_Distribution_KPI_Workbook.xlsx',
   erratum: '04_Email_Correction_Surabaya_Volume.docx',
   q2deck: '05_Q2_2026_QBR_Distribution_Operations.pptx',
-  template: '06_Contoso_Niaga_QBR_Template.pptx',
+  template: '06_Zava_Niaga_QBR_Template.pptx',
 };
 
 const NAVY = '12355B', ORANGE = 'E8772E', INK = '1E2A36', SOFT = 'EEF2F6', GREY = '6B7785';
@@ -24,7 +24,7 @@ function deck(title) {
   p.layout = 'LAYOUT_WIDE'; p.title = title; p.company = C.company;
   p.defineSlideMaster({ title: 'CN', background: { color: 'FFFFFF' }, objects: [
     { rect: { x: 0, y: 0, w: 13.33, h: 0.12, fill: { color: ORANGE } } },
-    { text: { text: 'Contoso Niaga | Quarterly Business Review | INTERNAL', options: { x: 0.5, y: 6.95, w: 8, h: 0.3, fontSize: 9, color: GREY } } },
+    { text: { text: 'Zava Niaga | Quarterly Business Review | INTERNAL', options: { x: 0.5, y: 6.95, w: 8, h: 0.3, fontSize: 9, color: GREY } } },
     { text: { text: NOTICE, options: { x: 0.5, y: 7.18, w: 12.3, h: 0.25, fontSize: 8, color: 'C00000' } } },
   ], slideNumber: { x: 12.4, y: 6.95, fontSize: 9, color: GREY } });
   return p;
@@ -35,7 +35,7 @@ const ragCell = (r) => ({ text: r, options: { fill: { color: RAGC[r] }, color: '
 const tbl = { x: 0.5, w: 12.3, fontSize: 12, fontFace: 'Segoe UI', color: INK, border: { type: 'solid', pt: 0.5, color: 'C8D3DC' } };
 
 async function writeTemplate(path) {
-  const p = deck('Contoso Niaga QBR template');
+  const p = deck('Zava Niaga QBR template');
   let s = p.addSlide({ masterName: 'CN' });
   s.background = { color: NAVY };
   s.addText('[Division]: Q[x] [year] results', { x: 0.8, y: 2.3, w: 11.5, h: 1, fontSize: 36, bold: true, color: 'FFFFFF', fontFace: 'Segoe UI' });
@@ -90,7 +90,7 @@ async function writeQ2Deck(path) {
   s.addTable([head(['Commitment', 'Owner (role)', 'Due']), ...COMMITMENTS.map((c) => [c.text, c.owner, c.id === 'C1' ? '31 Aug 2026' : '30 Sep 2026'])], { ...tbl, y: 1.3 });
   s.addNotes(`Direksi asked us to report back on all three at the Q3 QBR. Surabaya overtime baseline: ${n(Q2.surabayaOvertimeHours)} hours in Q2.`);
   s = p.addSlide({ masterName: 'CN' }); title(s, 'Questions from the Direksi');
-  s.addText([{ text: 'Bu Adelia: show the quarter, not the best month.', options: { bullet: true, breakLine: true } }, { text: 'Pak Andre: carrier costs for 2027 before contracts expire.', options: { bullet: true, breakLine: true } }, { text: 'Direksi: a capacity plan for Cikarang before the Q4 peak.', options: { bullet: true } }],
+  s.addText([{ text: `Pak ${C.ceo.name.split(' ')[0]}: show the quarter, not the best month.`, options: { bullet: true, breakLine: true } }, { text: `Bu ${C.fd.name.split(' ')[0]}: carrier costs for 2027 before contracts expire.`, options: { bullet: true, breakLine: true } }, { text: 'Direksi: a capacity plan for Cikarang before the Q4 peak.', options: { bullet: true } }],
     { x: 0.5, y: 1.3, w: 12.3, h: 3, fontSize: 16, color: INK, fontFace: 'Segoe UI' });
   mkdirSync(join(path, '..'), { recursive: true });
   await p.writeFile({ fileName: path });
@@ -147,7 +147,7 @@ export default async function build({ dir }) {
   const fmtV = (r) => (r.unit === 'IDR' ? 'IDR ' + n(r.value) : r.unit === '%' ? r.value.toFixed(1) + '%' : r.unit === 'days' ? r.value.toFixed(1) + ' days' : String(r.value));
   const fmtT = (r) => (r.unit === 'IDR' ? 'IDR ' + n(r.target) : r.unit === '%' ? r.target.toFixed(1) + '%' : String(r.target));
   writeKitReadme(dir, {
-    title: 'Quarterly report to leadership deck (Contoso Niaga, Q3 2026)',
+    title: `Quarterly report to leadership deck (${C.company}, Q3 2026)`,
     scenario: 'x-report-deck-017',
     contents: [
       `${FILES.request}: the Chief of Staff's request, the Direksi's three questions and the QBR deck standard (rules)`,
