@@ -1,6 +1,6 @@
 // Data model for the month-end close kit (x-mgmt-report-011). One source of truth: every kit file and the
-// answer key are generated from these numbers. Group: PT Contoso Niaga Nusantara (CNN, IDR) and its
-// subsidiary Contoso Niaga Malaysia Sdn Bhd (CNM, MYR). Period: September 2026 year to date (fictional).
+// answer key are generated from these numbers. Group: PT Zava Niaga Nusantara (CNN, IDR) and its
+// subsidiary Zava Niaga Malaysia Sdn. Bhd. (CNM, MYR). Period: September 2026 year to date (fictional).
 
 export const PERIOD = 'September 2026 YTD';
 export const FX = { avg: 3520, closing: 3585, budget: 3450 }; // IDR per 1 MYR
@@ -69,7 +69,7 @@ export const COA = {
   ],
   CNM: [
     ['1000', 'Cash at bank', null], ['1100', 'Trade receivables', null], ['1200', 'Inventory', null], ['1500', 'Property, plant and equipment', null],
-    ['1590', 'Accumulated depreciation', null], ['2000', 'Trade payables', null], ['2100', 'Accruals', null], ['2200', 'Due to Contoso Niaga Nusantara', null],
+    ['1590', 'Accumulated depreciation', null], ['2000', 'Trade payables', null], ['2100', 'Accruals', null], ['2200', 'Due to Zava Niaga Nusantara', null],
     ['3000', 'Share capital', null], ['3100', 'Retained earnings', null],
     ['4000', 'Sales - Malaysia retail', 'Revenue', 0.77], ['4010', 'Sales - Singapore re-export', 'Revenue', 0.24], ['4090', 'Sales returns', 'Revenue', -0.01],
     ['5000', 'Cost of goods sold', 'Cost of sales', 0.96], ['5010', 'Freight and haulage in', 'Cost of sales', 0.035], ['5090', 'Stock adjustments', 'Cost of sales', 0.005],
@@ -80,7 +80,7 @@ export const COA = {
     ['6400', 'Promotions and listing fees', 'Marketing & promotion', 1], ['6500', 'Travel and accommodation', 'Travel & entertainment', 1],
     ['6600', 'Audit and tax fees', 'Professional fees', 0.72], ['6610', 'Legal and secretarial', 'Professional fees', 0.28],
     ['6800', 'Depreciation', 'Depreciation & amortisation', 1],
-    ['6900', 'Management fee - Contoso Niaga Nusantara', 'Intercompany management fee', 1],
+    ['6900', 'Management fee - Zava Niaga Nusantara', 'Intercompany management fee', 1],
     ['6995', 'Bank charges - FX conversion', 'Finance costs', 1],
     ['7000', 'Other operating income', 'Other income', 1],
   ],

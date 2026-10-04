@@ -66,18 +66,18 @@ export default async function build({ dir }) {
     'Budget holder notes are compiled in the notes file. Legal has still not sent theirs; chase them, but do not hold the pack.',
     'Thanks,',
     'Andre',
-    'Andre Lawson | Chief Financial Officer | PT Contoso Niaga Nusantara',
+    'Andre Lawson | Chief Financial Officer | PT Zava Niaga Nusantara',
   ], { title: 'Email from the CFO' });
 
   // 02, 03 Trial balances
   const tbCols = [{ header: 'Company code', key: 'cc', width: 13 }, { header: 'Account', key: 'account', width: 10 }, { header: 'Account name', key: 'name', width: 58 },
     { header: 'Debit', key: 'debit', width: 20, numFmt: '#,##0' }, { header: 'Credit', key: 'credit', width: 20, numFmt: '#,##0' }, { header: 'Balance', key: 'balance', width: 20, numFmt: '#,##0;(#,##0)' }];
-  await writeXlsx(join(dir, '02_TB_PT_Contoso_Niaga_Nusantara_Sep2026.xlsx'), [{ name: 'TB', columns: tbCols, rows: tbCNN.map((r) => ({ cc: 'CN01', ...r })) }], {
-    readme: ['Trial balance, PT Contoso Niaga Nusantara (company code CN01), period 01.2026 to 09.2026.', 'Currency: IDR (full rupiah). Balance = debit minus credit; credits are negative.',
+  await writeXlsx(join(dir, '02_TB_PT_Zava_Niaga_Nusantara_Sep2026.xlsx'), [{ name: 'TB', columns: tbCols, rows: tbCNN.map((r) => ({ cc: 'CN01', ...r })) }], {
+    readme: ['Trial balance, PT Zava Niaga Nusantara (company code CN01), period 01.2026 to 09.2026.', 'Currency: IDR (full rupiah). Balance = debit minus credit; credits are negative.',
       'Extracted from SAP ECC report S_ALR_87012277 on 2 October 2026 at 18:04. Post-closing journals posted after this extract are NOT included.'] });
   const tbCNM = trialBalance('CNM');
-  await writeXlsx(join(dir, '03_TB_Contoso_Niaga_Malaysia_Sep2026.xlsx'), [{ name: 'TB', columns: tbCols, rows: tbCNM.map((r) => ({ cc: 'CM01', ...r })) }], {
-    readme: ['Trial balance, Contoso Niaga Malaysia Sdn Bhd (company code CM01), January to September 2026.', 'Currency: MYR (full ringgit). Balance = debit minus credit; credits are negative.',
+  await writeXlsx(join(dir, '03_TB_Zava_Niaga_Malaysia_Sep2026.xlsx'), [{ name: 'TB', columns: tbCols, rows: tbCNM.map((r) => ({ cc: 'CM01', ...r })) }], {
+    readme: ['Trial balance, Zava Niaga Malaysia Sdn. Bhd. (company code CM01), January to September 2026.', 'Currency: MYR (full ringgit). Balance = debit minus credit; credits are negative.',
       'Extracted 2 October 2026 by the Johor Bahru finance team. Account 6995 was opened in September 2026.'] });
 
   // 04 Group close pack
@@ -160,7 +160,7 @@ export default async function build({ dir }) {
   // 07 Prior month commentary (house style)
   await writeDocx(join(dir, '07_Direksi_pack_Aug2026_commentary.docx'), [
     '# Group management commentary, August 2026 YTD',
-    'PT Contoso Niaga Nusantara and subsidiary | IDR billion unless stated | Prepared by Group FP&A, reviewed by the CFO',
+    'PT Zava Niaga Nusantara and subsidiary | IDR billion unless stated | Prepared by Group FP&A, reviewed by the CFO',
     '## Headline',
     'Group revenue for August YTD is IDR 6,512.4 bn, 0.6% below budget, with gross margin steady at 15.3%. Profit before tax is IDR 351.8 bn, 4.1% below budget, mainly because of higher warehouse and IT costs in Indonesia. Malaysia continues to trade ahead of plan.',
     '## Material variances against budget',
@@ -202,8 +202,8 @@ Follow the rules in the Policy sheet of the group close pack. Use formulas that 
     title: 'Demo kit: Month-end close and Direksi commentary (two entities)', scenario: 'x-mgmt-report-011',
     contents: [
       '01_Email_CFO_Direksi_pack_Sep2026.docx: the request and the rules',
-      '02_TB_PT_Contoso_Niaga_Nusantara_Sep2026.xlsx: Indonesian trial balance, full IDR, before post-closing journals',
-      '03_TB_Contoso_Niaga_Malaysia_Sep2026.xlsx: Malaysian trial balance, full MYR',
+      '02_TB_PT_Zava_Niaga_Nusantara_Sep2026.xlsx: Indonesian trial balance, full IDR, before post-closing journals',
+      '03_TB_Zava_Niaga_Malaysia_Sep2026.xlsx: Malaysian trial balance, full MYR',
       '04_Group_Close_Pack_Sep2026.xlsx: policy, mapping, FX, budget, last year, intercompany, post-closing journals',
       '05_Group_Management_PL_Sep2026.xlsx: the consolidated management P&L (system output); Part A starts here, Part B is checked against it',
       '06_Budget_holder_notes_Sep2026.docx: explanations from budget holders',
