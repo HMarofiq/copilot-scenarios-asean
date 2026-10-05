@@ -13,7 +13,7 @@ difficulty: 2
 surface: [copilot-chat, powerpoint, cowork]
 licence: [copilot-chat, m365-copilot, cowork]
 tiers:
-  - { key: basic, title: "Copilot Chat", licence: copilot-chat, difficulty: 2, surface: [copilot-chat, powerpoint], runs: "Copilot Chat checks the numbers and writes every slide and its notes. You paste them into the template.", effort: "About 40 min including building the slides", needs: ["Copilot Chat with file upload enabled by your organisation; PowerPoint to build the slides yourself"] }
+  - { key: basic, title: "Copilot Chat", licence: copilot-chat, difficulty: 2, surface: [copilot-chat, powerpoint], runs: "Copilot Chat reads the correction, then the request, report and workbook, recalculates the numbers and writes every slide and its notes. You paste them into the template.", effort: "About 40 min including building the slides", needs: ["Copilot Chat with file upload enabled by your organisation; PowerPoint to build the slides yourself"] }
   - { key: premium, title: "Microsoft 365 Copilot", licence: m365-copilot, difficulty: 2, surface: [powerpoint], runs: "Copilot in PowerPoint builds the ten slides in your template from four files, with notes and sources.", effort: "About 25 min including a 10-minute run and review", needs: ["Copilot in PowerPoint for the web with Allow editing; the files in your OneDrive for work"] }
   - { key: cowork, title: "Copilot Cowork", licence: cowork, difficulty: 2, surface: [cowork, powerpoint], runs: "Cowork reads the whole folder, builds the deck in a copy of the template, checks it against the standard and drafts the cover email.", effort: "About 30 min including review", needs: ["Copilot Cowork and usage billing enabled by your organisation; the kit folder in your OneDrive for work"] }
 inputs:
@@ -37,16 +37,16 @@ limits:
   - "Status labels need definitions. Without a written rule for Done, Partly done and Not started, Copilot called a tender that was only discussed Partly done."
   - "Copilot may add estimates of its own. In our runs it annualised storage and freight costs and labelled them illustrative; check and keep only what you can defend."
   - "Cowork keeps its files in its own task folder (OneDrive > Documents > Cowork > Tasks). When an earlier prompt asked it to save next to the sources, three approved moves failed. Its tables also lost the template's RAG colour fills."
-  - "Basic tier: Copilot Chat cannot edit your PowerPoint file. It writes the slide text and notes; you build the slides."
+  - "Basic tier: Copilot Chat cannot edit your PowerPoint file. It writes the slide text and notes; you build the slides. It accepts at most three uploaded files per message, so the correction goes in a first message. It sometimes saves a .pptx to OneDrive, but in our test that file had one line per slide, no notes and an outdated figure."
 source_refs:
   - "https://support.microsoft.com/en-us/PowerPoint/copilot/create-a-new-presentation-with-copilot-in-powerpoint"
   - "https://support.microsoft.com/en-us/PowerPoint/welcome-to-copilot-in-powerpoint"
   - "https://support.microsoft.com/en-us/PowerPoint/frequently-asked-questions-about-copilot-in-powerpoint"
   - "https://adoption.microsoft.com/en-us/copilot/prompt-gallery/?steps=create-a-business-review"
   - "https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/use-cowork"
-status: partly-validated
-validated_on: 2026-10-04
-validation_note: "Tested on 4 October 2026. Premium: the exact EN, ID and BM prompts in Copilot in PowerPoint for the web each produced a deck matching all 22 answer-key checks. Cowork: the published prompt produced a 22/22 deck, a checks file and an unsent email draft. The Basic tier (Copilot Chat without a Copilot licence) has not been run yet."
+status: validated
+validated_on: 2026-10-05
+validation_note: "Tested on 4 October 2026. Premium: the exact EN, ID and BM prompts in Copilot in PowerPoint for the web each produced a deck matching all 22 answer-key checks. Cowork: the published prompt produced a 22/22 deck, a checks file and an unsent email draft. Basic (5 October 2026, Copilot Chat without a Copilot licence, account with personal custom instructions): the original one-message prompt silently dropped the fourth file, so the correction now goes first. With the published two-message steps, 6 runs (EN, ID, BM 3 times) gave the corrected quarter, like-for-like fill rate, 1 LTI Red, utilisation as a risk, decisions as requested and no Appendix C names every time, and correct commitment statuses in all 6; the misses were one rounding slip (Surabaya 8,781), one LTIFR of 0.54 from missing hours, and one BM run that stopped before the slides. An earlier wording without calculation and status rules misread fill rate (92.5%) and status calls, so those rules are in the prompt."
 ---
 
 ## Situation
@@ -66,51 +66,62 @@ validation_note: "Tested on 4 October 2026. Premium: the exact EN, ID and BM pro
 3. For each attempt, make a copy of **06_Zava_Niaga_QBR_Template.pptx** and give it a new name. Never build in the original.
 
 ::::tier{key="basic"}
-**2. Have Copilot Chat rebuild the numbers and write the slides.** Open **Copilot Chat** with your work account, select **+** > **Upload from this device**, add files **01 to 04**, then run:
+**2. Give Copilot Chat the correction first.** Copilot Chat accepts at most three uploaded files per message, so send the correction on its own. Open **Copilot Chat** with your work account, select **+** > **Upload images and files**, add **04** only, then run:
+
+:::prompt
+ABOUT: Sends the late correction first, because Copilot Chat takes at most three uploaded files per message.
+EN: This is correction email 04 for the Q3 2026 Distribution Operations report. Tell me in two lines what it corrects. I will send the other files and my request next.
+ID: Ini email koreksi 04 untuk laporan Distribution Operations Q3 2026. Jelaskan dalam dua baris apa yang dikoreksi. Saya akan mengirim file lain dan permintaan saya berikutnya.
+BM: Ini e-mel pembetulan 04 untuk laporan Distribution Operations Q3 2026. Terangkan dalam dua baris apa yang dibetulkan. Saya akan menghantar fail lain dan permintaan saya selepas ini.
+:::
+
+**After you run it:** two lines saying the 18,400 transfer cases were removed from Surabaya's September volume.
+
+**3. Have Copilot Chat rebuild the numbers and write the slides.** In the same chat, upload **01**, **02** and **03**, then run:
 
 :::prompt
 ABOUT: Recalculates the report from the workbook and correction, then writes every slide and its notes for you to paste.
 EN: Act as the Business Planning Manager named in request 01, preparing the Distribution Operations section of the Q3 2026 QBR deck for the Direksi of the fictional company in the files.
-Use only the four uploaded files: 01 request with the QBR deck standard, 02 Q3 report v1.0, 03 KPI workbook and 04 correction email. Do not search the web.
+Use only these files: 01 request with the QBR deck standard, 02 Q3 report v1.0 and 03 KPI workbook uploaded with this message, and 04 correction email from my previous message. Do not search the web.
 Treat report 02 as the author's draft: recalculate every KPI from workbook 03, apply the correction in 04 and follow the deck standard in 01 exactly.
 Report the quarter, not the best month. Calculate company OTIF and fill rate from total orders and order lines, not by averaging the DC percentages.
 Compare fill rate like with like (order-line basis, or both bases from the Definitions sheet) and say so.
 Remove the 18,400 Surabaya transfer cases from September volume, then recalculate network and Surabaya cost per case.
 Check Safety_Log for incidents reclassified after the report; treat utilisation as a capacity risk where higher is worse; show complaints as counts.
-First give me a scorecard table: OTIF, fill rate, cost per case, inventory days, Cikarang utilisation, lost-time injuries and complaints, with Q3 value, target, change vs Q2, RAG and source.
+First give me a scorecard table: OTIF, fill rate, cost per case, inventory days, Cikarang utilisation, lost-time injuries and complaints, with Q3 value, target, change vs Q2, RAG and source. Calculate every KPI with code from the workbook rows, and in the source column show the totals and the formula you used; for lost-time injuries also give LTIFR.
 Then write the deck slide by slide, at most 10 slides: slide title as a one-sentence message, 3 to 5 short bullets with numbers, and speaker notes with the source of each number.
-Answer the three Direksi questions in 01, show each Q2 commitment from 01 as Done, Partly done or Not started using the definitions in the standard, and show the two decisions requested with annual cost and alternative.
+Answer the three Direksi questions in 01, show each Q2 commitment from 01 as Done, Partly done or Not started using the definitions in the standard word for word (drafts, discussions and plans do not count as started; a missed target is not Done), and show the two decisions requested with annual cost and alternative.
 Name owners by role only; leave out report Appendix C and any named employee, disciplinary matter or ranking.
 End with a list of every figure that differs from report v1.0 and why. If you can create a downloadable .pptx file, create one as well; otherwise say so.
 ID: Bertindaklah sebagai Business Planning Manager yang disebut dalam permintaan 01, yang menyiapkan bagian Distribution Operations untuk deck QBR Q3 2026 bagi Direksi perusahaan fiktif dalam file.
-Gunakan hanya empat file yang diunggah: 01 permintaan beserta QBR deck standard, 02 laporan Q3 v1.0, 03 KPI workbook dan 04 email koreksi. Jangan mencari di web.
+Gunakan hanya file berikut: 01 permintaan beserta QBR deck standard, 02 laporan Q3 v1.0 dan 03 KPI workbook yang diunggah bersama pesan ini, serta 04 email koreksi dari pesan saya sebelumnya. Jangan mencari di web.
 Perlakukan laporan 02 sebagai draf penulisnya: hitung ulang setiap KPI dari workbook 03, terapkan koreksi di 04 dan ikuti deck standard di 01 persis.
 Laporkan kuartal, bukan bulan terbaik. Hitung OTIF dan fill rate perusahaan dari total order dan order line, bukan dengan merata-ratakan persentase DC.
 Bandingkan fill rate secara setara (basis order line, atau kedua basis dari sheet Definitions) dan sebutkan hal ini.
 Keluarkan 18.400 case transfer Surabaya dari volume September, lalu hitung ulang cost per case jaringan dan Surabaya.
 Periksa Safety_Log untuk insiden yang direklasifikasi setelah laporan; perlakukan utilisasi sebagai risiko kapasitas (makin tinggi makin buruk); tampilkan keluhan sebagai jumlah.
-Pertama, berikan tabel scorecard: OTIF, fill rate, cost per case, inventory days, utilisasi Cikarang, lost-time injury dan keluhan, dengan nilai Q3, target, perubahan vs Q2, RAG dan sumber.
+Pertama, berikan tabel scorecard: OTIF, fill rate, cost per case, inventory days, utilisasi Cikarang, lost-time injury dan keluhan, dengan nilai Q3, target, perubahan vs Q2, RAG dan sumber. Hitung setiap KPI dengan kode dari baris workbook, dan di kolom sumber tampilkan total dan rumus yang digunakan; untuk lost-time injury berikan juga LTIFR.
 Lalu tulis deck slide demi slide, maksimal 10 slide: judul slide berupa pesan satu kalimat, 3 sampai 5 poin singkat dengan angka, dan speaker notes berisi sumber setiap angka.
-Jawab tiga pertanyaan Direksi di 01, tampilkan setiap komitmen Q2 dari 01 sebagai Done, Partly done atau Not started sesuai definisi di standard, dan tampilkan dua keputusan yang diminta dengan biaya tahunan dan alternatif.
+Jawab tiga pertanyaan Direksi di 01, tampilkan setiap komitmen Q2 dari 01 sebagai Done, Partly done atau Not started sesuai definisi di standard secara harfiah (draf, diskusi dan rencana tidak dihitung sebagai dimulai; target yang tidak tercapai bukan Done), dan tampilkan dua keputusan yang diminta dengan biaya tahunan dan alternatif.
 Sebut pemilik hanya dengan jabatan; jangan masukkan Lampiran C laporan maupun nama karyawan, perkara disiplin atau peringkat.
 Akhiri dengan daftar setiap angka yang berbeda dari laporan v1.0 beserta alasannya. Jika Anda dapat membuat file .pptx yang bisa diunduh, buat juga; jika tidak, sebutkan.
 BM: Bertindak sebagai Business Planning Manager yang dinamakan dalam permintaan 01, yang menyediakan bahagian Distribution Operations bagi dek QBR Q3 2026 untuk Lembaga Pengarah syarikat rekaan dalam fail.
-Gunakan hanya empat fail yang dimuat naik: 01 permintaan bersama QBR deck standard, 02 laporan Q3 v1.0, 03 KPI workbook dan 04 e-mel pembetulan. Jangan cari di web.
+Gunakan hanya fail berikut: 01 permintaan bersama QBR deck standard, 02 laporan Q3 v1.0 dan 03 KPI workbook yang dimuat naik bersama mesej ini, serta 04 e-mel pembetulan daripada mesej saya sebelum ini. Jangan cari di web.
 Anggap laporan 02 sebagai draf penulisnya: kira semula setiap KPI daripada workbook 03, gunakan pembetulan dalam 04 dan ikut deck standard dalam 01 dengan tepat.
 Laporkan suku tahun, bukan bulan terbaik. Kira OTIF dan fill rate syarikat daripada jumlah pesanan dan order line, bukan dengan mempuratakan peratusan DC.
 Bandingkan fill rate secara setara (asas order line, atau kedua-dua asas daripada sheet Definitions) dan nyatakannya.
 Keluarkan 18,400 case pindahan Surabaya daripada volum September, kemudian kira semula cost per case rangkaian dan Surabaya.
 Semak Safety_Log untuk insiden yang diklasifikasikan semula selepas laporan; anggap penggunaan sebagai risiko kapasiti (lebih tinggi lebih buruk); tunjukkan aduan sebagai bilangan.
-Mula-mula, berikan jadual scorecard: OTIF, fill rate, cost per case, inventory days, penggunaan Cikarang, lost-time injury dan aduan, dengan nilai Q3, sasaran, perubahan berbanding Q2, RAG dan sumber.
+Mula-mula, berikan jadual scorecard: OTIF, fill rate, cost per case, inventory days, penggunaan Cikarang, lost-time injury dan aduan, dengan nilai Q3, sasaran, perubahan berbanding Q2, RAG dan sumber. Kira setiap KPI dengan kod daripada baris workbook, dan dalam lajur sumber tunjukkan jumlah dan formula yang digunakan; bagi lost-time injury berikan juga LTIFR.
 Kemudian tulis dek slaid demi slaid, paling banyak 10 slaid: tajuk slaid sebagai mesej satu ayat, 3 hingga 5 poin ringkas dengan angka, dan speaker notes dengan sumber setiap angka.
-Jawab tiga soalan Lembaga dalam 01, tunjukkan setiap komitmen Q2 daripada 01 sebagai Done, Partly done atau Not started mengikut definisi dalam standard, dan tunjukkan dua keputusan yang dipohon dengan kos tahunan dan alternatif.
+Jawab tiga soalan Lembaga dalam 01, tunjukkan setiap komitmen Q2 daripada 01 sebagai Done, Partly done atau Not started mengikut definisi dalam standard secara tepat (draf, perbincangan dan rancangan tidak dikira sebagai dimulakan; sasaran yang tidak dicapai bukan Done), dan tunjukkan dua keputusan yang dipohon dengan kos tahunan dan alternatif.
 Namakan pemilik mengikut jawatan sahaja; jangan masukkan Lampiran C laporan atau sebarang nama pekerja, perkara tatatertib atau kedudukan.
 Akhiri dengan senarai setiap angka yang berbeza daripada laporan v1.0 dan sebabnya. Jika anda boleh mencipta fail .pptx yang boleh dimuat turun, cipta juga; jika tidak, nyatakannya.
 :::
 
-**After you run it:** a scorecard with sources, ten slides of text with notes, and a list of what changed from the report. Check the scorecard against **Check it** before you build anything.
+**After you run it:** a scorecard whose source column shows totals and formulas, ten slides of text with notes, and a list of what changed from the report. Check the scorecard against **Check it** before you build anything.
 
-**3. Build the slides in your template copy.** Open your copy of **06** in PowerPoint. Replace the sample text slide by slide: titles, bullets and the scorecard table; paste each slide's notes into the **Notes** pane. Keep the template's colours and RAG cells. Delete unused sample slides.
+**4. Build the slides in your template copy.** Open your copy of **06** in PowerPoint. Replace the sample text slide by slide: titles, bullets and the scorecard table; paste each slide's notes into the **Notes** pane. Keep the template's colours and RAG cells. Delete unused sample slides.
 ::::
 
 ::::tier{key="premium"}
@@ -277,9 +288,12 @@ Akhir sekali, draf tetapi jangan hantar e-mel kepada Chief of Staff yang menghan
 ## When it goes wrong
 
 ::::tier{key="basic" section="fixes"}
-- **Copilot Chat cannot read the workbook.** Upload the .xlsx again on its own and ask for the Monthly_DC totals first; if it still fails, export Monthly_DC, Safety_Log and Overtime to one PDF and upload that. (step 2)
-- **No .pptx file is created.** Expected in many tenants. Use the slide text and notes to build the deck yourself in step 3. (step 2)
-- **The scorecard repeats the report.** Ask: "Recalculate every KPI from workbook 03 after removing the 18,400 transfer cases, and show the formula for each." (step 2)
+- **Copilot Chat cannot read the workbook.** Upload the .xlsx again on its own and ask for the Monthly_DC totals first; if it still fails, export Monthly_DC, Safety_Log and Overtime to one PDF and upload that. (step 3)
+- **Only three files attach, or Copilot says the correction is missing.** Copilot Chat takes three uploaded files per message and drops the fourth without a warning. Send 04 on its own first, then 01 to 03 in the same chat. (step 2)
+- **Copilot says it cannot read the whole workbook and stops before the slides.** Seen once in six runs. Ask: "Use the Monthly_DC, Safety_Log and Overtime sheets you can read and continue with the scorecard and all slides." (step 3)
+- **A .pptx appears in OneDrive > Copilot > Created.** It is a skeleton: one line per slide and no notes. Build from the chat text instead. (step 3)
+- **The scorecard repeats the report.** Ask: "Recalculate every KPI from workbook 03 after removing the 18,400 transfer cases, and show the formula for each." (step 3)
+- **LTIFR differs from 0.41.** Copilot left out a site's hours. Ask it to sum hours worked for all four DCs from the workbook and recalculate. (step 3)
 ::::
 
 ::::tier{key="premium" section="fixes"}

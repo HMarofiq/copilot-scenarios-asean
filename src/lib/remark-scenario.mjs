@@ -158,7 +158,7 @@ function tierSelector(tiers, sections) {
     return `<button type="button" role="tab" id="tier-tab-${esc(t.key)}" data-select-tier="${esc(t.key)}" aria-selected="${!i}" tabindex="${i ? -1 : 0}" aria-controls="${esc(ids)}">` +
       `<strong>${esc(t.title ?? lbl('tier', t.key))}</strong><span>${esc(t.runs)}</span><small>${esc(t.effort)}</small></button>`;
   }).join('');
-  return html(`<div class="tier-selector" role="tablist" aria-label="Choose how to organise your inbox">${buttons}</div>` +
+  return html(`<div class="tier-selector" role="tablist" aria-label="Choose how to run this scenario">${buttons}</div>` +
     '<noscript><p>Enable JavaScript to switch workflows. The first workflow is shown below.</p></noscript>');
 }
 
