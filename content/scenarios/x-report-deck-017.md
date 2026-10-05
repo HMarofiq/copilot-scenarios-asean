@@ -289,7 +289,7 @@ Akhir sekali, draf tetapi jangan hantar e-mel kepada Chief of Staff yang menghan
 
 ::::tier{key="basic" section="fixes"}
 - **Copilot Chat cannot read the workbook.** Upload the .xlsx again on its own and ask for the Monthly_DC totals first; if it still fails, export Monthly_DC, Safety_Log and Overtime to one PDF and upload that. (step 3)
-- **Only three files attach, or Copilot says the correction is missing.** Copilot Chat takes three uploaded files per message and drops the fourth without a warning. Send 04 first (step 2), then 01 to 03 (step 3).
+- **Only three files attach, or Copilot says the correction is missing.** Copilot Chat takes three uploaded files per message and drops the fourth without a warning. Send 04 on its own first, then 01 to 03 in the same chat. (step 2)
 - **Copilot says it cannot read the whole workbook and stops before the slides.** Seen once in six runs. Ask: "Use the Monthly_DC, Safety_Log and Overtime sheets you can read and continue with the scorecard and all slides." (step 3)
 - **A .pptx appears in OneDrive > Copilot > Created.** It is a skeleton: one line per slide and no notes. Build from the chat text instead. (step 3)
 - **The scorecard repeats the report.** Ask: "Recalculate every KPI from workbook 03 after removing the 18,400 transfer cases, and show the formula for each." (step 3)
