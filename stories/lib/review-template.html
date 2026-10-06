@@ -82,7 +82,9 @@ th { color: var(--cp-text-muted); font-weight: 600; font-size: 11.5px; text-tran
 .docx h1 { font-size: 18px; } .docx h2 { font-size: 15.5px; } .docx p, .docx li { font-size: 13.5px; }
 .sheet { margin-top: 10px; } .sheet h4 { margin: 10px 0 6px; font-size: 13px; color: var(--cp-accent); }
 .phase { border-left: 4px solid var(--cp-border-strong); } .phase.up { border-left-color: var(--cp-warning); } .phase.down { border-left-color: var(--cp-success); }
-ul.tight { margin: 6px 0 0; padding-left: 18px; } ul.tight li { margin: 3px 0; }
+ul.tight, ol.tight { margin: 6px 0 0; padding-left: 18px; } ul.tight li, ol.tight li { margin: 3px 0; }
+.prompt { white-space: pre-wrap; border-left: 3px solid var(--cp-accent); padding: 8px 12px; border-radius: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
 ol.steps { counter-reset: s; list-style: none; padding: 0; margin: 0; }
 ol.steps > li { counter-increment: s; position: relative; padding: 11px 14px 11px 50px; border: 1px solid var(--cp-border); border-radius: 0.625rem; background: var(--cp-surface); margin-bottom: 8px; }
 ol.steps > li::before { content: counter(s); position: absolute; left: 14px; top: 11px; width: 24px; height: 24px; border-radius: 50%; background: var(--cp-accent-soft); color: var(--cp-accent); font-weight: 700; display: grid; place-items: center; font-size: 12.5px; }
@@ -112,6 +114,7 @@ footer { margin-top: 36px; color: var(--cp-text-soft); font-size: 12px; }
     <button role="tab" data-p="chats">Teams chats</button>
     <button role="tab" data-p="files">Files</button>
     <button role="tab" data-p="calendar">Calendar</button>
+    <button role="tab" data-p="presenter">Presenter guide</button>
     <button role="tab" data-p="deploy">How it's deployed</button>
     <button role="tab" data-p="decisions">Decisions</button>
   </div>
@@ -174,6 +177,11 @@ footer { margin-top: 36px; color: var(--cp-text-soft); font-size: 12px; }
 
   <section class="panel" id="p-calendar">
     <div class="tbl"><table><thead><tr><th>When</th><th>Meeting</th><th>Organiser</th><th>Attendees</th><th>Agenda</th></tr></thead><tbody id="cal"></tbody></table></div>
+  </section>
+
+  <section class="panel" id="p-presenter">
+    <p class="muted small">The Copilot moments to show after seeding, in order. Each expected result is the answer key: check the live answer against it. Also published as its own page for the presenter.</p>
+    <!--PRESENTER-->
   </section>
 
   <section class="panel" id="p-deploy">

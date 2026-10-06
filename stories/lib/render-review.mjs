@@ -5,6 +5,7 @@ import { writeFileSync, readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
 import { expand, at, fmt, addDays } from './dates.mjs';
+import { loadPresenter, groundIndex, checkPresenter, presenterHtml } from './presenter.mjs';
 
 const [world = 'zava-distribution', episode = 'email-triage', out = 'review.html', d0s] = process.argv.slice(2);
 const base = resolve('stories', world);
@@ -53,9 +54,14 @@ const stats = {
 
 const DATA = { episode: EPISODE, d0: fmt(D0, 'en'), d0iso: fmt(D0, 'iso'), world: { company: WORLD.company, orgs: WORLD.orgs }, arcs, cast, inbox, history, chats, files, events, stats };
 const json = JSON.stringify(DATA).replace(/</g, '\\u003c');
+const PRESENTER = await loadPresenter(base, episode);
+const idx = groundIndex({ inbox, history, chats: CHATS, files: FILES, events: EVENTS });
+const pProblems = PRESENTER ? checkPresenter(PRESENTER, idx) : [];
+if (pProblems.length) throw new Error(`presenter.mjs:\n${pProblems.join('\n')}`);
 const html = readFileSync(resolve('stories/lib/review-template.html'), 'utf8')
   .replace('/*CLIENT*/', () => readFileSync(resolve('stories/lib/review-client.js'), 'utf8'))
   .replace('/*DATA*/null', () => json)
+  .replace('<!--PRESENTER-->', () => presenterHtml(PRESENTER, { D0, utcOffset: WORLD.utcOffset, cast: CAST, idx }))
   .replaceAll('%TITLE%', `Demo tenant hydration plan: ${EPISODE.tag} (${EPISODE.scenario})`);
 writeFileSync(out, html, 'utf8');
 console.log(`review: ${out}\n${JSON.stringify(stats)}`);

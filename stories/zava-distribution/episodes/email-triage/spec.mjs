@@ -7,6 +7,7 @@ export const EPISODE = {
   key: 'email-triage', tag: 'Triage', scenario: 'x-email-triage-015', world: 'zava-distribution',
   hero: 'carlos', demoAt: { d: 0, t: '07:30' },
   canonicalD0: '2026-09-30',
+  files: { xlsx: 3, docx: 1 }, // exact OneDrive file counts per kind; tests/story-files.test.mjs enforces them
   window: 'All 40 morning emails arrive between D-1 16:00 and D0 07:25. History is older than D-1 07:30, except H2 which is Carlos\'s own sent mail.',
   housekeeping: {
     email: 'Invisible named property DemoStory=Triage on every seeded message (both sides) plus an entry in the run manifest. Optional visible Outlook category "Triage" (see plan decision).',
