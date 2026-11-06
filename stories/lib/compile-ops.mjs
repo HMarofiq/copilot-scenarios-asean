@@ -6,6 +6,7 @@ import { resolve, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { expand, at } from './dates.mjs';
 import { writeDocx, writeXlsx, writePdf } from '../../kits/lib.mjs';
+import { writeDeck } from '../../kits/pptx.mjs';
 
 const [world, episode, d0s, domain, runId, outDir] = process.argv.slice(2);
 if (!outDir) throw new Error('usage: compile-ops <world> <episode> <D0> <mailDomain> <runId> <outDir>');
@@ -43,10 +44,12 @@ async function renderFile(f, name) {
   if (f.kind === 'xlsx') await writeXlsx(path, f.sheets, opt);
   else if (f.kind === 'docx') await writeDocx(path, f.blocks, opt);
   else if (f.kind === 'pdf') await writePdf(path, f.blocks, { title: opt.title, stamp: false, keywords: opt.keywords, author: f.author });
+  else if (f.kind === 'pptx') await writeDeck(path, f.slides, { title: opt.title, keywords: opt.keywords, author: f.author, theme: f.theme });
   else throw new Error(`unsupported file kind ${f.kind}`);
   return path;
 }
-const CT = { xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', pdf: 'application/pdf' };
+const CT = { xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', pdf: 'application/pdf',
+  pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' };
 
 const ops = [];
 

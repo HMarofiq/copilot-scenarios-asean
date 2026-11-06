@@ -2,7 +2,9 @@
 // multi-file contract). Pure function: returns a list of problems, empty when the episode is clean.
 // Expected counts live in the episode spec: EPISODE.files = { docx: 1, xlsx: 3, pdf: 0, pptx: 0 }.
 
-export const SUPPORTED_KINDS = ['docx', 'xlsx', 'pdf']; // what compile-ops.mjs can render today
+import { LIMITS, LAYOUTS, inferLayout } from '../../kits/pptx.mjs';
+
+export const SUPPORTED_KINDS = ['docx', 'xlsx', 'pdf', 'pptx']; // what compile-ops.mjs can render today
 const ALL_KINDS = ['docx', 'xlsx', 'pptx', 'pdf'];
 const BAD_NAME = /[\\/:*?"<>|#%]|^\s|\s$|\.$/;
 
@@ -47,7 +49,8 @@ export function checkEpisodeFiles({ episode, files = [], cast = {}, mails = [] }
     if (f.kind === 'xlsx') {
       if (!f.sheets?.length) p(`${id}: workbook has no sheets`);
       for (const s of f.sheets ?? []) if (!s.rows?.length) p(`${id}: sheet "${s.name}" has no rows`);
-    } else if (!f.blocks?.length) p(`${id}: document has no blocks`);
+    } else if (f.kind === 'pptx') checkSlides(id, f, p);
+    else if (!f.blocks?.length) p(`${id}: document has no blocks`);
   }
 
   // 3. Mail attachments: right extension, supported kind, and not silently clashing with a OneDrive file.
@@ -56,9 +59,42 @@ export function checkEpisodeFiles({ episode, files = [], cast = {}, mails = [] }
       const id = `${m.id}/${a.name}`;
       if (!SUPPORTED_KINDS.includes(a.kind)) p(`${id}: attachment kind "${a.kind}" is not rendered by compile-ops`);
       if (ext(a.name) !== a.kind) p(`${id}: attachment name does not end in .${a.kind}`);
+      if (a.kind === 'pptx') checkSlides(id, a, p);
     }
   }
   return problems;
+}
+
+// Slide limits keep generated decks readable: pptxgenjs does not shrink text to fit.
+function checkSlides(id, f, p) {
+  if (!f.slides?.length) { p(`${id}: deck has no slides`); return; }
+  f.slides.forEach((s, i) => {
+    const sid = `${id} slide ${i + 1}`;
+    if (!s.title) { p(`${sid}: missing title`); return; }
+    if (s.title.length > LIMITS.titleChars) p(`${sid}: title is ${s.title.length} characters (max ${LIMITS.titleChars})`);
+    const layout = inferLayout(s, i);
+    if (!LAYOUTS.includes(layout)) p(`${sid}: unknown layout "${layout}"`);
+    const long = (list, what) => {
+      if (list.length > (what === 'column' ? LIMITS.columnBullets : LIMITS.bullets)) p(`${sid}: ${list.length} bullets in ${what} (max ${what === 'column' ? LIMITS.columnBullets : LIMITS.bullets})`);
+      for (const b of list) if ((typeof b === 'string' ? b : b.text).length > LIMITS.bulletChars) p(`${sid}: a bullet is longer than ${LIMITS.bulletChars} characters`);
+    };
+    if (layout === 'bullets' && !s.bullets?.length) p(`${sid}: bullets layout without bullets`);
+    if (s.bullets) long(s.bullets, 'bullets');
+    for (const side of ['left', 'right']) if (s[side]) long(s[side].bullets ?? [], 'column');
+    if (layout === 'two' && !(s.left || s.right)) p(`${sid}: two-column layout without left or right`);
+    if (layout === 'metrics') {
+      if (!s.metrics?.length || s.metrics.length > LIMITS.metrics) p(`${sid}: metrics needs 1 to ${LIMITS.metrics} cards`);
+      for (const m of s.metrics ?? []) if (m.value === undefined || !m.label) p(`${sid}: every metric needs a value and a label`);
+    }
+    if (layout === 'table' || s.table) {
+      const t = s.table ?? [];
+      if (t.length < 2) p(`${sid}: table needs a header row and at least one row`);
+      if (t.length > LIMITS.tableRows + 1) p(`${sid}: table has ${t.length - 1} rows (max ${LIMITS.tableRows})`);
+      const cols = t[0]?.length ?? 0;
+      if (cols > LIMITS.tableCols) p(`${sid}: table has ${cols} columns (max ${LIMITS.tableCols})`);
+      if (t.some((r) => r.length !== cols)) p(`${sid}: table rows have different column counts`);
+    }
+  });
 }
 
 export function fileSummary(files = []) {
