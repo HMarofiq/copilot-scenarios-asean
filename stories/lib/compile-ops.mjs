@@ -8,6 +8,7 @@ import { expand, at } from './dates.mjs';
 import { writeDocx, writeXlsx, writePdf } from '../../kits/lib.mjs';
 import { writeDeck } from '../../kits/pptx.mjs';
 import { compileTeams } from './channels.mjs';
+import { compileSites } from './sites.mjs';
 
 const [world, episode, d0s, domain, runId, outDir] = process.argv.slice(2);
 if (!outDir) throw new Error('usage: compile-ops <world> <episode> <D0> <mailDomain> <runId> <outDir>');
@@ -20,6 +21,8 @@ const [{ WORLD }, { CAST, SYSTEM_SENDERS }, spec, { INBOX }, { HISTORY }, { CHAT
 const { EPISODE, INBOX_SPEC, HISTORY_SPEC, GROUPS } = spec;
 const channelsFile = resolve(base, `episodes/${episode}/channels.mjs`);
 const { TEAMS = [] } = existsSync(channelsFile) ? await import(pathToFileURL(channelsFile).href) : {};
+const sitesFile = resolve(base, `episodes/${episode}/sites.mjs`);
+const { SITES = [] } = existsSync(sitesFile) ? await import(pathToFileURL(sitesFile).href) : {};
 const D0 = new Date(d0s);
 const X = (v) => expand(v, D0);
 const T = (a) => at(a, D0, WORLD.utcOffset);
@@ -56,12 +59,16 @@ const CT = { xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.
 
 const ops = [];
 
-// 1. Files in their owners' OneDrive, shared without notification emails.
+// 0. SharePoint team sites come first so their files have somewhere to land.
+ops.push(...compileSites(X(SITES), { upn, tag: TAG }));
+
+// 1. Files in their owners' OneDrive (shared without notification emails), or in a team site (site members already have access).
 const FOLDER = { uptime: 'Operations Reports', reforecast: 'Finance/Q4 Re-forecast', runbook: 'Proyek Nusa/Cutover', pir: 'Incidents/INC-2026-0914-001' };
 for (const f of X(FILES)) {
   const path = await renderFile({ ...f, author: CAST[f.owner].name }, `file-${f.key}-${f.name}`);
-  ops.push({ op: 'file', key: `file:${f.key}`, owner: upn(f.owner), folder: FOLDER[f.key] ?? 'Documents', name: f.name, localPath: path,
-    share: f.sharedWith.map((k) => ({ email: upn(k), role: 'write' })) });
+  const where = f.site ? { site: `site:${f.site}`, library: f.library ?? 'Documents', folder: f.folder ?? '' } : { folder: FOLDER[f.key] ?? 'Documents' };
+  ops.push({ op: 'file', key: `file:${f.key}`, owner: upn(f.owner), author: upn(f.owner), ...where, name: f.name, localPath: path,
+    ...(f.modifiedAt ? { modifiedUtc: T(f.modifiedAt) } : {}), share: (f.sharedWith ?? []).map((k) => ({ email: upn(k), role: 'write' })) });
 }
 
 // 2. Calendar events: organiser creates, attendees' copies are accepted silently and the invitation emails removed.
@@ -113,6 +120,6 @@ const plan = { runId, world, episode, tag: TAG, d0: d0s, domain, created: new Da
   props: { story: TAG, data: 'FICTIONAL', run: runId }, ops };
 writeFileSync(join(outDir, 'ops.json'), JSON.stringify(plan, null, 2));
 const n = (k) => ops.filter((o) => o.op === k).length;
-console.log(JSON.stringify({ files: n('file'), events: n('event'), chats: n('chat'), chatMessages: ops.filter((o) => o.op === 'chat').reduce((s, o) => s + o.messages.length, 0),
+console.log(JSON.stringify({ sites: n('site'), files: n('file'), events: n('event'), chats: n('chat'), chatMessages: ops.filter((o) => o.op === 'chat').reduce((s, o) => s + o.messages.length, 0),
   teams: n('team'), channels: ops.filter((o) => o.op === 'team').reduce((s, o) => s + o.channels.length, 0), channelMessages: ops.filter((o) => o.op === 'team').reduce((s, o) => s + o.channels.reduce((a, c) => a + c.items.length, 0), 0),
   mails: n('mail'), mailboxWrites: mails.reduce((s, m) => s + m.copies.length, 0), mailboxes: [...new Set(mails.flatMap((m) => m.copies.map((c) => c.mailbox.split('@')[0])))].length }));
