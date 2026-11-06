@@ -1,12 +1,13 @@
 // Compiles a story episode into a list of Microsoft Graph write operations (ops.json) plus rendered files.
 // Tenant-neutral: the tenant's mail domain is passed in; nothing tenant-specific is written to the repo.
 // Usage: node stories/lib/compile-ops.mjs <world> <episode> <D0 YYYY-MM-DD> <mailDomain> <runId> <outDir>
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { expand, at } from './dates.mjs';
 import { writeDocx, writeXlsx, writePdf } from '../../kits/lib.mjs';
 import { writeDeck } from '../../kits/pptx.mjs';
+import { compileTeams } from './channels.mjs';
 
 const [world, episode, d0s, domain, runId, outDir] = process.argv.slice(2);
 if (!outDir) throw new Error('usage: compile-ops <world> <episode> <D0> <mailDomain> <runId> <outDir>');
@@ -17,6 +18,8 @@ const [{ WORLD }, { CAST, SYSTEM_SENDERS }, spec, { INBOX }, { HISTORY }, { CHAT
   imp(`episodes/${episode}/history.mjs`), imp(`episodes/${episode}/chats.mjs`), imp(`episodes/${episode}/files.mjs`), imp(`episodes/${episode}/calendar.mjs`),
 ]);
 const { EPISODE, INBOX_SPEC, HISTORY_SPEC, GROUPS } = spec;
+const channelsFile = resolve(base, `episodes/${episode}/channels.mjs`);
+const { TEAMS = [] } = existsSync(channelsFile) ? await import(pathToFileURL(channelsFile).href) : {};
 const D0 = new Date(d0s);
 const X = (v) => expand(v, D0);
 const T = (a) => at(a, D0, WORLD.utcOffset);
@@ -76,6 +79,9 @@ for (const c of X(CHATS)) {
   ops.push({ op: 'chat', key: `chat:${c.key}`, topic: c.topic, members: c.members.map(upn), conversationCreatedUtc: first.toISOString(), messages });
 }
 
+// 3b. Teams with channels: posts and replies imported as their authors, after the files they link to.
+ops.push(...compileTeams(X(TEAMS), { upn, name: (k) => CAST[k].name, T, files: X(FILES) }));
+
 // 4. Emails: history first, then the morning inbox, oldest first.
 async function mailOp(s, t, kind) {
   const sentUtc = T(s.at);
@@ -108,4 +114,5 @@ const plan = { runId, world, episode, tag: TAG, d0: d0s, domain, created: new Da
 writeFileSync(join(outDir, 'ops.json'), JSON.stringify(plan, null, 2));
 const n = (k) => ops.filter((o) => o.op === k).length;
 console.log(JSON.stringify({ files: n('file'), events: n('event'), chats: n('chat'), chatMessages: ops.filter((o) => o.op === 'chat').reduce((s, o) => s + o.messages.length, 0),
+  teams: n('team'), channels: ops.filter((o) => o.op === 'team').reduce((s, o) => s + o.channels.length, 0), channelMessages: ops.filter((o) => o.op === 'team').reduce((s, o) => s + o.channels.reduce((a, c) => a + c.items.length, 0), 0),
   mails: n('mail'), mailboxWrites: mails.reduce((s, m) => s + m.copies.length, 0), mailboxes: [...new Set(mails.flatMap((m) => m.copies.map((c) => c.mailbox.split('@')[0])))].length }));
