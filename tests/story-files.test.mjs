@@ -37,9 +37,10 @@ test('story files: the checker catches wrong counts, extensions, duplicates and 
     { ...ok, key: 'x1', name: 'Plan.xlsx', kind: 'xlsx', sheets: [{ name: 'S', rows: [{}] }] },
     { ...ok, key: 'x2', name: 'plan.XLSX', kind: 'xlsx', sheets: [{ name: 'S', rows: [{}] }] },
     { ...ok, key: 'd1', name: 'Memo.doc', kind: 'docx', blocks: ['x'], owner: 'z' },
-    { ...ok, key: 'p1', name: 'Deck.pptx', kind: 'pptx', blocks: ['x'] }
+    { ...ok, key: 'p1', name: 'Deck.pptx', kind: 'pptx', slides: [{ title: 't', bullets: ['x'] }] },
+    { ...ok, key: 'o1', name: 'Deck.odp', kind: 'odp', blocks: ['x'] }
   ];
   const problems = checkEpisodeFiles({ episode, files, cast, mails: [{ id: 'M1', attachments: [{ name: 'a.pdf', kind: 'docx' }] }] }).join('\n');
-  for (const re of [/count xlsx: spec says 1, files.mjs has 2/, /count pptx: spec says 0/, /duplicates x1/, /does not end in \.docx/,
-    /owner "z" is not in the cast/, /kind "pptx" is not rendered/, /M1\/a\.pdf: attachment name/]) assert.match(problems, re);
+  for (const re of [/count xlsx: spec says 1, files.mjs has 2/, /count pptx: spec says 0, files.mjs has 1/, /duplicates x1/, /does not end in \.docx/,
+    /owner "z" is not in the cast/, /kind "odp" is not rendered/, /M1\/a\.pdf: attachment name/]) assert.match(problems, re);
 });
